@@ -1,0 +1,42 @@
+<div class="registrationrow space">
+		<div class="col-md-12">
+				<div class="registration-container" style="">
+						<div class="row step2">
+							<nav class="header-shadow">
+								<ul>
+									<li><a href="#home">Login</a></li>
+									<li><a href="#registration_step1">Registration</a></li>
+									<li><a href="javascript:void(0)">Help</a></li>
+								</ul>	
+							</nav>
+							<div class="row">	
+							<form id="userDetailForm" method="post" name="userDetailForm"  novalidate>			
+							<h1 >Registration Details</h1>
+								<div class="col-md-12">
+									<div class="row" class="form-group">
+										<input type="email" id="userEmail" name="userEmail" placeholder="Email Address" required="true" />
+									</div>
+									<div class="row" class="form-group">
+										<input type="tel" id="userTel"  name="userTel"  placeholder="+91 988XXXXXXX" />
+									</div>
+									<div class="row" class="form-group">
+										<input type="password" id="userPassword"  name="userPassword"  placeholder="Password"  required="true" />
+									</div>
+									<div class="row" class="form-group">
+										<input type="password" id="confirmPassword"  name="confirmPassword"  placeholder="Confirm Password"  required="true" />
+									</div>
+									<div class="row" class="form-group">
+										<input type="hidden" id="cloudName"  name="cloudName"  ng-model="cloudName"    />
+									</div>
+									<div class="row" class="form-group">
+									<input  type="submit" value="Submit" ng-click='submitUserInfo(userDetailForm.$valid)' class="grad"  />
+									</div>
+								</div>
+							</form>
+						</div>	
+						</div>	
+					</div>
+				</div>
+				
+			</div>
+		 

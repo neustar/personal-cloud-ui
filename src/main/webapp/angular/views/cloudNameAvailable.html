@@ -1,0 +1,31 @@
+<div id="tabContainer" ng-controller="cloudNameCtrl">
+  <div class="contentbox formLayOut" id="myProfile">
+	<div ng-show="errorMessageContainer" class="alert alert-danger" role="alert">{{errorMessage}}</div>
+	<div ng-show="successMessageContainer" class="alert alert-info" role="alert">{{successMessage}}</div>	
+	<div ng-show="loading_contactsInfo" class="textAlignCenter" style="margin-bottom:10px"><img src="content/images/loading.gif"></div>
+    <div class="table_wrap" ng-show="pageLoaded">
+      <div class="gridTop grid.titlebar">
+        <div class="title">CREATE YOUR CLOUD </div>
+      </div>
+      <div id="contactError" class="errorShow displayNone"></div>
+	  <form id="cloudNameForm" method="post" name="cloudNameForm" class="form-horizontal" novalidate><br />
+        <div class="form-group requiredfiled">
+            <label class="col-sm-2 control-label" for=""> Cloud Name: </label>
+            <div class="col-sm-6"><input type="text" id="cloudName" name="cloudName" ng-model="cloudInfo.cloudName" class="form-control input-sm" required>
+			<div class="error-container sock" ng-show="cloudNameForm.cloudName.$dirty">
+			  <small class="error" ng-show="cloudNameForm.cloudName.$error.required">cloud Name is required.</small>
+			</div>			
+			</div>
+        </div>         
+		<div class="sock shadow"></div>		
+        <div class="form-group">
+            <input type="hidden" id="superhidden" name="superhidden">
+            <div class="textAlignCenter">
+                <button id="saveContactInfo" type="submit" ng-click='submitTheForm(cloudNameForm.$valid)' class="btn btn-sm btn-warning" ng-disabled="cloudNameForm.$invalid">SAVE</button>
+                <button id="cancelInfo" class="btn btn-sm btn-warning" ng-click='resetForm()'>CANCEL</button>				
+            </div>
+        </div>
+    </form>
+    </div>
+  </div>
+</div>
