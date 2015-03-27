@@ -1,18 +1,24 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>  
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
 <div class="registrationrow space">
     <div class="col-md-12">
         <div class="registration-container" style="">
-
-			<form id="payment_form" action="/processPayment"  method="post">
-			<script src="https://checkout.stripe.com/checkout.js"></script>
-				<script>
+			<form id="payment_form" action="#" th:action="@{/processPayment}" method="post">
+			<!--include jquery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+				
+        <script th:inline="javascript">
+                /*<![CDATA[*/
 				  var handler = StripeCheckout.configure({
-				    key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
+				    key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
 				    image: '/img/documentation/checkout/marketplace.png',
 				    token: function(token) {
 				      // Use the token to create the charge with a server-side script.
 				      // You can access the token ID with `token.id`
-				      var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+				      var $input = $("<input type='hidden' name=stripeToken />").val(token.id);
 				                $('form').append($input).submit();
 				    }
 				  });
@@ -22,7 +28,7 @@
 				    handler.open({
 				      name: 'Stripe.com',
 				      description: '2 widgets',
-				      amount: 2000
+				      amount: 2500
 				    });
 				  //  e.preventDefault();
 				
@@ -30,9 +36,11 @@
 				  $(window).on('popstate', function() {
 				    handler.close();
 				  });
+				   /*]]>*/
 				</script>
 			</form> 
         </div>
     </div>
 </div>
+</html>
 		 

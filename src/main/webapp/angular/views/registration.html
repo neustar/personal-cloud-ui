@@ -2,7 +2,7 @@
 <div class="registrationrow space">
 
 		<div class="col-md-12">
-				<div class="registration-container" style="">
+				<div class="registration-container" style="" ng-show="registrationcontainer">
 						<div class="row step2">
 							<nav class="header-shadow">
 								<ul>
@@ -16,7 +16,7 @@
 						<h3>Choose Your Cloud Name:</h3>
 							<div class="col-md-12">
 								<div class="form-group">
-									<input id="cloudName" name="cloudName" ng-model="cloudName" type="text" placeholder="=you..." ng-change="cloudCheck('clouds/personalClouds/'+cloudName+'/available')"  required  />
+									<input id="cloudName" name="cloudName" ng-model="user.cloudName" type="text" placeholder="=you..." ng-change="cloudCheck('clouds/personalClouds/'+user.cloudName+'/available')"  required/>
 									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
 									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 									</div>
@@ -37,13 +37,13 @@
 							<form id="userDetailForm" method="post" name="userDetailForm" ng-submit="submitUserInfo(userDetailForm.$valid,'codes/generate')" novalidate>			
 							<h1 >Registration Details</h1>
 								<div class="col-md-12">
-									<div class="row" class="form-group">
-										<input type="email" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required />
+									<div class="row" class="form-group required">
+										<input type="email" class="userEmail" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required content="*"/>
 									   <span style="color:red;" ng-show="userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$dirty">required</span>
 									   <span style="color:red;" ng-show="!userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$error.userEmail && userDetailForm.userEmail.$dirty">invalid email</span>
 									</div>
 									<div class="row" class="form-group">
-										<input type="tel" id="userTel"  name="userTel"  placeholder="+91 988XXXXXXX" ng-model="user.userTel" required/>
+										<input type="text" id="userTel"  name="userTel"  placeholder="+91 988XXXXXXX" ng-model="user.userTel" required/>
 										<span style="color:red;" ng-show="userDetailForm.userTel.$error.required && userDetailForm.userTel.$dirty">required</span>
 									</div>
 									<div class="row" class="form-group">
@@ -89,9 +89,10 @@
 									</div>
 									<div style="text-align: center;color:red" ng-show="errorMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{errorMessage}}</div> 
 										<div class="checkbox">									
-										<input type="checkbox" ng-model="I_Agree" value="CSP" required></div><div class="checkbox-one"><p>I agree to CSP trust framework and one person one account rule</p></div>
+										<input type="checkbox" id="I_Agree" name="I_Agree" ng-model="user.I_Agree" value="CSP" required></div><div class="checkbox-one"><p>I agree to CSP trust framework and one person one account rule</p></div>
 									
-									<input id="verifyCodes" type="button" value="Verify" ng-click="validatesCodes(validateUserForm.$valid,'codes/validate')" class="grad pull-left checkbox-three" ng-disabled="!validateUserForm.$valid || !(I_Agree)"/>
+									
+									<input id="verifyCodes" type="button" value="Verify" ng-click="validatesCodes(validateUserForm.$valid,'codes/validate')" class="grad pull-left checkbox-three" ng-disabled="!validateUserForm.$valid || !(user.I_Agree)"/>
 									<input type="button" value="Send New Codes" ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')" class="grad pull-right checkbox-three"/>											
 									</div>
 								</div>
@@ -103,14 +104,17 @@
 						<div class="paymentName-container">
 							<div class="row">
 								<h3>Select Your Payment method</h3>
-									<input type="radio" name="CreditCard" value="Credit Card">Credit Card<br>
+									<input type="radio" name="paymentOption" value="Gift Code" disabled='disabled'> <input type="text" placeholder="Gift Code Coming Soon" required="true" readonly/><br>
+									<input type="radio" name="paymentOption" value="Credit Card">Credit Card<br>
 									<center><b>Life Hosting + Lifetime Connection</b></center><br>
 									<center><b>=$25</b></center><br>
 									<div class="checkbox-four">									
-									<input type="checkbox" value="CSP" ng-model="I_Agree1" required>
+									<input type="checkbox" id="I_Agree1" name="I_Agree1" value="CSP" ng-model="I_Agree1" required>
+									
 									</div>
 									<div class="checkbox-one"><p class="para">I agree to CSP terms of service</p></div>
-									<center><input type="button" value="Submit" class="grad" ng-disabled="!(I_Agree1)" /></center>
+									<span style="color:red;" ng-show="paymentModeForm.I_Agree1.$error.required && paymentModeForm.I_Agree1.$dirty">required</span>
+									<center><input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,'products/PCN/payments')" class="grad" ng-disabled="!(I_Agree1)" /></center>
 							</div>	
 						</div>
 					</div>
@@ -118,6 +122,7 @@
 				</div>
 			</div>	
 		</div>
+		<div class="row" id="Congratulation" ng-show="CongratulationContainer"><p id="para1">Congratulation your cloud name {{user.cloudName}} has been registered <a href="#home">Click Here</a> to login.</p></div>
 	</div>	
 </div>
 </div>		 

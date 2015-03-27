@@ -18,7 +18,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 703ac636bfdc4dd3982323a2d2e2a2e3'
+						'Authorization' : 'Bearer fb02cbed6f904fb3afbba04cf866a560'
 					 }
 		
 		});
@@ -34,7 +34,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 703ac636bfdc4dd3982323a2d2e2a2e3'
+						'Authorization' : 'Bearer fb02cbed6f904fb3afbba04cf866a560'
 					 },
 			data:saveObject
 
@@ -48,7 +48,7 @@ angular.module('cloudServices', [])
 	// PRIVATE METHODS.
 	// ---
 	function handleError( response ) {  
- 		if (! angular.isObject( response.data ) || ! response.data[0].errorMessage || response.status != 200) {
+ 		if (! angular.isObject( response.data ) || ! response.data[0].errorMessage || response.status != 200 || response.status != 201) {
 			
 			return(response.data);
 		}
