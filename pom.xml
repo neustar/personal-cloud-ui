@@ -7,15 +7,272 @@
   <version>1.0-SNAPSHOT</version>
   <name>personal-cloud-ui Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.springframework-version>3.2.4.RELEASE</org.springframework-version>
+        <github.global.server>github</github.global.server>
+        <java.version>1.7</java.version>
+        <org.slf4j-version>1.7.5</org.slf4j-version>
+		<personal-cloud-service-api-version>1.0</personal-cloud-service-api-version>
+		<personal-cloud-service-client-version>1.0</personal-cloud-service-client-version>
+		<thymeleaf-version>2.1.1.RELEASE</thymeleaf-version>
+    </properties>
+	  <repositories>
+    <!--other repositories if any-->
+    <repository>
+        <id>project.local</id>
+        <name>project</name>
+        <url>file:${project.basedir}/repo</url>
+    </repository>
+    
+    
+    <repository>
+      <id>Spark repository</id>
+      <url>http://www.sparkjava.com/nexus/content/repositories/spark/</url>
+    </repository>
+  
+	</repositories>
   <dependencies>
+		<dependency>
+			<groupId>biz.neustar</groupId>
+			<artifactId>personal-cloud-service-api</artifactId>
+			<version>${personal-cloud-service-api-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>biz.neustar</groupId>
+			<artifactId>personal-cloud-service-client</artifactId>
+			<version>${personal-cloud-service-client-version}</version>
+		</dependency>
+        <!-- Spring -->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework-version}</version>
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of SLF4j -->
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+		
+		<!-- Thymeleaf -->
+
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring3</artifactId>
+            <version>${thymeleaf-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>1.2.4</version>
+        </dependency>
+		 <!-- Servlet / JSP -->
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+		 <!-- Logging -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j-version}</version>
+            <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+			<scope>compile</scope>
+		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+
+	  <!-- Apache Commons -->
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+        
+        <dependency>
+ 			<groupId>commons-validator</groupId>
+ 			<artifactId>commons-validator</artifactId>
+ 			<version>1.4.0</version>
+ 		</dependency>
+        <!-- others -->
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.6</version>
+        </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>3.1</version>
+        </dependency>
+        
+        <dependency>
+		<groupId>cglib</groupId>
+		<artifactId>cglib</artifactId>
+		<version>3.1</version>
+		</dependency>
+   
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+		<!-- STRIPE -->
+        <dependency>
+			  <groupId>com.stripe</groupId>
+			  <artifactId>stripe-java</artifactId>
+			  <version>1.26.0</version>
+		</dependency>
+        <dependency>
+	<groupId>jstl</groupId>
+	<artifactId>jstl</artifactId>
+	<version>1.2</version>
+	</dependency>
+
+	<!-- Validation -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.1.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
   </dependencies>
   <build>
     <finalName>personal-cloud-ui</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
+                <configuration>
+                    <workingDirectory>${basedir}/target/surefire</workingDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warName>personal-cloud-ui</warName>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <additionalBuildcommands>
+                        <buildCommand>
+                            <name>org.eclipse.m2e.core.maven2Builder</name>
+                            <name>org.springframework.ide.eclipse.core.springbuilder</name>
+                        </buildCommand>
+                    </additionalBuildcommands>
+                    <additionalProjectnatures>
+                        <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
+                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+                    </additionalProjectnatures>
+                </configuration>
+            </plugin>
+        </plugins>
   </build>
 </project>

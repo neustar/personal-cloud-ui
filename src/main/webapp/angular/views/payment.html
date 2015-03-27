@@ -1,0 +1,38 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>  
+<div class="registrationrow space">
+    <div class="col-md-12">
+        <div class="registration-container" style="">
+
+			<form id="payment_form" action="/processPayment"  method="post">
+			<script src="https://checkout.stripe.com/checkout.js"></script>
+				<script>
+				  var handler = StripeCheckout.configure({
+				    key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
+				    image: '/img/documentation/checkout/marketplace.png',
+				    token: function(token) {
+				      // Use the token to create the charge with a server-side script.
+				      // You can access the token ID with `token.id`
+				      var $input = $('<input type=hidden name=stripeToken />').val(token.id);
+				                $('form').append($input).submit();
+				    }
+				  });
+				
+				
+				    // Open Checkout with further options
+				    handler.open({
+				      name: 'Stripe.com',
+				      description: '2 widgets',
+				      amount: 2000
+				    });
+				  //  e.preventDefault();
+				
+				  // Close Checkout on page navigation
+				  $(window).on('popstate', function() {
+				    handler.close();
+				  });
+				</script>
+			</form> 
+        </div>
+    </div>
+</div>
+		 
