@@ -5,6 +5,15 @@
  	<TITLE>Cloud Service Provider</TITLE>
 	<link rel="stylesheet" href="css/ng-grid.css">
 	<!-- Bootstrap core CSS -->
+	
+	<script src="vendor/angular/1.3.0/jquery.js"></script>
+<script src="vendor/bootstrap/bootstrap.min.js"></script>
+<script src="vendor/angular/1.3.0/angular.min.js"></script>
+<script src="vendor/angular/1.3.0/angular-route.min.js"></script>
+<script data-require="angular-block-ui@*" data-semver="0.1.1" src="vendor/angular/1.3.0/angular-block-ui.min.js"></script>
+ <script src="vendor/js/angular-modal-service.js"></script>	
+	
+	
 	<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.css"> 
 	<link rel="stylesheet" type="text/css" href="css/style.css">
  	<link rel="stylesheet" href="css/intlTelInput.css"> 
@@ -12,15 +21,11 @@
 </head>
 <body>
 <!-- Common JS Resources -->
-<script src="vendor/angular/1.3.0/jquery.js"></script>
-<script src="vendor/angular/1.3.0/jquery-1.11.2.min.js"></script>
-<script src="vendor/angular/1.3.0/angular.min.js"></script>
-<script src="vendor/angular/1.3.0/angular-route.min.js"></script>
-<script data-require="angular-block-ui@*" data-semver="0.1.1" src="vendor/angular/1.3.0/angular-block-ui.min.js"></script>
+
 <script src="vendor/bootstrap/ui-bootstrap-tpls-0.10.0.min.js"></script>
 <script src="vendor/angular/1.3.0/ng-grid-2.0.11.min.js"></script>
 <script type="text/javascript" src="vendor/js/intlTelInput.js"></script>
- 
+
 <script src="angular/directives/tabset.js"></script>
 <script src="angular/app.js"></script>
 
@@ -28,6 +33,7 @@
 <script src="angular/controller/home.js"></script>
 <script src="angular/controller/registration.js"></script>
 <script src="angular/services/commonServices.js"></script>
+<script src="angular/services/showErrors.js"></script>
 
 <!-- MAIN CONTENT AND INJECTED VIEWS -->
  

@@ -1,0 +1,236 @@
+<div block-ui="main" class="block-ui-main">
+	<div class="container"  >  
+	
+		<!-- List of dependent are shown here -->
+		<div class="row" id="dependent_list" ng-show="dependentContainer">           
+			<div class="col-md-12">			 
+			  
+					<table class="table table-bordered" style="margin-top:100px">
+						<thead>
+							<tr class="table-heading">
+								<th>Dependent Name</th>
+								<th>Dependent Request</th>
+								<th>Blocked Request</th>
+								<th>Allowed Request</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="dependentList in dependentData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+							 
+								<td>{{ dependentList.cloud_name }}</td>
+								<td ><span title="click here to see request list" ng-click="showRequestList('requested',dependentList.cloud_name)">{{ dependentList.number_of_requests }}</span></td>
+								<td ><span title="click here to see blocked list" ng-click="showRequestList('blocked',dependentList.cloud_name)">{{ dependentList.number_of_requests_blocked }}</span></td>
+								<td ><span title="click here to see allowed list" ng-click="showRequestList('allowed',dependentList.cloud_name)">{{ dependentList.number_of_requests_allowed }}</span></td>
+								<td><input ng-click="show(dependentList)" class="graybutton" type="button" name="action" id="'action_'+$index" value="Start" ng-hide="dependentList.time_started" >
+								<input ng-click="stopDependentService(dependentList,'/proxies/dependents')" class="graybutton" type="button" name="stop" id="'stop_'+$index" value="Stop" ng-show="dependentList.time_started" >
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				
+		 
+				 
+			</div>
+		</div>	
+		<!-- Requested list of dependent are shown here -->
+		<div class="row" id="requested_List" ng-show="requestContainer">		         
+						 
+					
+					<table class="table table-bordered" style="margin-top:100px">
+						<thead>
+							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainer" style="color:red;" role="alert">{{errorMessage}}</span>
+					<span ng-show="successReqContainer" style="color:Green;" role="alert">{{successReqMessage}}</span></th></tr>
+							<tr class="table-heading">
+								<th>Requested url</th>
+								<th>Requested Date</th>
+								<th>Action</th>								 
+							</tr>
+						</thead>
+						<tbody>
+							 
+							<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+								
+								<td>
+									<span ng-if="requestList.url">{{ requestList.url }}</span>
+									<span ng-if="requestList.host">{{ requestList.host }}</span>
+								</td>
+								<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
+								<td><input class="graybuttonSmall" width="20%"  type="button" name="Allow" value="Allow" ng-click="allowBlockreqUrl('allowed',requestList.host)" >&nbsp;&nbsp;&nbsp;<input class="graybuttonSmall" type="button" name="Block" value="Block" ng-click="allowBlockreqUrl('blocked',requestList.host)" ></td>
+							</tr>
+							<tr ng-if="requestData.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
+						</tbody>
+					</table>
+				
+		 
+				 
+			 
+		</div>	
+		<!-- Allowed request of dependent are shown here -->
+		<div class="row" id="allowedList" ng-show="allowedContainer">		         
+					 
+					
+					<input ng-click="addRecord(dependentList)" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >
+					<table class="table table-bordered" style="margin-top:100px">
+						<thead>
+							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainer" style="color:red;" role="alert">{{errorMessage}}</span>
+					<span ng-show="successMessageContainer" style="color:Green;" role="alert">{{successMessage}}</span></th></tr>
+							<tr class="table-heading">
+								<th>Allowed url</th>
+								<th>Allowed Date</th>
+								<th>Action</th>								 
+							</tr>
+						</thead>
+						<tbody>
+							 
+							<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+								
+								<td>
+									<span ng-if="requestList.url">{{ requestList.url }}</span>
+									<span ng-if="requestList.host">{{ requestList.host }}</span>
+								</td>
+								<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
+								<td><input class="graybuttonSmall" type="button" name="Block" value="Block" ng-click="allowBlockUrl('blocked',requestList.url,requestList)" ></td>
+							</tr>
+						</tbody>
+					</table>
+				
+		 
+				 
+			 
+		</div>
+		
+		<div class="row" id="blockedList" ng-show="blockedContainer">		         
+					 
+			  
+					<input ng-click="addRecord(dependentList)" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >
+					<table class="table table-bordered" style="margin-top:100px">
+						<thead>
+							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainer" style="color:red;" role="alert">{{errorMessage}}</span>
+					<span ng-show="successMessageContainer" style="color:Green;" role="alert">{{successMessage}}</span></th></tr>
+							<tr class="table-heading">
+								<th>Blocked url</th>
+								<th>Blocked Date</th>
+								<th>Action</th>								 
+							</tr>
+						</thead>
+						<tbody>
+							 
+							<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+								
+								<td>
+									<span ng-if="requestList.url">{{ requestList.url }}</span>
+									<span ng-if="requestList.host">{{ requestList.host }}</span>
+								</td>
+								<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
+								<td><input class="graybuttonSmall" type="button" name="Allow" value="Allow" ng-click="allowBlockUrl('allowed',requestList.url,requestList)" ></td>
+							</tr>
+						</tbody>
+					</table>
+				
+		 
+				 
+			 
+		</div>		
+		
+		<!-- Rejected request of dependent are shown here -->
+		<div class="row" id="rejectedList" ng-show="rejectedContainer">		         
+					 
+			  
+					<table class="table table-bordered" style="margin-top:100px">
+						<thead>
+							<tr class="table-heading">
+								<th>Dependent Name</th>
+								<th>Dependent Request</th>
+								<th>Blocked Request</th>
+								<th>Allowed Request</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="dependentList in dependentData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+							 
+								<td>{{ dependentList.cloud_name }}</td>
+								<td ><a href="#dependentRequestList" ng-click="showRequestList('Request')">{{ dependentList.number_of_requests }}</a></td>
+								<td ><a href="#dependentBlockedList" ng-click="showRequestList('blocked')">{{ dependentList.number_of_requests_blocked }}</a></td>
+								<td ><a href="#dependentAllowedList" ng-click="showRequestList('allowed')">{{ dependentList.number_of_requests_allowed }}</a></td>
+								<td><input ng-click="show(dependentList)" class="graybutton" type="button" name="action" id="'action_'+$index" value="Start"  ></td>
+							</tr>
+						</tbody>
+					</table>
+				
+		 
+				 
+			 
+		</div>
+			 
+		 <!-- The actual modal template, just a bit o bootstrap -->
+		<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header" style="background-image: linear-gradient(#f9f9f9, #e4e4e4);">
+					<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><span>{{dpName}}</span></h4>
+				  </div>
+					<div class="modal-body">
+						<form id="dependentForm" method="post" name="dependentForm"  novalidate>	
+							<div class="form-group">
+								<div ng-show="errorMessageContaineruserModal" class="alert alert-danger" role="alert">{{errorMessageuserModal}}</div>
+								<label  >Password</label>
+								<input  class="modalInput" id="dependentPass" name="dependentPass" ng-model="dependentDetail.dependentPass" type="password" placeholder="secret token"    required  />		
+							 
+								<div style="text-align: center;color:red;" ng-show="dependentForm.dependentPass.$dirty && dependentForm.dependentPass.$invalid">
+								<div ng-show="dependentForm.dependentPass.$error.required">Password is required.</div>
+								</div>
+								<input type="hidden"  class="modalInput" id="dpName" name="dpName" ng-model="dpName" /> 
+								
+							</div>								 
+							<div class="form-group">
+						 
+								<input id="chkCldStatus" type="button" value="Submit" ng-click="dependentService(dependentForm.$valid,'/proxies/dependents')" class="modalInput" ng-disabled="error"  />
+							
+							</div>
+						</form>
+					</div>
+				   
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="addRecordModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header" style="background-image: linear-gradient(#f9f9f9, #e4e4e4);">
+					<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><span>Add Access Record</span></h4>
+				  </div>
+					<div class="modal-body">
+						<form id="addRecordForm" method="post" name="addRecordForm"  novalidate>	
+							<div class="form-group">
+								<div ng-show="errorMessageContainerRecordModal" class="alert alert-danger" role="alert">{{errorMessageRecordModal}}</div>
+								<label  >Enter URL</label>
+								<input  class="modalInput" id="url" name="url" ng-model="dependentDetail.urlAllowBlock" type="url" placeholder="URL to be {{addRecordType}}"    required  />		
+							 
+								<div style="text-align: center;color:red;" ng-show="addRecordForm.url.$dirty && addRecordForm.url.$invalid">
+								<div ng-show="addRecordForm.url.$error.required">URL is required.</div>
+								</div>
+								<input type="hidden"  class="modalInput" id="dpName" name="dpName" ng-model="dpName" /> 
+								
+							</div>								 
+							<div class="form-group">
+						 
+								<input id="chkCldStatus" type="button" value="Submit" ng-click="allowBlockUrl(addRecordType,dependentDetail.urlAllowBlock)" class="modalInput" ng-disabled="addRecordForm.$invalid"  />
+							
+							</div>
+						</form>
+					</div>
+				   
+				</div>
+			</div>
+		</div>
+		
+		
+		
+     </div>  
+</div>
+ 
