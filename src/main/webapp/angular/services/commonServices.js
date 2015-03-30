@@ -64,22 +64,16 @@ angular.module('cloudServices', [])
 	}
 	
 	//Save all the Contact Information 
-	function saveInfo( saveObject) {   
+	function saveInfo(saveObject,apiUrl) {   
 		var request = $http({
 			method: "POST",
-			url: 'https://54.84.28.139:443/v1/'+saveObject.postUrl,
+			url: 'https://54.84.28.139:443/v1/'+apiUrl.postUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 277fbd8101054c1d8380698331b38e60'
+						'Authorization' : 'Bearer 6d9f1f2acd8f4a618a4f99922399c702'
 					 },
-			data:{
-				"emailAddress": saveObject.userEmail,
-				"phoneNumber": saveObject.userTel,
-				"password": saveObject.password,
-				"confirmPassword": saveObject.password_c,
-				"identifier":"1234"
-			}
+			data:saveObject
 
 		});
 
