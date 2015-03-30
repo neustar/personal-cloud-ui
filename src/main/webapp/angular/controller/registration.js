@@ -18,7 +18,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.paymentContainer = false;
 	 
 	
-	// function to check cloudname is available
+	//function to check cloud Name is available
 	$scope.cloudCheck = function(cloudAvailUrl) {
 		blockUI.start();
 		if(cloudAvailUrl){
