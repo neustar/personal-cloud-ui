@@ -36,7 +36,7 @@ import com.google.gson.Gson;
  * Author: kvats Date: Mar 19, 2015 Time: 12:51:06 PM
  */
 @Controller
-@RequestMapping(value = "/controller")
+// @RequestMapping(value = "/controller")
 public class PaymentGatewayController {
 
     private Logger LOGGER = LoggerFactory

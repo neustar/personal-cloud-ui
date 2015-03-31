@@ -1,0 +1,93 @@
+.w2ui-grid .w2ui-grid-body {
+    -moz-user-select: none;
+    background-color: #ffffff;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+}
+ 
+  .w2ui-grid-columns {
+    box-shadow: 0 1px 4px #dddddd;
+    height: auto;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.w2ui-reset * {
+    box-sizing: border-box;
+    line-height: 100%;
+    margin: 0;
+    padding: 0;
+}
+ .w2ui-grid-records {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.w2ui-grid .w2ui-grid-body table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    width: 1px;
+}
+.w2ui-reset table {
+    background-color: transparent;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 11px;
+    max-width: none;
+}
+.w2ui-grid .w2ui-grid-body table .w2ui-head {
+    background-image: linear-gradient(#f9f9f9, #e4e4e4);
+    border-bottom: 1px solid #c5c5c5;
+    border-right: 1px solid #c5c5c5;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+}
+.w2ui-grid .w2ui-grid-body table td {
+    border-bottom: 0 solid #d6d5d7;
+    border-right: 1px solid #d6d5d7;
+    cursor: default;
+    overflow: hidden;
+}
+
+.w2ui-grid .w2ui-grid-body .w2ui-grid-columns .w2ui-resizer {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: none;
+    cursor: col-resize;
+    display: block;
+    height: 12px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 6px;
+    z-index: 1000;
+}
+.w2ui-grid .w2ui-grid-body table .w2ui-head > div {
+    font-size: 15px;
+    overflow: hidden;
+    padding: 16px 36px;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+ 
+.w2ui-grid .w2ui-grid-body div.w2ui-col-header > div.w2ui-sort-up {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent transparent #8d99a7;
+    border-image: none;
+    border-style: solid;
+    border-width: 4px 4px 5px;
+    float: right;
+    margin-right: -7px;
+    margin-top: -2px;
+}

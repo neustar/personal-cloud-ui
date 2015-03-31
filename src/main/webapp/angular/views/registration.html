@@ -15,7 +15,7 @@
 					<form id="cloudAvailForm" method="post" name="cloudAvailForm"  novalidate>			
 						<h3>Choose Your Cloud Name:</h3>
 							<div class="col-md-12">
-								<div class="form-group">
+								<div class="form-group" >
 									<input id="cloudName" name="cloudName" ng-model="user.cloudName" type="text" placeholder="=you..." ng-change="cloudCheck('clouds/personalClouds/'+user.cloudName+'/available')"  required/>
 									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
 									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
@@ -34,11 +34,11 @@
 				</div>	
 				<div class="row" id="cloudUserDetail" ng-show="userDetailContainer">
 				
-							<form id="userDetailForm" method="post" name="userDetailForm" ng-submit="submitUserInfo(userDetailForm.$valid,'codes/generate')" novalidate>			
+							<form id="userDetailForm" method="post" name="userDetailForm" ng-submit="submitUserInfo(userDetailForm.$valid,'codes/generate')" novalidate >			
 							<h1 >Registration Details</h1>
 								<div class="col-md-12">
 									<div class="row" class="form-group required">
-										<input type="email" class="userEmail" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required content="*"/>
+										<input type="email" class="userEmail" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required/>
 									   <span style="color:red;" ng-show="userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$dirty">required</span>
 									   <span style="color:red;" ng-show="!userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$error.userEmail && userDetailForm.userEmail.$dirty">invalid email</span>
 									</div>

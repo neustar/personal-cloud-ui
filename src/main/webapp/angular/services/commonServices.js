@@ -5,7 +5,10 @@ angular.module('cloudServices', [])
 	// Return public API.
 	return({
 		getInfo: getInfo,
-		saveInfo: saveInfo
+		saveInfo: saveInfo,
+		getProxyInfo: getProxyInfo,
+		saveProxyInfo: saveProxyInfo,
+		deleteProxyInfo: deleteProxyInfo
 	});			
 	
 	 
@@ -18,9 +21,43 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer fb02cbed6f904fb3afbba04cf866a560'
+						'Authorization' : 'Bearer 277fbd8101054c1d8380698331b38e60'
 					 }
 		
+		});
+		  
+		return( request.then( handleSuccess, handleError ) );
+	}
+	
+	// Get all of the Contact Information in the remote collection.
+	function getProxyInfo(getUrl) {  
+												 
+		var request = $http({
+			method: "GET",
+			url: 'https://54.172.108.151:8443/'+getUrl,
+			headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+						'Connection' : 'keep-alive'
+					 }
+		
+		});
+		  
+		return( request.then( handleSuccess, handleError ) );
+	}
+	
+	
+	function deleteProxyInfo( saveObject,getUrl) {  
+												 
+		var request = $http({
+			method: "DELETE",
+			url: 'https://54.172.108.151:8443/'+getUrl,
+			headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+						'Connection' : 'keep-alive'
+					 },
+			data:saveObject
 		});
 		  
 		return( request.then( handleSuccess, handleError ) );
@@ -34,7 +71,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer fb02cbed6f904fb3afbba04cf866a560'
+						'Authorization' : 'Bearer 6d9f1f2acd8f4a618a4f99922399c702'
 					 },
 			data:saveObject
 
@@ -44,27 +81,44 @@ angular.module('cloudServices', [])
 
 	}
 	
+	//Save all the Contact Information 
+	function saveProxyInfo( saveObject,postUrl) {   
+	 
+		var request = $http({
+			method: "POST",
+			url: 'https://54.172.108.151:8443'+postUrl,
+			headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+						
+					 },
+			data:saveObject
+
+		});
+
+		return( request.then( handleSuccess, handleError ) );
+
+	}
+	
+	
 	// ---
 	// PRIVATE METHODS.
 	// ---
 	function handleError( response ) {  
- 		if (! angular.isObject( response.data ) || ! response.data[0].errorMessage || response.status != 200 || response.status != 201) {
-			
-			return(response.data);
-		}
-
+ 		 
 		// Otherwise, use expected error message.
-		return( response.data.errorMessage );
+		return( response.data );
 
 	}
 
 
 	// I transform the successful response, unwrapping the application data
 	// from the API response payload.
-	function handleSuccess(response) {
-		 
-		return(response.data);
+	function handleSuccess( response ) {
+		
+		return( response.data );
 
 	}
+	
 	
 }]);
