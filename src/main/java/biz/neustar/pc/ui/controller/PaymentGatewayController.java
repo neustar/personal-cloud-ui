@@ -69,7 +69,7 @@ public class PaymentGatewayController {
         String token = StripePaymentProcessor.getToken(request);
         PaymentInfo payment = StripePaymentProcessor.makePayment(cspInfo,
                 new BigDecimal(25.00), "USD", "", token);
-        ModelAndView modelAndView = new ModelAndView("View_to_be_redirected");
+        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("paymentResponse",
                 paymentManager.savePayment(payment));
         return modelAndView;
