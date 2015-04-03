@@ -34,6 +34,7 @@
 <script src="angular/controller/registration.js"></script>
 <script src="angular/services/commonServices.js"></script>
 <script src="angular/services/showErrors.js"></script>
+<script src='https://checkout.stripe.com/checkout.js'></script>
 
 <!-- MAIN CONTENT AND INJECTED VIEWS -->
  

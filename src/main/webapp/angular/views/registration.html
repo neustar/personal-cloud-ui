@@ -114,7 +114,7 @@
 									</div>
 									<div class="checkbox-one"><p class="para">I agree to CSP terms of service</p></div>
 									<span style="color:red;" ng-show="paymentModeForm.I_Agree1.$error.required && paymentModeForm.I_Agree1.$dirty">required</span>
-									<center><input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,'products/PCN/payments')" class="grad" ng-disabled="!(I_Agree1)" /></center>
+									<center><input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,'products/PCN/payments',$event,'stripe')" class="grad" ng-disabled="!(I_Agree1)" /></center>
 							</div>	
 						</div>
 					</div>

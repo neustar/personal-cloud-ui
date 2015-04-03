@@ -157,39 +157,64 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		
 	}
 	
-	$scope.getPaymentID = function(isValid,postUrl)
-	{ 
+	$scope.getPaymentID = function(isValid,postUrl,event,serviceName)
+	{  
 			if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.loading_contactsInfo = true;
-			 
-			 var apiUrl = {postUrl : postUrl};
-			 
-			 
-			//Updating paramters accordingly
-			var dataObject= {
-				paymentType : "CREDIT_CARD",
-				paymentReferenceId : "abcde0123456789",
-				paymentResponseCode:"OK",
-				amount:"25",
-				currency:"USD"
-			};
-			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
-			if(responseData.paymentId != null){
-					$scope.pageLoaded = true;					
-					$scope.loading_contactsInfo=false;								  
-					$scope.userDetailContainer = false;
-					$scope.validUserContainer = false;		
-					$scope.paymentContainer = true;
-					$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
-				}
-				else
-				{
-					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
-				}
-			});
+			switch (serviceName) {
+        
+			case "stripe":
+						var handler = StripeCheckout.configure({
+							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
+							image: '/img/documentation/checkout/marketplace.png',
+							token: function(token) { 
+								//Updating paramters accordingly
+								var dataObject= {
+									paymentType : "CREDIT_CARD",
+									paymentReferenceId : token.id,
+									paymentResponseCode:"OK",
+									amount:"25",
+									currency:"USD"
+								};
+								var apiUrl = {postUrl : 'processPayment'};
+								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+								if(responseData.paymentId != null){
+										$scope.pageLoaded = true;					
+										$scope.loading_contactsInfo=false;								  
+										$scope.userDetailContainer = false;
+										$scope.validUserContainer = false;		
+										$scope.paymentContainer = true;
+										$scope.registerCloudName(responseData.paymentId,"csp/"+$scope.user.cloudName+"/clouds/personalClouds");
+									}
+									else
+									{
+										$scope.errorMessageContainer = true;
+										$scope.errorMessage = responseData[0].errorMessage;
+									}
+								});
+							 }
+						});
+						
+						handler.open({
+						  name: 'Personal Cloud',
+						  description: 'Payment detail',
+						  amount: 2000
+						});
+						event.preventDefault();
+						
+						// Close Checkout on page navigation
+						$(window).on('popstate', function() {
+						handler.close();
+						});
+				break;
+			default:
+				throw "Unknown checkout service: " + parms.serviceName;
+    }
+			
+			
+			
 		}
 		else
 		{
