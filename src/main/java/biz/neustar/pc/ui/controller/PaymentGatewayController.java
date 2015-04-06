@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import biz.neustar.pc.ui.manager.PaymentManager;
@@ -39,14 +39,17 @@ import com.google.gson.Gson;
 // @RequestMapping(value = "/controller")
 public class PaymentGatewayController {
 
+    static {
+        System.out.println("Servlet loaded");
+    }
     private Logger LOGGER = LoggerFactory
             .getLogger(PaymentGatewayController.class);
     private final String getCspUri = "/v1/csps/";
-    @Autowired
+    // @Autowired
     private PCRestClient pcRestClient;
     private Gson gson = new Gson();
     private ObjectMapper mapper = new ObjectMapper();
-    @Autowired
+    // @Autowired
     private PaymentManager paymentManager;
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
@@ -62,9 +65,9 @@ public class PaymentGatewayController {
 
     @RequestMapping(value = "/processPayment", method = RequestMethod.POST)
     public ModelAndView processPayment(Model model, HttpServletRequest request,
-            HttpServletResponse response) {
+            HttpServletResponse response,
+            @RequestParam(value = "cspCloudName") final String cspCloudName) {
         System.out.println("In processPayment method :");
-        String cspCloudName = "+testcsp";
         CSPInfo cspInfo = getCSPDetails(cspCloudName);
         String token = StripePaymentProcessor.getToken(request);
         PaymentInfo payment = StripePaymentProcessor.makePayment(cspInfo,

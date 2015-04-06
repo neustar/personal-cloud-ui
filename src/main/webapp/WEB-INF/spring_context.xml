@@ -13,6 +13,21 @@
  <beans:import resource="resources.xml"/>
    <context:component-scan base-package="biz.neustar.pc.ui.controller" />
     <mvc:annotation-driven/>
+    <mvc:default-servlet-handler />
+    <beans:bean
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <beans:property name="locations">
+            <beans:list>
+                <beans:value>classpath:pcloud.default.properties</beans:value>
+              <!--   <beans:value>classpath:csp.${csp.env}.properties</beans:value>
+                <beans:value>classpath:db.${csp.env}.properties</beans:value> -->
+            </beans:list>
+        </beans:property>
+        <beans:property name="ignoreResourceNotFound"
+            value="true" />
+        <beans:property name="ignoreUnresolvablePlaceholders"
+            value="false" />
+    </beans:bean>
     <beans:bean id="templateResolver"
         class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <beans:property name="prefix" value="/angular/views/" />
@@ -33,10 +48,13 @@
     <beans:bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
         <beans:property name="templateEngine" ref="templateEngine" />
     </beans:bean>
-    <beans:bean id="pcRestClient" class="biz.neustar.pcloud.PCRestClient">
-         <beans:constructor-arg name="baseUrl" value="http://localhost:8080"/>
+    <beans:bean id="pcRestClient" class="biz.neustar.pcloud.PCRestClientFactory" factory-method="createRestClient" >
+        <beans:constructor-arg  name="baseUrl" value="${pcloud.csp.baseUrl}" />
+        <beans:constructor-arg  name="authUrl" value="${pcloud.csp.authUrl}" />
+        <beans:constructor-arg  name="userName" value="${pcloud.csp.cspUserName}" />
+        <beans:constructor-arg  name="password" value="${pcloud.csp.password}" />
     </beans:bean>
-     <beans:bean class="biz.neustar.pc.ui.manager.impl.PaymentManagerImpl">
+    <beans:bean class="biz.neustar.pc.ui.manager.impl.PaymentManagerImpl">
       <beans:constructor-arg name="pcRestClient" ref="pcRestClient"/>
     </beans:bean>
  <!--   <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
