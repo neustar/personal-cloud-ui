@@ -1,9 +1,12 @@
+<div ng-include="'angular/views/header.html'"></div>
+<div class="container">
 <div class="row space-home">
 <div class="col-md-4 login-img">
 	<div><img src="images/leftimg.jpg" class="img-responsive center-block"></div>
 </div>
 <div class="col-md-4">
 	<div class="login-container" style="width:100%;">
+	<form id="logindetail" method="post" name="logindetail"  novalidate>
 		<div class="row">
 			<nav class="header-shadow">
 				<ul>
@@ -14,22 +17,28 @@
 			</nav>
 			<center><img src="images/new-login.png"><b>Login</b></center>
 				<div class="col-md-12">
+				
 					<label>CloudName</label>
-					<input type="text" placeholder="Email Address"  required="true" />
+					<input type="text" placeholder="Cloud Name"  ng-model="userlogin.cloudName" required />
 					<label>Password</label>
-					<input type="password" placeholder="Your secret token"  required="true" />								
-					<input type="button" value="Login" class="grad"/>
+					<input type="password" placeholder="Your secret token"  ng-model="userlogin.secretToken" required />								
+					<div style="text-align: center;color:red" ng-show="errorMessageContainer" role="alert">{{errorMessage}}</div> 
+					
+					<input type="button" value="Login" ng-click="login('csp/+testcsp/clouds/personalClouds/'+userlogin.cloudName+'/authenticate')" class="grad" ng-disabled="!logindetail.$valid"/>
 					<a href="javascript:void(0)"><h4>Forgot Password</h4></a>
 					<p>New User<span><a href="#registration_step1"> click here </a></span>for registration.
+				
 				</div>
-			</form>
+			
 		</div>	
+		</form>
 	</div>
 </div>
 <div class="col-md-4 login-para">
 	<div><article><h1>Why Personal Cloud??</h1>
-	Personal cloud  is the individual’s collection of digital content, services and apps which are seamlessly accessible across any device.The personal cloud is not a tangible entity, but rather the realization of four different types of experience in which users store, synchronize,stream and share content on a contextual basis, moving from one platform, screen and location to another.Founded on interconnected services and applications, it both reflects and sets consumers’ expectations for how next-generation computing services will work.</article></div>
+	Personal cloud  is the individuals collection of digital content, services and apps which are seamlessly accessible across any device.The personal cloud is not a tangible entity, but rather the realization of four different types of experience in which users store, synchronize,stream and share content on a contextual basis, moving from one platform, screen and location to another.Founded on interconnected services and applications, it both reflects and sets consumers expectations for how next-generation computing services will work.</article></div>
 </div>
 			 
 </div>
- 
+</div>
+ <div ng-include="'angular/views/footer.html'"></div>

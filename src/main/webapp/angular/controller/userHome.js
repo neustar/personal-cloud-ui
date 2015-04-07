@@ -8,9 +8,11 @@ $scope.dependentDetail = {};
 $scope.errorMessageContainer = false;
 $scope.errorMessageContaineruserModal = false;
 $scope.errorMessageContainerRecordModal = false;
+$scope.errorMessageContainerAddDep = false;
+$scope.successMessageContainerAddDep = false;
 $scope.successMessageContainer = false;
 $scope.successReqContainer = false;
-	 
+$scope.userlogin = {};	 
 $scope.guardianCloudName = "=les-cynja-parent1";
 $scope.cloudName = "";
 $scope.addRecordType = "";
@@ -21,7 +23,9 @@ $scope.uuid="";
 $scope.dependentContainer = false;
 $scope.requestContainer = false;
 $scope.rejectedContainer = false;
-
+ 
+$scope.userlogin.cloudName = commonServices.getCloudName(); 
+ 
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist)
 	{
@@ -137,20 +141,28 @@ $scope.rejectedContainer = false;
 	//function is called when page loads
 	$scope.initiateList = function()
 	{
-		$scope.dependentContainer = true;
-		blockUI.start();
-		commonServices.getProxyInfo('proxies/dependents').then(function(result)
-		{	
-			if(result)
-			{  
-				$scope.dependentData = result ;
-			}
-			else
-			{
-				$scope.error = false;
-			}
-			blockUI.stop();
-		});
+		if($location.path() == "/guardianProxy")
+		{
+			
+			$scope.dependentContainer = true;
+			blockUI.start();
+			commonServices.getProxyInfo('proxies/dependents').then(function(result)
+			{	
+				if(result)
+				{  
+					$scope.dependentData = result ;
+				}
+				else
+				{
+					$scope.error = false;
+				}
+				blockUI.stop();
+			});
+		}
+		else if($location.path() == "/addDependent")
+		{
+			$scope.addDependentContainer = true;
+		}
 	}
 
 	// function to start dependent service 
@@ -163,7 +175,7 @@ $scope.rejectedContainer = false;
 				"cloud_name" : $scope.dpName,
 				"secret_token" : $scope.dependentDetail.dependentPass
 				};
-
+						
 				commonServices.saveProxyInfo(dataObject,postUrl).then(function(responseData)
 				{	
 					if(responseData.cloud_name!='' && responseData.cloud_name!=undefined)
@@ -201,6 +213,11 @@ $scope.rejectedContainer = false;
 	$scope.addRecord = function(dependentList)
 	{ 
 			$('#addRecordModal').modal();
+	};
+	
+	$scope.addDependent = function()
+	{ 
+			$('#addDependent').modal();
 	};
 
 	//this function will return data object as per type of request
@@ -266,7 +283,7 @@ $scope.rejectedContainer = false;
 	
 	$scope.stopDependentService = function(dependentList,deleteurl)
 	{
-		
+	
 		if(dependentList)
 		{
 			var index= $scope.dependentData.indexOf(dependentList);
@@ -291,6 +308,42 @@ $scope.rejectedContainer = false;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
 	}
+	
+	$scope.cloudCheckDep = function(cloudAvailUrl) {
+		blockUI.start();
+		if(cloudAvailUrl){
+			$scope.loading_contactsInfo = true;
+			commonServices.getInfo(cloudAvailUrl).then(function(responseData){	
+				blockUI.stop();
+				$scope.loading_contactsInfo = false;
+				if(responseData.message =="true"){
+					$scope.successMessageContainerAddDep = true;
+					$scope.errorMessageContainerAddDep = false;
+					$scope.successMessageAddDep = "This cloud name is available.";
+					$scope.error = false;
+				}else if((responseData.message =="false")){
+					$scope.successMessageContainerAddDep = false;
+					$scope.errorMessageContainerAddDep = true;
+					$scope.errorMessageAddDep = "This cloud name is not available.";
+					$scope.error = true;
+				}
+				else{
+					$scope.errorMessageContainerAddDep = true;
+					$scope.successMessageContainerAddDep = false;
+					$scope.errorMessageAddDep = responseData[0].errorMessage;
+					$scope.error = true;
+	
+				}
+			
+			});
+		}else{
+			$scope.errorMessageContainerAddDep = true;
+			$scope.errorMessageAddDep = "Error: Invalid Request";
+		}
+	
+	}
+	
+	$scope.registerDependent
 	
 	
 	$scope.initiateList();

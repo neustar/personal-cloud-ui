@@ -8,8 +8,13 @@ angular.module('cloudServices', [])
 		saveInfo: saveInfo,
 		getProxyInfo: getProxyInfo,
 		saveProxyInfo: saveProxyInfo,
-		deleteProxyInfo: deleteProxyInfo
-	});			
+		deleteProxyInfo: deleteProxyInfo,
+		setCloudName:setCloudName,
+		getCloudName:getCloudName,
+		userlogin:userlogin
+		});	
+
+	this.guardiancloudname ='';
 	
 	 
 	// Get all of the Contact Information in the remote collection.
@@ -21,7 +26,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 277fbd8101054c1d8380698331b38e60'
+						'Authorization' : 'Bearer bffa5ae20e5148de880af26d9ebe6e53'
 					 }
 		
 		});
@@ -71,10 +76,28 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 6d9f1f2acd8f4a618a4f99922399c702'
+						'Authorization' : 'Bearer bffa5ae20e5148de880af26d9ebe6e53'
 					 },
 			data:saveObject
 
+		});
+
+		return( request.then( handleSuccess, handleError ) );
+
+	}
+	
+	function userlogin(pass,apiUrl) {   
+		var fd = new FormData();
+        fd.append('password', 'test@123');
+		var request = $http({
+			method: "POST",
+			url: 'https://54.84.28.139:443/v1/'+apiUrl,
+			headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Accept': 'application/json',
+						'Authorization' : 'Bearer bffa5ae20e5148de880af26d9ebe6e53'
+					 },
+			data: $.param({password: pass}),
 		});
 
 		return( request.then( handleSuccess, handleError ) );
@@ -95,7 +118,7 @@ angular.module('cloudServices', [])
 			data:saveObject
 
 		});
-
+		
 		return( request.then( handleSuccess, handleError ) );
 
 	}
@@ -118,6 +141,17 @@ angular.module('cloudServices', [])
 		
 		return( response.data );
 
+	}
+	
+	function setCloudName(cloudname)
+	{
+		this.guardiancloudname = cloudname;
+		
+	}
+	
+	function getCloudName()
+	{
+		return this.guardiancloudname;
 	}
 	
 	
