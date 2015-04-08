@@ -186,7 +186,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 										$scope.userDetailContainer = false;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
-										$scope.registerCloudName(responseData.paymentId,"csp/"+$scope.user.cloudName+"/clouds/personalClouds");
+										$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
 									}
 									else
 									{
