@@ -50,6 +50,12 @@ app.controller('AppCtrl', function($scope) {
                 templateUrl : 'angular/views/allowedBlockRequestList.html',
                 controller  : 'dependentList'
             })
+			
+			// route for the additional cloud list
+            .when('/additionalCloud', {
+                templateUrl : 'angular/views/additionalCloud.html',
+                controller  : 'userHome'
+            })
 			.otherwise({
 				templateUrl : 'angular/views/home.html',
                 controller  : 'homeController'
