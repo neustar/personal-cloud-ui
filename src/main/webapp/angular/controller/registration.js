@@ -36,6 +36,12 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					$scope.errorMessageContainer = true;
 					$scope.errorMessage = "This cloud name is not available.";
 					$scope.error = true;
+				}				
+				else if(responseData.errorMessage){
+					$scope.errorMessageContainer = true;
+					$scope.successMessageContainer = false;
+					$scope.errorMessage = responseData.errorMessage;
+					$scope.error = true;
 				}
 				else{
 					$scope.errorMessageContainer = true;
@@ -157,7 +163,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		
 	}
 	
-	$scope.getPaymentID = function(isValid,postUrl,event,serviceName)
+	$scope.getPaymentID = function(isValid,event,serviceName)
 	{  
 			if(isValid){
 			$scope.errorMessageContainer = false;
@@ -176,6 +182,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 									paymentReferenceId : token.id,
 									paymentResponseCode:"OK",
 									amount:"25",
+									productName:"PCN",
 									currency:"USD"
 								};
 								var apiUrl = {postUrl : 'processPayment'};
@@ -186,7 +193,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 										$scope.userDetailContainer = false;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
-										$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
+										$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
 									}
 									else
 									{
@@ -200,7 +207,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						handler.open({
 						  name: 'Personal Cloud',
 						  description: 'Payment detail',
-						  amount: 25
+						  amount: 2000
 						});
 						event.preventDefault();
 						
@@ -210,7 +217,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						});
 				break;
 			default:
-				throw "Unknown checkout service: " + parms.serviceName;
+				throw "Unknown checkout service: " + serviceName;
     }
 			
 			

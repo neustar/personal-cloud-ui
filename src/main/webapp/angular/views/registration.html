@@ -18,7 +18,7 @@
 						<h3>Choose Your Cloud Name:</h3>
 							<div class="col-md-12">
 								<div class="form-group" >
-									<input id="cloudName" name="cloudName" ng-model="user.cloudName" type="text" placeholder="=you..." ng-change="cloudCheck('clouds/personalClouds/'+user.cloudName+'/available')"  required/>
+									<input id="cloudName" name="cloudName" ng-model="user.cloudName" type="text" placeholder="=you..." ng-blur="cloudCheck('clouds/personalClouds/'+user.cloudName+'/available')"  required/>
 									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
 									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 									</div>
@@ -116,7 +116,7 @@
 									</div>
 									<div class="checkbox-one"><p class="para">I agree to CSP terms of service</p></div>
 									<span style="color:red;" ng-show="paymentModeForm.I_Agree1.$error.required && paymentModeForm.I_Agree1.$dirty">required</span>
-									<center><input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,'products/PCN/payments',$event,'stripe')" class="grad" ng-disabled="!(I_Agree1)" /></center>
+									<center><input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,$event,'stripe')" class="grad" ng-disabled="!(I_Agree1)" /></center>
 							</div>	
 						</div>
 					</div>
