@@ -200,7 +200,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						handler.open({
 						  name: 'Personal Cloud',
 						  description: 'Payment detail',
-						  amount: 2000
+						  amount: 25
 						});
 						event.preventDefault();
 						

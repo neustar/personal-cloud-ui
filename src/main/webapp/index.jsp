@@ -10,7 +10,7 @@
 	<script src="vendor/bootstrap/bootstrap.min.js"></script>
 <script src="vendor/angular/1.3.0/angular.min.js"></script>
 <script src="vendor/angular/1.3.0/angular-route.min.js"></script>
- 
+ <script src="vendor/angular/1.3.0/angular-cookies.min.js"></script>
 <script data-require="angular-block-ui@*" data-semver="0.1.1" src="vendor/angular/1.3.0/angular-block-ui.min.js"></script>
  <script src="vendor/js/angular-modal-service.js"></script>	
 <script src="vendor/js/angular-bootstrap-datepicker.js" charset="utf-8"></script>

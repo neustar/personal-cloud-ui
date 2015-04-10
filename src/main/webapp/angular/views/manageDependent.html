@@ -9,15 +9,22 @@
 					<input ng-click="addDependent()" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >	 
 						<table class="table table-bordered" style="margin-top:100px">
 						<thead>
-							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainer" style="color:red;" role="alert">{{errorMessage}}</span>
-					<span ng-show="successMessageContainer" style="color:Green;" role="alert">{{successMessage}}</span></th></tr>
+							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainerAddDep" style="color:red;" role="alert">{{errorMessageAddDep}}</span>
+					<span ng-show="successMessageContainerAddDep" style="color:Green;" role="alert">{{successMessageAddDep}}</span></th></tr>
 							<tr class="table-heading">
 								<th>Dependent</th>
+								<th>Date Created</th>
 															 
 							</tr>
 						</thead>
 						<tbody>
-							 
+							 <tr class="color0">
+								<td>
+									<span >=testDepdendent</span>
+									
+								</td>
+								<td><span >10/12/15</span></td>
+							 </tr>
 							<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
 								<td>
@@ -42,33 +49,32 @@
 					<div class="modal-body">
 						<form id="addDependentForm" method="post" name="addDependentForm"  novalidate>	
 							<div class="form-group">
-								<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
 								<label  >Dependent Cloud Name:</label>
-								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedentForm.depCloudName" type="text" placeholder="=dependent" ng-change="cloudCheckDep('clouds/personalClouds/'+addDepedentForm.depCloudName+'/available')" required/>
+								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-change="cloudCheckDep('clouds/personalClouds/'+addDepedent.depCloudName+'/available')" required/>
 								<div style="text-align: center;color:red;" ng-show="addDependentForm.depCloudName.$dirty && addDependentForm.depCloudName.$invalid">
 								<span ng-show="addDependentForm.depCloudName.$error.required">Dependent Cloud Name is required.</span>
 								</div>
-								<div style="text-align: center;color:red" ng-show="errorMessageContainerAddDep && addDependentForm.depCloudName.$valid" role="alert">{{errorMessageAddDep}}</div>
-								<div style="text-align: center;color:green" ng-show="successMessageContainerAddDep && addDependentForm.depCloudName.$valid" role="alert">{{successMessageAddDep}}</div>	
+								<div style="text-align: center;color:red" ng-show="errorMessageContainerAddDep && addDependentForm.depCloudName.$valid" role="alert">{{errorMessageAddDepModal}}</div>
+								<div style="text-align: center;color:green" ng-show="successMessageContainerAddDep && addDependentForm.depCloudName.$valid" role="alert">{{successMessageAddDepModal}}</div>	
 								<label  >Password:</label>
-								<input type="password" class="modalInput"  id="depCloudpass" name="depCloudpass" ng-model="addDepedentForm.depCloudpass"  placeholder="password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
+								<input type="password" class="modalInput"  id="depCloudpass" name="depCloudpass" ng-model="addDepedent.depCloudpass"  placeholder="password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
 								<span style="color:red;" ng-show="!addDependentForm.depCloudpass.$error.required && (addDependentForm.depCloudpass.$error.minlength || addDependentForm.depCloudpass.$error.maxlength) && addDependentForm.depCloudpass.$dirty">Passwords must be between 8 and 20 characters.</span>
 								<span style="color:red;" ng-show="!addDependentForm.depCloudpass.$error.required && !addDependentForm.depCloudpass.$error.minlength && !addDependentForm.depCloudpass.$error.maxlength && addDependentForm.depCloudpass.$error.pattern && addDependentForm.depCloudpass.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
-								<input type="password" class="modalInput"  id="depCloudconfPass" name="depCloudconfPass" ng-model="addDepedentForm.depCloudconfPass"  placeholder="Confirm Password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
+								<input type="password" class="modalInput"  id="depCloudconfPass" name="depCloudconfPass" ng-model="addDepedent.depCloudconfPass"  placeholder="Confirm Password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
 								<label  >Dependent Date of Birth:</label>
 								
 								<div data-ng-controller="AppCtrl">
-									<input   id="datepicker"  data-ng-datepicker data-ng-options="datepickerOptions" data-ng-model="addDepedentForm.depCloudDOB">
+									<input   id="datepicker"  data-ng-datepicker data-ng-options="datepickerOptions" data-ng-model="addDepedent.depCloudDOB" >
 								</div>
 							</div>
 							<div class="checkbox-four">									
-									<input type="checkbox" id="I_AgreeAddDep" name="I_Agree1" value="CSP" ng-model="I_AgreeAddDep" required>
+									<input type="checkbox" id="I_AgreeAddDep" name="I_Agree1" value="CSP" ng-model="addDepedent.I_AgreeAddDep" required>
 									
 							</div>
 							<div class="checkbox-one"><p class="paraAddDep">I agree to CSP terms of service</p></div>
 							<div class="form-group">
 							
-								<input id="chkCldStatus" type="button" value="Submit" ng-click="allowBlockUrl(addRecordType,dependentDetail.urlAllowBlock)" class="modalInput" ng-disabled="addDependentForm.$invalid"  />
+								<input id="chkCldStatus" type="button" value="Submit" ng-click="getPaymentID(addDependentForm.$valid,'products/DCN/payments',$event,'stripe')" class="modalInput"  ng-disabled="!addDependentForm.$valid || !(addDepedent.I_AgreeAddDep)" />
 							
 							</div>
 						</form>

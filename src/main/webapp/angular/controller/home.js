@@ -1,11 +1,11 @@
 'use strict'
-angular.module('myApp').controller("homeController", function ($scope, $filter,$location, commonServices) {
+angular.module('myApp').controller("homeController", function ($scope, $filter,$location,$cookies, commonServices) {
 	  
 	$scope.pageLoaded = true;
 	$scope.errorMessageContainer = false;
 	$scope.successMessageContainer = false;	
 	$scope.userlogin={};
-	
+	$cookies.test='';
 	
 	$scope.resetForm = function(item, event) {
 		$scope.pageLoaded = false;											
@@ -20,8 +20,8 @@ angular.module('myApp').controller("homeController", function ($scope, $filter,$
 		{
 			if(result.message == 'Success')
 			{
-				
-				commonServices.setCloudName($scope.userlogin.cloudName);
+				$cookies.guardianCloudName = $scope.userlogin.cloudName;
+				$cookies.guardianPassword = $scope.userlogin.secretToken;
 				$location.path('userhome');
 				//window.location = 'home.jsp#/userhome'
 				

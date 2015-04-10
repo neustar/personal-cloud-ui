@@ -11,10 +11,13 @@ angular.module('cloudServices', [])
 		deleteProxyInfo: deleteProxyInfo,
 		setCloudName:setCloudName,
 		getCloudName:getCloudName,
-		userlogin:userlogin
+		userlogin:userlogin,
+		setGuardianPassword:setGuardianPassword,
+		getGuardianPassword:getGuardianPassword
 		});	
 
-	this.guardiancloudname ='';
+	this.guardianCloudName ='';
+	this.guardianPassword ='';
 	
 	 
 	// Get all of the Contact Information in the remote collection.
@@ -26,7 +29,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer bffa5ae20e5148de880af26d9ebe6e53'
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
 					 }
 		
 		});
@@ -76,7 +79,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer bffa5ae20e5148de880af26d9ebe6e53'
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
 					 },
 			data:saveObject
 
@@ -95,7 +98,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
 						'Accept': 'application/json',
-						'Authorization' : 'Bearer bffa5ae20e5148de880af26d9ebe6e53'
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
 					 },
 			data: $.param({password: pass}),
 		});
@@ -145,13 +148,24 @@ angular.module('cloudServices', [])
 	
 	function setCloudName(cloudname)
 	{
-		this.guardiancloudname = cloudname;
+		this.guardianCloudName = cloudname;
 		
 	}
 	
 	function getCloudName()
 	{
-		return this.guardiancloudname;
+		return this.guardianCloudName;
+	}
+	
+	function setGuardianPassword(password)
+	{
+		this.guardianPassword = password;
+		
+	}
+	
+	function getGuardianPassword()
+	{
+		return this.guardianPassword;
 	}
 	
 	
