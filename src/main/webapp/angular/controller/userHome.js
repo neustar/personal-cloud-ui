@@ -371,7 +371,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 									amount:"25",
 									currency:"USD"
 								};
-								var apiUrl = {postUrl : posturl};
+								var apiUrl = {postUrl : 'processPayment'};
 								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 								if(responseData.paymentId != null){
 										$scope.pageLoaded = true;					
