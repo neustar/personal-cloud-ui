@@ -50,7 +50,7 @@
 						<form id="addDependentForm" method="post" name="addDependentForm"  novalidate>	
 							<div class="form-group">
 								<label  >Dependent Cloud Name:</label>
-								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-change="cloudCheckDep('clouds/personalClouds/'+addDepedent.depCloudName+'/available')" required/>
+								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-blur="cloudCheckDep(addDepedent.depCloudName)" required/>
 								<div style="text-align: center;color:red;" ng-show="addDependentForm.depCloudName.$dirty && addDependentForm.depCloudName.$invalid">
 								<span ng-show="addDependentForm.depCloudName.$error.required">Dependent Cloud Name is required.</span>
 								</div>
