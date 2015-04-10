@@ -18,12 +18,14 @@ $scope.guardianCloudName = "=les-cynja-parent1";
 $scope.cloudName = "";
 $scope.addRecordType = "";
 $scope.uuid="";
-
+$scope.additionalCloud = {};
+$scope.additionalCloudList = {};	
 
 // avaiable registration form container
 $scope.dependentContainer = false;
 $scope.requestContainer = false;
 $scope.rejectedContainer = false;
+$scope.error = true;
  
 $scope.userlogin.cloudName = $cookies.guardianCloudName; 
 $scope.userlogin.guardianPassword = $cookies.guardianPassword;
@@ -214,15 +216,16 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.dpName = $scope.dependentData[index].cloud_name;
 	};
 
-	$scope.addRecord = function(dependentList)
+	$scope.addRecord = function(modalName)
 	{ 
-			$('#addRecordModal').modal();
+			$('#'+modalName).modal();
 	};
-	
+	/* //not need now //
 	$scope.addDependent = function()
 	{ 
 			$('#addDependent').modal();
 	};
+    */
 
 	//this function will return data object as per type of request
 	$scope.getData = function(type,urlHost)
@@ -316,35 +319,184 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	$scope.cloudCheckDep = function(cloudAvailUrl) {
 		blockUI.start();
 		if(cloudAvailUrl){
+			cloudAvailUrl = 'clouds/personalClouds/'+cloudAvailUrl+'/available';
 			$scope.loading_contactsInfo = true;
 			commonServices.getInfo(cloudAvailUrl).then(function(responseData){	
 				blockUI.stop();
 				$scope.loading_contactsInfo = false;
+			 
 				if(responseData.message =="true"){
 					$scope.successMessageContainerAddDep = true;
 					$scope.errorMessageContainerAddDep = false;
-					$scope.successMessageAddDepModal = "This cloud name is available.";
+					$scope.successMessageAddDep = "This cloud name is available.";
 					$scope.error = false;
 				}else if((responseData.message =="false")){
 					$scope.successMessageContainerAddDep = false;
 					$scope.errorMessageContainerAddDep = true;
-					$scope.errorMessageAddDepModal = "This cloud name is not available.";
+					$scope.errorMessageAddDep = "This cloud name is not available.";
 					$scope.error = true;
 				}
-				else{
+				else{  
 					$scope.errorMessageContainerAddDep = true;
 					$scope.successMessageContainerAddDep = false;
-					$scope.errorMessageAddDepModal = responseData[0].errorMessage;
+					if(responseData.errorMessage){
+					$scope.errorMessageAddDep = responseData.errorMessage;
+					}
+					else if(responseData.message){
+					$scope.errorMessageAddDep = responseData.message;
+					}
+					else if(responseData[0].errorMessage){
+					$scope.errorMessageAddDep = responseData[0].errorMessage;
+					} 
 					$scope.error = true;
-	
+	 
 				}
 			
 			});
+		} 
+	
+	}
+	
+	
+	// function to submit additional cloud 
+	$scope.submitAdnCloud = function(isValid,event,serviceName) {
+ 
+		if(isValid){
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;	
+			$scope.loading_contactsInfo = true;			
+			 
+			switch (serviceName) {
+        
+				case "stripe":
+							var handler = StripeCheckout.configure({
+								key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
+								token: function(token){ 
+									 
+									
+									var dataObject= {
+									paymentType : "CREDIT_CARD",
+									paymentReferenceId : token.id,
+									paymentResponseCode:"OK",
+									amount:"10",
+									productName:"SCN",
+									currency:"USD"
+									}; 
+									var apiUrl = {postUrl : 'processPayment'};
+									commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
+									 
+										if(responseData.message == "Success"){
+															
+											$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
+																				
+										}
+										else
+										{
+											$scope.errorMessageContainer = true;
+											$scope.errorMessage = responseData[0].errorMessage;
+										}
+									});
+				
+								}
+							});
+							
+							handler.open({
+							  name: 'Personal Cloud',
+							  description: 'Payment detail',
+							  amount: 1000
+							});
+							event.preventDefault();
+							
+							// Close Checkout on page navigation
+							$(window).on('popstate', function() {
+							handler.close();
+							});
+					break;
+				default:
+					throw "Unknown checkout service: " + serviceName;
+			}
+			
 		}else{
-			$scope.errorMessageContainerAddDep = true;
-			$scope.errorMessageAddDep = "Error: Invalid Request";
+			$scope.errorMessageContainer = true;
+			$scope.loading_contactsInfo = false;
+			$scope.errorMessage = "Error: Invalid Request";
+			$scope.error = true;
+		}
+	}
+	
+	
+	$scope.registerAdtCloudName = function(paymentID,posturl)
+	{ 
+			if(paymentID != null){
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;	
+			$scope.loading_contactsInfo = true;
+			 
+			 var apiUrl = {postUrl : posturl};
+			 
+			var additionalCloudArray = [];
+			if($scope.additionalCloud.cloudName1)
+			additionalCloudArray.push($scope.additionalCloud.cloudName1);
+									 
+									
+			//Updating paramters accordingly
+			var dataObject= {
+				paymentId : paymentID,
+				personalCloudPassword : "test@123",
+				rnpolicyConsent : true,
+				csppolicyConsent : true,
+				synonymCloudNames: additionalCloudArray
+			};
+			 
+								
+			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+			
+				if(responseData.message == "Success"){
+					$scope.successMessageContainerAddDep = true;
+					$scope.errorMessageContainerAddDep = false;
+					$scope.successMessageAddDep = "This cloud name is registered successfully.";
+					$scope.CongratulationContainer = true;
+					$('#addCloudModal').modal('hide');
+				}
+				else
+				{
+					$scope.errorMessageContainer = true;
+					$scope.errorMessage = responseData[0].errorMessage;
+				}
+			});
+		}
+		else
+		{
+			$scope.errorMessageContainer = true;
+			$scope.loading_contactsInfo = false;
+			$scope.errorMessage = "Error: Invalid Request";
 		}
 	
+	}
+	
+	//function is called when page loads
+	$scope.additionalCldList = function()
+	{
+		if($location.path() == "/additionalCloud")
+		{
+			
+			
+			blockUI.start();
+			commonServices.getProxyInfo('/v1/csp/+testscp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
+			{	
+				if(!result.error)
+				{  
+					$scope.additionalCloudList = result ;
+				}else{
+					
+					$scope.additionalCloudList.totalrow = Object.getOwnPropertyNames($scope.additionalCloudList).length ; 				
+				}
+				 
+				 
+				blockUI.stop();
+			});
+		}
+		 
 	}
 	
 	
@@ -475,6 +627,6 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	
 	
 	$scope.initiateList();
-	
+	$scope.additionalCldList();
 
 	});
