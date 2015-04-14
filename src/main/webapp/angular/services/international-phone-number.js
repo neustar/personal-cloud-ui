@@ -22,12 +22,12 @@
         };
         options = {
           autoFormat: true,
-          autoHideDialCode: true,
+          autoHideDialCode: false,
           defaultCountry: '',
           nationalMode: false,
           numberType: '',
           onlyCountries: void 0,
-          preferredCountries: ['us', 'gb'],
+          preferredCountries: ['us', 'gb','in'],
           responsiveDropdown: false,
           utilsScript: ""
         };
@@ -48,7 +48,7 @@
         });
         element.intlTelInput(options);
         if (!options.utilsScript) {
-          element.intlTelInput('loadUtils', 'bower_components/intl-tel-input/lib/libphonenumber/build/utils.js');
+          element.intlTelInput('loadUtils', 'vendor/js/utils.js');
         }
         ctrl.$parsers.push(function(value) {
           if (!value) {
