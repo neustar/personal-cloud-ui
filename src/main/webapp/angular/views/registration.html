@@ -18,7 +18,7 @@
 						<h3>Choose Your Cloud Name:</h3>
 							<div class="col-md-12">
 								<div class="form-group" >
-									<input id="cloudName" name="cloudName" ng-model="user.cloudName" type="text" placeholder="=you..." ng-blur="cloudCheck('clouds/personalClouds/'+user.cloudName+'/available')"  required/>
+									<input id="cloudName" name="cloudName" ng-change="appendSign()"  required/>
 									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
 									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 									</div>
@@ -45,8 +45,8 @@
 									   <span style="color:red;" ng-show="!userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$error.userEmail && userDetailForm.userEmail.$dirty">invalid email</span>
 									</div>
 									<div class="row" class="form-group">
-										<input type="text" id="userTel"  name="userTel"  placeholder="+91 988XXXXXXX" ng-model="user.userTel" required/>
-										<span style="color:red;" ng-show="userDetailForm.userTel.$error.required && userDetailForm.userTel.$dirty">required</span>
+										<input type="text" id="countryCode"  name="countryCode"  placeholder="+1" value="" international-phone-number ng-model="user.countryCode" required /> <input class="userTelephone"  id="userMobile"  name="userMobile"  placeholder="" value=""  ng-model="user.userMobile" ng-minlength="10" ng-maxlength="10" ng-pattern="/^(0|[1-9][0-9]*)$/"  required />
+										<span class="userMobSpan" style="color:red;" ng-show="!userDetailForm.userMobile.$error.required && userDetailForm.userMobile.$dirty && (userDetailForm.userMobile.$error.minlength || userDetailForm.userMobile.$error.maxlength)">Phone Number Must be Contain 10 digits</span>
 									</div>
 									<div class="row" class="form-group">
 										<input type="password" id="password"  name="password"  placeholder="Password" ng-model="user.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required  />
