@@ -158,6 +158,7 @@ a{
 	font-size: 28px;
 	text-align: left; !important;
 	color: #333;
+	margin-top: 6%;
 }
 .registrationrow h1{
 	font-size: 28px;
@@ -205,14 +206,16 @@ header {
 
 }
 .space{
-	margin-top: 100px;
-	margin-bottom: 100px;
-	height: 440px;
+	margin-top: 10%;
+	margin-bottom: 10%;
+	height: auto;
+/*	height: 440px;*/
 	}
 	
 .space-home{
-	margin-top: 75px;
-	margin-bottom: 5px;
+	 margin-top: 5%;
+	margin-bottom: 5%;
+	 
 	}
 
 nav{
@@ -242,7 +245,7 @@ nav ul li{
 
 .userhome {
 
-	padding: 65px 26px 10px 14px;
+	padding: 100px 26px 10px 14px;
 }
 
 .dependentlist {
@@ -298,6 +301,7 @@ footer{
 	color: #888888;
 	height: auto;
 	padding-top: 90px;
+	
 }
 
 
@@ -480,9 +484,9 @@ footer{
 
 .hot-line h2{
     text-align: center;
-    font-size: 38px;
+    font-size: 29px;
     font-weight: bold;
-    margin:15px 0;
+    margin:21px 0 10px 0;
 }
 
 .services-tagline{
