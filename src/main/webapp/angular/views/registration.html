@@ -18,7 +18,7 @@
 						<h3>Choose Your Cloud Name:</h3>
 							<div class="col-md-12">
 								<div class="form-group" >
-									<input id="cloudName" name="cloudName" ng-change="appendSign()"  required/>
+									<input id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
 									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
 									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 									</div>
