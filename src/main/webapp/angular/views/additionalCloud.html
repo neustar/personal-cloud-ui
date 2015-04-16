@@ -1,0 +1,72 @@
+<div ng-include="'angular/views/userHeader.html'" ></div>
+<div class="container">
+	<div class="userhome"  >  
+	  
+		<!-- Div for adding addition cloud name-->
+		<div class="row" id="addAtnCloud" >		         
+					
+					<input ng-click="addRecord('addCloudModal')" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add Cloud" ng-disabled= "additionalCloudList.totalrow == 5"  >
+					<table class="table table-bordered" style="margin-top:100px">
+						<thead>
+							 
+							<tr class="table-heading">
+								<th>Cloud Name</th>
+								<th>Added Date</th>								 						 
+							</tr>							 
+						</thead>
+						<tbody>
+							  
+							 
+							<tr ng-if="additionalCloudList.totalrow > 0" ng-repeat="addList in additionalCloudList" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+								
+								<td><span >{{ addList.cloudName }}</span></td>
+								<td ><span >{{ addList.Date | limitTo:10 }}</span></td>					 
+							</tr>
+							<tr  ng-if="additionalCloudList.totalrow === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
+						</tbody>
+							 
+						</tbody>
+					</table>
+				
+		 
+				 
+			 
+		</div>
+		
+		<div class="modal fade" id="addCloudModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header" style="background-image: linear-gradient(#f9f9f9, #e4e4e4);">
+					<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><span>Add Additional Cloud</span></h4>
+				  </div>
+					<div class="modal-body">
+						<form id="addCloudForm" method="post" name="addCloudForm"  novalidate>	
+							<div class="form-group">
+								<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
+								<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
+								<label  >Add cloud</label>
+								<input id="cloudName1" class="modalInput" name="cloudName1" ng-model="additionalCloud.cloudName1" type="text" placeholder="=cloud..." ng-blur="cloudCheckDep(additionalCloud.cloudName1)" required />		
+												 
+								
+							</div>								 
+							<div class="form-group">
+						 
+								<input id="chkaddCldStatus" type="button" value="Pay $10" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
+							
+							</div>
+						</form>
+					</div>
+				   
+				</div>
+			</div>
+		</div>
+		
+		
+		
+     </div>  
+ 
+</div>
+ 
+<div ng-include="'angular/views/userFooter.html'"></div>
+ 

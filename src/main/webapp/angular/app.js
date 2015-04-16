@@ -1,6 +1,15 @@
 'use strict';
 // Declare app level module which depends on filters, and services
-var app= angular.module('myApp', ['ngGrid', 'angularModalService', 'ui.bootstrap', 'cloudServices','ngRoute','blockUI']);
+var app= angular.module('myApp', ['ngGrid', 'angularModalService', 'ui.bootstrap','internationalPhoneNumber','ng-bootstrap-datepicker','cloudServices','ngCookies','ngRoute','blockUI']);
+ 
+app.controller('AppCtrl', function($scope) {
+            $scope.datepickerOptions = {
+                format: 'mm/dd/yyyy',
+				language: 'en',
+				autoclose: true,
+				weekStart: 0
+            }
+        });
  
  // configure our routes
     app.config(function($routeProvider) {
@@ -24,10 +33,15 @@ var app= angular.module('myApp', ['ngGrid', 'angularModalService', 'ui.bootstrap
                 templateUrl : 'angular/views/userHome.html',
                 controller  : 'userHome'
             })
-			
+									
 			// route for the guardian dependent list
             .when('/guardianProxy', {
                 templateUrl : 'angular/views/dependentList.html',
+                controller  : 'userHome'
+            })
+			
+			.when('/addDependent', {
+                templateUrl : 'angular/views/manageDependent.html',
                 controller  : 'userHome'
             })
 			
@@ -35,6 +49,12 @@ var app= angular.module('myApp', ['ngGrid', 'angularModalService', 'ui.bootstrap
             .when('/dependentRequestList', {
                 templateUrl : 'angular/views/allowedBlockRequestList.html',
                 controller  : 'dependentList'
+            })
+			
+			// route for the additional cloud list
+            .when('/additionalCloud', {
+                templateUrl : 'angular/views/additionalCloud.html',
+                controller  : 'userHome'
             })
 			.otherwise({
 				templateUrl : 'angular/views/home.html',

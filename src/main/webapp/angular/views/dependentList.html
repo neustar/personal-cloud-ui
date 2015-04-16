@@ -1,3 +1,6 @@
+<div ng-include="'angular/views/userHeader.html'" ></div>
+<div class="container">
+<div class="dependentlist">
 <div block-ui="main" class="block-ui-main">
 	<div class="container"  >  
 	
@@ -70,7 +73,7 @@
 		<div class="row" id="allowedList" ng-show="allowedContainer">		         
 					 
 					
-					<input ng-click="addRecord(dependentList)" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >
+					<input ng-click="addRecord('addRecordModal')" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >
 					<table class="table table-bordered" style="margin-top:100px">
 						<thead>
 							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainer" style="color:red;" role="alert">{{errorMessage}}</span>
@@ -103,7 +106,7 @@
 		<div class="row" id="blockedList" ng-show="blockedContainer">		         
 					 
 			  
-					<input ng-click="addRecord(dependentList)" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >
+					<input ng-click="addRecord('addRecordModal')" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >
 					<table class="table table-bordered" style="margin-top:100px">
 						<thead>
 							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainer" style="color:red;" role="alert">{{errorMessage}}</span>
@@ -132,38 +135,7 @@
 				 
 			 
 		</div>		
-		
-		<!-- Rejected request of dependent are shown here -->
-		<div class="row" id="rejectedList" ng-show="rejectedContainer">		         
-					 
-			  
-					<table class="table table-bordered" style="margin-top:100px">
-						<thead>
-							<tr class="table-heading">
-								<th>Dependent Name</th>
-								<th>Dependent Request</th>
-								<th>Blocked Request</th>
-								<th>Allowed Request</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr ng-repeat="dependentList in dependentData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
-							 
-								<td>{{ dependentList.cloud_name }}</td>
-								<td ><a href="#dependentRequestList" ng-click="showRequestList('Request')">{{ dependentList.number_of_requests }}</a></td>
-								<td ><a href="#dependentBlockedList" ng-click="showRequestList('blocked')">{{ dependentList.number_of_requests_blocked }}</a></td>
-								<td ><a href="#dependentAllowedList" ng-click="showRequestList('allowed')">{{ dependentList.number_of_requests_allowed }}</a></td>
-								<td><input ng-click="show(dependentList)" class="graybutton" type="button" name="action" id="'action_'+$index" value="Start"  ></td>
-							</tr>
-						</tbody>
-					</table>
-				
-		 
-				 
-			 
-		</div>
-			 
+
 		 <!-- The actual modal template, just a bit o bootstrap -->
 		<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 			<div class="modal-dialog">
@@ -231,6 +203,10 @@
 		
 		
 		
+		
      </div>  
 </div>
+</div>
+</div>
+		<div ng-include="'angular/views/userFooter.html'"></div>
  

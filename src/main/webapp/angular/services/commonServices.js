@@ -8,8 +8,16 @@ angular.module('cloudServices', [])
 		saveInfo: saveInfo,
 		getProxyInfo: getProxyInfo,
 		saveProxyInfo: saveProxyInfo,
-		deleteProxyInfo: deleteProxyInfo
-	});			
+		deleteProxyInfo: deleteProxyInfo,
+		setCloudName:setCloudName,
+		getCloudName:getCloudName,
+		userlogin:userlogin,
+		setGuardianPassword:setGuardianPassword,
+		getGuardianPassword:getGuardianPassword
+		});	
+
+	this.guardianCloudName ='';
+	this.guardianPassword ='';
 	
 	 
 	// Get all of the Contact Information in the remote collection.
@@ -21,7 +29,7 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 277fbd8101054c1d8380698331b38e60'
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
 					 }
 		
 		});
@@ -71,10 +79,28 @@ angular.module('cloudServices', [])
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						'Authorization' : 'Bearer 6d9f1f2acd8f4a618a4f99922399c702'
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
 					 },
 			data:saveObject
 
+		});
+
+		return( request.then( handleSuccess, handleError ) );
+
+	}
+	
+	function userlogin(pass,apiUrl) {   
+		var fd = new FormData();
+        fd.append('password', 'test@123');
+		var request = $http({
+			method: "POST",
+			url: 'https://54.84.28.139:443/v1/'+apiUrl,
+			headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Accept': 'application/json',
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
+					 },
+			data: $.param({password: pass}),
 		});
 
 		return( request.then( handleSuccess, handleError ) );
@@ -95,7 +121,7 @@ angular.module('cloudServices', [])
 			data:saveObject
 
 		});
-
+		
 		return( request.then( handleSuccess, handleError ) );
 
 	}
@@ -118,6 +144,28 @@ angular.module('cloudServices', [])
 		
 		return( response.data );
 
+	}
+	
+	function setCloudName(cloudname)
+	{
+		this.guardianCloudName = cloudname;
+		
+	}
+	
+	function getCloudName()
+	{
+		return this.guardianCloudName;
+	}
+	
+	function setGuardianPassword(password)
+	{
+		this.guardianPassword = password;
+		
+	}
+	
+	function getGuardianPassword()
+	{
+		return this.guardianPassword;
 	}
 	
 	

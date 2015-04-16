@@ -17,11 +17,25 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.CongratulationContainer = false;
 	$scope.paymentContainer = false;
 	 
+	//this function append "=" sign to cloud Name
+	$scope.appendSign = function()
+	{
+		
+		if($scope.user.cloudName && !($scope.user.cloudName.charAt(0) == "="))
+		{
+			$scope.user.cloudName = '='+$scope.user.cloudName;
+			
+		}
+		
+		$scope.cloudCheck($scope.user.cloudName);
+	
+	}
 	
 	//function to check cloud Name is available
 	$scope.cloudCheck = function(cloudAvailUrl) {
 		blockUI.start();
 		if(cloudAvailUrl){
+		cloudAvailUrl = 'clouds/personalClouds/'+cloudAvailUrl+'/available';
 			$scope.loading_contactsInfo = true;
 			commonServices.getInfo(cloudAvailUrl).then(function(responseData){	
 				blockUI.stop();
@@ -35,6 +49,12 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					$scope.successMessageContainer = false;
 					$scope.errorMessageContainer = true;
 					$scope.errorMessage = "This cloud name is not available.";
+					$scope.error = true;
+				}				
+				else if(responseData.errorMessage){
+					$scope.errorMessageContainer = true;
+					$scope.successMessageContainer = false;
+					$scope.errorMessage = responseData.errorMessage;
 					$scope.error = true;
 				}
 				else{
@@ -80,7 +100,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.loading_contactsInfo = true;
-			 
+			$scope.user.userTel = "+"+$scope.user.countryCode+"."+$scope.user.userMobile; 
 			 var apiUrl = {postUrl : postUrl};
 			 
 			$scope.user.identifier = Math.floor((Math.random() *(10000-1000))+1000);
@@ -157,7 +177,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		
 	}
 	
-	$scope.getPaymentID = function(isValid,postUrl,event,serviceName)
+	$scope.getPaymentID = function(isValid,event,serviceName)
 	{  
 			if(isValid){
 			$scope.errorMessageContainer = false;
@@ -176,6 +196,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 									paymentReferenceId : token.id,
 									paymentResponseCode:"OK",
 									amount:"25",
+									productName:"PCN",
 									currency:"USD"
 								};
 								var apiUrl = {postUrl : 'processPayment'};
@@ -186,7 +207,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 										$scope.userDetailContainer = false;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
-										$scope.registerCloudName(responseData.paymentId,"csp/"+$scope.user.cloudName+"/clouds/personalClouds");
+										$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
 									}
 									else
 									{
@@ -210,7 +231,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						});
 				break;
 			default:
-				throw "Unknown checkout service: " + parms.serviceName;
+				throw "Unknown checkout service: " + serviceName;
     }
 			
 			
