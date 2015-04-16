@@ -167,7 +167,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
         
 			case "stripe":
 						var handler = StripeCheckout.configure({
-							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
+							key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
 							image: '/img/documentation/checkout/marketplace.png',
 							token: function(token) { 
 								//Updating paramters accordingly

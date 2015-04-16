@@ -57,6 +57,9 @@
     <beans:bean class="biz.neustar.pc.ui.manager.impl.PaymentManagerImpl">
       <beans:constructor-arg name="pcRestClient" ref="pcRestClient"/>
     </beans:bean>
+     <beans:bean class="biz.neustar.pc.ui.manager.impl.PersonalCloudManagerImpl">
+      <beans:constructor-arg name="pcRestClient" ref="pcRestClient"/>
+    </beans:bean>
  <!--   <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
       <beans:property name="prefix" value="/angular/views/" />
       <beans:property name="suffix" value=".html" />

@@ -15,19 +15,26 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import biz.neustar.pc.ui.manager.PaymentManager;
 import biz.neustar.pc.ui.payment.processor.StripePaymentProcessor;
+import biz.neustar.pc.ui.utils.UIUtil;
 import biz.neustar.pcloud.PCRestClient;
 import biz.neustar.pcloud.ResponseData;
+import biz.neustar.pcloud.rest.constants.PaymentType;
+import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CSPInfo;
 import biz.neustar.pcloud.rest.dto.PaymentInfo;
+import biz.neustar.pcloud.rest.dto.PaymentResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -45,11 +52,11 @@ public class PaymentGatewayController {
     private Logger LOGGER = LoggerFactory
             .getLogger(PaymentGatewayController.class);
     private final String getCspUri = "/v1/csps/";
-    // @Autowired
+    @Autowired
     private PCRestClient pcRestClient;
     private Gson gson = new Gson();
     private ObjectMapper mapper = new ObjectMapper();
-    // @Autowired
+    @Autowired
     private PaymentManager paymentManager;
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
@@ -64,18 +71,21 @@ public class PaymentGatewayController {
     }
 
     @RequestMapping(value = "/processPayment", method = RequestMethod.POST)
-    public ModelAndView processPayment(Model model, HttpServletRequest request,
-            HttpServletResponse response,
+    public @ResponseBody
+    PaymentResponse processPayment(@RequestBody final PaymentInfo paymentInfo,
+            HttpServletRequest request, HttpServletResponse response,
             @RequestParam(value = "cspCloudName") final String cspCloudName) {
         System.out.println("In processPayment method :");
-        CSPInfo cspInfo = getCSPDetails(cspCloudName);
-        String token = StripePaymentProcessor.getToken(request);
+        CSPInfo cspInfo = getCSPDetails(UIUtil
+                .fixBusinessCloudName(cspCloudName));
+        // String token = StripePaymentProcessor.getToken(request);
         PaymentInfo payment = StripePaymentProcessor.makePayment(cspInfo,
-                new BigDecimal(25.00), "USD", "", token);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("paymentResponse",
-                paymentManager.savePayment(payment));
-        return modelAndView;
+                new BigDecimal(paymentInfo.getAmount()),
+                paymentInfo.getCurrency(), "Personal cloud payment.",
+                paymentInfo.getPaymentReferenceId());
+        payment.setProductName(ProductNames.PCN);
+        payment.setPaymentType(PaymentType.CREDIT_CARD.name());
+        return paymentManager.savePayment(payment);
 
     }
 
