@@ -6,6 +6,7 @@ angular.module('myApp').controller("homeController", function ($scope, $filter,$
 	$scope.successMessageContainer = false;	
 	$scope.userlogin={};
 	$cookies.test='';
+	$scope.hasErrorCond = false;
 	
 	$scope.resetForm = function(item, event) {
 		$scope.pageLoaded = false;											
@@ -14,10 +15,11 @@ angular.module('myApp').controller("homeController", function ($scope, $filter,$
 	
 	$scope.login = function(postUrl)
 	{
+		
 		var password = $scope.userlogin.secretToken;
-				
+		if($scope.userlogin.cloudName &&password){
 		commonServices.userlogin(password,postUrl).then(function(result)
-		{
+		{ 
 			if(result.message == 'Success')
 			{
 				$cookies.guardianCloudName = $scope.userlogin.cloudName;
@@ -37,6 +39,10 @@ angular.module('myApp').controller("homeController", function ($scope, $filter,$
 			
 		
 		});
+		}else{
+				$scope.userlogin.hasErrorCond = true;
+				
+			}
 	
 	}
 	

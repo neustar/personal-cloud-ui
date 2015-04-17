@@ -640,3 +640,25 @@ footer{
  {
     padding: 0 59px;
 }
+
+
+ .help-block {
+  display: none;
+}
+ 
+.hasError .help-block {
+  display: block;
+  margin-bottom: -5px;
+ }
+ .hasError .error-control {
+	color: #b94a48;
+    border-color: #a94442;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.hasError .control-label {
+	color: #b94a48;
+    border-color: #a94442;
+     
+}
+
+
