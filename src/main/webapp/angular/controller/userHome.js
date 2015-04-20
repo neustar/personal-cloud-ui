@@ -382,7 +382,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 									productName:"SCN",
 									currency:"USD"
 									}; 
-									var apiUrl = {postUrl : 'processPayment'};
+									var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
 									commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
 									 
 										if(responseData.message == "Success"){
@@ -520,10 +520,11 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 									paymentType : "CREDIT_CARD",
 									paymentReferenceId : token.id,
 									paymentResponseCode:"OK",
-									amount:"25",
+									amount:"15",
+									productName:"DCN",
 									currency:"USD"
 								};
-								var apiUrl = {postUrl : 'processPayment'};
+								var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
 								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 								if(responseData.paymentId != null){
 										$scope.pageLoaded = true;					
@@ -532,7 +533,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
 										$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
-										$('#addDependent').modal('hide');
+										
 									}
 									else
 									{
@@ -546,7 +547,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 						handler.open({
 						  name: 'Personal Cloud',
 						  description: 'Payment detail',
-						  amount: 1000
+						  amount: 1500
 						});
 						event.preventDefault();
 						
@@ -608,6 +609,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 							$scope.addDependentContainer = true;
 							$scope.successMessageContainerAddDep=true;
 							$scope.successMessageAddDep="Dependent Added Successfully";
+							$('#addDependent').modal('hide');
 ;				}
 				else
 				{
