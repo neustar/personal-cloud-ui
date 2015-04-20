@@ -6,6 +6,7 @@ angular.module('cloudServices', [])
 	return({
 		getInfo: getInfo,
 		saveInfo: saveInfo,
+		saveInfo1: saveInfo1,
 		getProxyInfo: getProxyInfo,
 		saveProxyInfo: saveProxyInfo,
 		deleteProxyInfo: deleteProxyInfo,
@@ -25,7 +26,7 @@ angular.module('cloudServices', [])
 												 
 		var request = $http({
 			method: "GET",
-			url: 'https://54.84.28.139:443/v1/'+getUrl,
+			url: 'v1/'+getUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
@@ -75,7 +76,24 @@ angular.module('cloudServices', [])
 	function saveInfo(saveObject,apiUrl) {   
 		var request = $http({
 			method: "POST",
-			url: 'https://54.84.28.139:443/v1/'+apiUrl.postUrl,
+			url: 'v1/'+apiUrl.postUrl,
+			headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json',
+						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
+					 },
+			data:saveObject
+
+		});
+
+		return( request.then( handleSuccess, handleError ) );
+
+	}
+		//use for calling processPayment API
+		function saveInfo1(saveObject,apiUrl) {   
+		var request = $http({
+			method: "POST",
+			url: apiUrl.postUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
@@ -94,11 +112,11 @@ angular.module('cloudServices', [])
         fd.append('password', 'test@123');
 		var request = $http({
 			method: "POST",
-			url: 'https://54.84.28.139:443/v1/'+apiUrl,
+			url: 'http://localhost:8080/v1/'+apiUrl,
 			headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
 						'Accept': 'application/json',
-						'Authorization' : 'Bearer 45345c0c046a4d04b5d1282fdb86e56c'
+						'Authorization' : 'Bearer 4799dca4c5054d5e899f57ec579d47b2'
 					 },
 			data: $.param({password: pass}),
 		});
