@@ -199,7 +199,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 									productName:"PCN",
 									currency:"USD"
 								};
-								var apiUrl = {postUrl : 'processPayment'};
+								var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
 								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 								if(responseData.paymentId != null){
 										$scope.pageLoaded = true;					
