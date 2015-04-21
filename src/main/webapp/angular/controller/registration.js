@@ -19,6 +19,8 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.paymentContainer = false;
 	
 	$scope.hasErrorCond = false;
+	$scope.hasErrorVerify = false;
+	$scope.hasErrorPay = false;
 	
 	 
 	
@@ -115,8 +117,9 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			$scope.errorMessage = "";
 			$scope.errorMessageContainer = true;
 			$scope.successMessageContainer = false;			
-			$scope.error = true;
- 	
+			$scope.error = true; 	
+			
+			 
 			
 		}
 	}
@@ -124,9 +127,18 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	// function to submit user information
 	$scope.submitUserInfo = function(isValid,postUrl) {
 	 
-	
+		if(!($scope.user.password===$scope.user.password_c)){
+		
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Password don't match";
+			return false;
+		
+		}
+	 
 		if(isValid){
-			$scope.errorMessageContainer = false;
+		
+		
+			$scope.user.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.loading_contactsInfo = true;
 			$scope.user.userTel = "+"+$scope.user.countryCode+"."+$scope.user.userMobile; 
@@ -142,6 +154,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				confirmPassword : $scope.user.password_c,
 				identifier:$scope.user.identifier
 			};
+			 
 			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			 
 			 
@@ -153,20 +166,31 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				}
 				else
 				{
-					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
+					$scope.user.errorMessageContainer = true;
+					if(responseData.errorMessage)
+					$scope.user.errorMessage = responseData.errorMessage;
+					else if(responseData[0].errorMessage)
+					$scope.user.errorMessage = responseData[0].errorMessage;
+					
+					 
 				}
 			});
 		}else{
-			/*$scope.user.errorMessageContainer = true;			 
-			$scope.user.errorMessage = "Error: Invalid Request";*/
+			 
 			$scope.user.hasErrorCond = true;
 		}
 	}
 	
 	$scope.validatesCodes = function(isValid,postUrl)
-	{
-			if(isValid){
+	{ 
+		if(!($scope.user.I_Agree) || $scope.user.I_Agree === "undefined"){
+			 
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please agree on rule.";
+			return false;
+		
+		}
+		if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.loading_contactsInfo = true;
@@ -185,7 +209,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			
 				if(responseData.message == "Success"){
 					$scope.pageLoaded = true;					
-					$scope.loading_contactsInfo=false;								  
+					 					  
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = true;
@@ -193,21 +217,42 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				else
 				{
 					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
+					if(responseData.errorMessage)
+					$scope.user.errorMessage = responseData.errorMessage;
+					else if(responseData[0].errorMessage)
+					$scope.user.errorMessage = responseData[0].errorMessage;
+					
+					 
 				}
 			});
 		}
 		else
 		{
-			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.errorMessageContainer = true;			 
+			$scope.user.hasErrorVerify= true;
 		}
+		
 		
 	}
 	
 	$scope.getPaymentID = function(isValid,event,serviceName)
 	{  
+		 
+		if(!($scope.user.paymentOption) || $scope.user.paymentOption === "undefined"){
+			 
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please choose payment option.";
+			return false;
+		
+		}
+		if(!($scope.user.I_Agree1) || $scope.user.I_Agree1 === "undefined"){
+			 
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please agree on rule.";
+			return false;
+		
+		}	
+			
 			if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
@@ -250,7 +295,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						handler.open({
 						  name: 'Personal Cloud',
 						  description: 'Payment detail',
-						  amount: 2500
+						  amount: 2000
 						});
 						event.preventDefault();
 						
@@ -261,7 +306,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				break;
 			default:
 				throw "Unknown checkout service: " + serviceName;
-    }
+			}
 			
 			
 			
@@ -269,8 +314,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		else
 		{
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.user.hasErrorPay= true;
 		}
 	
 	}
