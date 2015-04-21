@@ -15,20 +15,21 @@
 							</nav>
 				<div class="row" id="cloudAvaliable" ng-show="cloudAvalContainer">					 
 					<form id="cloudAvailForm" method="post" name="cloudAvailForm"  novalidate>			
-						<h3>Choose Your Cloud Name:</h3>
+						
 							<div class="col-md-12">
-								<div class="form-group" >
-									<input id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
+								<div  class="form-group" ng-class="{'hasError': cloudAvailForm.cloudName.$dirty  || errorMessageContainer}" show-errors>
+									<h3 class="control-label" >Choose Your Cloud Name:</h3>
+									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
 									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
 									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 									</div>
-									<div style="text-align: center;color:red" ng-show="errorMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{errorMessage}}</div>
-									<div style="text-align: center;color:green" ng-show="successMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{successMessage}}</div>	
+									<div style="text-align: center;color:red" ng-if="errorMessageContainer" role="alert">{{errorMessage}}</div>
+									<div style="text-align: center;color:green" ng-if="successMessageContainer" role="alert">{{successMessage}}</div>	
 								</div>
 								<div style="text-align:center;" for="example_name">e.g: =jane,=john</div>
 								<div class="form-group">
 								<!--input id="chkCldStatus" type="submit" value="Submit" ng-click='submitForm(cloudAvailForm.$valid)' class="btn" ng-disabled="error" /-->
-								<input id="chkCldStatus" type="submit" value="Submit" ng-click='submitForm(cloudAvailForm.$valid)' class="btn" ng-disabled="error"  />
+								<input id="chkCldStatus" type="submit" value="Submit" ng-click='submitForm(cloudAvailForm.$valid,errorMessageContainer)' class="btn"  />
 								
 								</div>
 							</div>
@@ -36,34 +37,37 @@
 				</div>	
 				<div class="row" id="cloudUserDetail" ng-show="userDetailContainer">
 				
-							<form id="userDetailForm" method="post" name="userDetailForm" ng-submit="submitUserInfo(userDetailForm.$valid,'codes/generate')" novalidate >			
+							<form id="userDetailForm" method="post" name="userDetailForm"   novalidate >			
 							<h1 >Registration Details</h1>
 								<div class="col-md-12">
-									<div class="row" class="form-group required">
-										<input type="email" class="userEmail" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required/>
-									   <span style="color:red;" ng-show="userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$dirty">required</span>
-									   <span style="color:red;" ng-show="!userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$error.userEmail && userDetailForm.userEmail.$dirty">invalid email</span>
-									</div>
-									<div class="row" class="form-group">
-										<input type="text" id="countryCode"  name="countryCode"  placeholder="+1" value="" international-phone-number ng-model="user.countryCode" required /> <input class="userTelephone"  id="userMobile"  name="userMobile"  placeholder="" value=""  ng-model="user.userMobile" ng-minlength="10" ng-maxlength="10" ng-pattern="/^(0|[1-9][0-9]*)$/"  required />
-										<span class="userMobSpan" style="color:red;" ng-show="!userDetailForm.userMobile.$error.required && userDetailForm.userMobile.$dirty && (userDetailForm.userMobile.$error.minlength || userDetailForm.userMobile.$error.maxlength)">Phone Number Must be Contain 10 digits</span>
-									</div>
-									<div class="row" class="form-group">
-										<input type="password" id="password"  name="password"  placeholder="Password" ng-model="user.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required  />
-										<span style="color:red;" ng-show="userDetailForm.password.$error.required && userDetailForm.password.$dirty">required</span>
-										<span style="color:red;" ng-show="!userDetailForm.password.$error.required && (userDetailForm.password.$error.minlength || userDetailForm.password.$error.maxlength) && userDetailForm.password.$dirty">Passwords must be between 8 and 20 characters.</span>
-										<span style="color:red;" ng-show="!userDetailForm.password.$error.required && !userDetailForm.password.$error.minlength && !userDetailForm.password.$error.maxlength && userDetailForm.password.$error.pattern && userDetailForm.password.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
-									</div>
-									<div class="row" class="form-group">
-										<input type="password" id="password_c"  name="password_c"  ng-model="user.password_c" placeholder="Confirm Password"  required="true" />
-										<span ng-show="userDetailForm.password_c.$error.required && userDetailForm.password_c.$dirty">Please confirm your password.</span>
-										<span ng-show="!userDetailForm.password_c.$error.required && userDetailForm.password_c.$error.noMatch && userDetailForm.password.$dirty">Passwords do not match.</span>
-									</div>
-									
 									<div style="text-align: center;color:red" ng-show="errorMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{errorMessage}}</div>
+									<div  class="row form-group required" ng-class="{'hasError': userDetailForm.userEmail.$dirty}"  show-errors>
+										<input type="email" class="error-control" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required/>
+									   <div style="text-align: center;color:red"  ng-if="userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$dirty ">Email is required</div>
+										<div style="text-align: center;color:red"  ng-if="userDetailForm.userEmail.$error.email">Given email address is invalid</div>
+									</div>
+									<div  class="row form-group required" ng-class="{'hasError': userDetailForm.userMobile.$dirty}" show-errors>
+										<input type="text" id="countryCode"  name="countryCode"  placeholder="+1" value="" international-phone-number ng-model="user.countryCode" required /> <input class="userTelephone error-control"  id="userMobile"  name="userMobile"  placeholder="" value=""  ng-model="user.userMobile" ng-minlength="10" ng-maxlength="10" ng-pattern="/^(0|[1-9][0-9]*)$/"  required />
+										<p class="userMobSpan help-block" ng-if="!userDetailForm.userMobile.$error.required && userDetailForm.userMobile.$dirty && (userDetailForm.userMobile.$error.minlength || userDetailForm.userMobile.$error.maxlength)">Phone number must contain 10 digits</p>
+										<p class="help-block" ng-if="userDetailForm.userMobile.$error.required">Phone number is required</p>
+									</div>
+									<div  class="row form-group required"  show-errors>
+										<input class="error-control" type="password" id="password"  name="password"  placeholder="Password" ng-model="user.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required  />
+										<p class="help-block" ng-if="userDetailForm.password.$error.required">Password is required</p>
+										<p class="help-block"  ng-if="!userDetailForm.password.$error.required && (userDetailForm.password.$error.minlength || userDetailForm.password.$error.maxlength) && userDetailForm.password.$dirty">Passwords must be between 8 and 20 characters.</p>
+										<p class="help-block"  ng-if="!userDetailForm.password.$error.required && !userDetailForm.password.$error.minlength && !userDetailForm.password.$error.maxlength && userDetailForm.password.$error.pattern && userDetailForm.password.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</p>
+										
+									</div>
+									<div  class="row form-group required"  show-errors>
+										<input class="error-control" type="password" id="password_c"  name="password_c"  ng-model="user.password_c" placeholder="Confirm Password"  required="true" />
+										<p class="help-block" ng-if="userDetailForm.password_c.$error.required">Confirm password is required.</p>
+										<p class="help-block"  ng-if="!userDetailForm.password_c.$error.required && !(userDetailForm.password == userDetailForm.password_c) && userDetailForm.password_c.$dirty">Passwords do not match.</p>
+									</div>									
 									
-									<div class="row" class="form-group">
-									<input  type="submit" value="Submit" class="btn"  ng-disabled="!userDetailForm.$valid"/>
+									
+									<div class="row form-group">
+									<input  type="submit" value="Submit" class="btn"  ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')"/>
+									<input  type="submit" value="Reset" class="btn" ng-click="reset()"> 
 									</div>
 								</div>
 							</form>
