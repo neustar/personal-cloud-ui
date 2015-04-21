@@ -18,7 +18,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.CongratulationContainer = false;
 	$scope.paymentContainer = false;
 	
-	
+	$scope.hasErrorCond = false;
 	
 	 
 	
@@ -112,18 +112,18 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			 
 						
 		}else{
+			$scope.errorMessage = "";
 			$scope.errorMessageContainer = true;
-			$scope.successMessageContainer = false;
-			$scope.errorMessage = "Error: Invalid request.";
+			$scope.successMessageContainer = false;			
 			$scope.error = true;
  	
-			 
+			
 		}
 	}
 	
 	// function to submit user information
 	$scope.submitUserInfo = function(isValid,postUrl) {
-	//$scope.$emit('show-errors-check-validity');
+	 
 	
 		if(isValid){
 			$scope.errorMessageContainer = false;
@@ -158,9 +158,9 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				}
 			});
 		}else{
-			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			/*$scope.user.errorMessageContainer = true;			 
+			$scope.user.errorMessage = "Error: Invalid Request";*/
+			$scope.user.hasErrorCond = true;
 		}
 	}
 	
@@ -228,8 +228,8 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 									productName:"PCN",
 									currency:"USD"
 								};
-								var apiUrl = {postUrl : 'processPayment'};
-								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+								var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+								commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	
 								if(responseData.paymentId != null){
 										$scope.pageLoaded = true;					
 										$scope.loading_contactsInfo=false;								  
@@ -250,7 +250,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						handler.open({
 						  name: 'Personal Cloud',
 						  description: 'Payment detail',
-						  amount: 2000
+						  amount: 2500
 						});
 						event.preventDefault();
 						
