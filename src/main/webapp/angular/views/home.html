@@ -21,14 +21,14 @@
 					<div  class="form-group required"  ng-class="{hasError: userlogin.hasErrorCond}" show-errors>					
 						<label class="control-label">CloudName</label>
 						<input type="text" class="error-control" id="cloudName" name="cloudName"   placeholder="Cloud Name"  ng-model="userlogin.cloudName" required />
-						<p style="text-align: center;color:red;" class="help-block" ng-show="logindetail.cloudName.$error.required ">Cloud name is required</p>
+						<div id="cloudNameError" style="text-align: center;color:red;" class="help-block" ng-show="logindetail.cloudName.$error.required ">Cloud name is required</div>
 					</div>
 					<div  class="form-group required"  ng-class="{hasError: userlogin.hasErrorCond}" show-errors>	
 						<label class="control-label">Password</label>
 						<input type="password" id="secretToken" name="secretToken" class="error-control"  placeholder="Your secret token"  ng-model="userlogin.secretToken" required />	
-						<div style="text-align: center;color:red;" class="help-block"  ng-show="logindetail.secretToken.$error.required ">Password is required</div>	
+						<div id="passwordError" style="text-align: center;color:red;" class="help-block"  ng-show="logindetail.secretToken.$error.required ">Password is required</div>	
 					</div>
-					<div style="text-align: center;color:red" ng-show="errorMessageContainer" role="alert">{{errorMessage}}</div> 
+					<div  id="errorMessage" style="text-align: center;color:red" ng-show="errorMessageContainer" role="alert">{{errorMessage}}</div> 
 					
 					<input type="button" id="submitLogin" value="Login" ng-click="login('csp/+testcsp/clouds/personalClouds/'+userlogin.cloudName+'/authenticate')" class="grad"  />
 					<a href="javascript:void(0)"><h4>Forgot Password</h4></a>
