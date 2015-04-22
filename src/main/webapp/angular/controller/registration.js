@@ -175,7 +175,6 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					{
 						$scope.user.errorMessage = responseData[0].errorMessage;
 					}
-					$scope.user.hasErrorCond = true;
 					 
 				}
 			});
