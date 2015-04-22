@@ -32,7 +32,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 
 
 	//function is called to allow a request 
-	$scope.allowBlockUrl = function(type,urlHost,requestlist)
+	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
 	{
 
 		var dataObject= {};
@@ -58,8 +58,13 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			if(responseData.uuid)
 			{
 				$scope.successMessageContainer = true;
-				//$scope.deleteProxyRecord(accesstype,urlHost,requestlist);
+				if(requestType=="old"){
+				$scope.deleteProxyRecord(accesstype,urlHost,requestlist);				
+				}
+				else if(requestType=="new"){
 				$('#addRecordModal').modal('hide');
+				$scope.showRequestList(type,$scope.cloudName);
+				}
 			}
 			else
 			{
@@ -95,7 +100,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			if(responseData.uuid)
 			{
 				$scope.successMessageContainer = true;
-				//$scope.deleteProxyRecord(accesstype,urlHost,requestlist);
+				$scope.deleteProxyRecord(accesstype,urlHost,requestlist);
 			}
 			else
 			{
@@ -111,15 +116,21 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		if(type=="requested")
 		{
 			$scope.requestContainer = true;
+			$scope.allowedContainer = false;
+			$scope.blockedContainer = false;
 		}
 		else if(type=="allowed")
 		{
 			$scope.allowedContainer = true;
+			$scope.blockedContainer = false;
+			$scope.requestContainer = false;
 			$scope.addRecordType = type;
 		}
 		else if(type=="blocked")
 		{
 			$scope.blockedContainer = true;
+			$scope.requestContainer = false;
+			$scope.allowedContainer = false;
 			$scope.addRecordType = type;
 		}
 		$scope.dependentContainer = false;
@@ -150,6 +161,12 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		{
 			
 			$scope.dependentContainer = true;
+			$scope.blockedContainer = false;
+			$scope.requestContainer = false;
+			$scope.allowedContainer = false;
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;
+			
 			blockUI.start();
 			commonServices.getProxyInfo('proxies/dependents').then(function(result)
 			{	
@@ -370,7 +387,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
         
 				case "stripe":
 							var handler = StripeCheckout.configure({
-								key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
+								key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
 								token: function(token){ 
 									 
 									
@@ -512,7 +529,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
         
 			case "stripe":
 						var handler = StripeCheckout.configure({
-							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
+							key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
 							image: '/img/documentation/checkout/marketplace.png',
 							token: function(token) { 
 								//Updating paramters accordingly
@@ -533,7 +550,6 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
 										$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
-										
 									}
 									else
 									{
