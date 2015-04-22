@@ -21,10 +21,10 @@
 									<h3 class="control-label" >Choose Your Cloud Name:</h3>
 									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
 									 
-									<div  style="text-align: center;color:red" class="help-block" ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
+									<div  id="cloudAvailError" style="text-align: center;color:red" class="help-block" ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 								 
-									<div style="text-align: center;color:red" ng-if="errorMessageContainer" role="alert">{{errorMessage}}</div>
-									<div style="text-align: center;color:green" ng-if="successMessageContainer" role="alert">{{successMessage}}</div>	
+									<div id="cloudNotAvail" style="text-align: center;color:red" ng-if="errorMessageContainer" role="alert">{{errorMessage}}</div>
+									<div id="cloudAvailSuccess" style="text-align: center;color:green" ng-if="successMessageContainer" role="alert">{{successMessage}}</div>	
 								</div>
 								<div style="text-align:center;" for="example_name">e.g: =jane,=john</div>
 								<div class="form-group">
@@ -67,7 +67,7 @@
 									
 									
 									<div class="form-group">
-									<input  type="submit" value="Submit" class="btn"  ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')"/>
+									<input  type="submit" value="Submit" class="btn"  ng-click="submitUserInfo(userDetailForm.$invalid,'codes/generate')"/>
 									<input  type="submit" value="Reset" class="btn" ng-click="reset()"> 
 									</div>
 								</div>
@@ -102,7 +102,7 @@
 									
 									<div class="form-group">
 										<input id="verifyCodes" type="button" value="Verify" ng-click="validatesCodes(validateUserForm.$valid,'codes/validate')" class="grad pull-left checkbox-three"  "/>
-										<input type="button" value="Send New Codes" ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')" class="grad pull-right checkbox-three"/>	
+										<input type="button" value="Send New Codes" ng-click="submitUserInfo(validUserCode.$valid,'codes/generate')" class="grad pull-right checkbox-three"/>	
 									</div>									
 									</div>
 								</div>
