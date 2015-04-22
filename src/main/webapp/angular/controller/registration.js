@@ -168,9 +168,13 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				{
 					$scope.user.errorMessageContainer = true;
 					if(responseData.errorMessage)
+					{
 					$scope.user.errorMessage = responseData.errorMessage;
-					else if(responseData[0].errorMessage)
-					$scope.user.errorMessage = responseData[0].errorMessage;
+					}
+					else if(responseData[0] != undefined)
+					{
+						$scope.user.errorMessage = responseData[0].errorMessage;
+					}
 					$scope.user.hasErrorCond = true;
 					 
 				}
@@ -261,7 +265,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
         
 			case "stripe":
 						var handler = StripeCheckout.configure({
-							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
+							key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ'',
 							image: '/img/documentation/checkout/marketplace.png',
 							token: function(token) { 
 								//Updating paramters accordingly
@@ -281,7 +285,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 										$scope.userDetailContainer = false;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
-										$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
+										$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
 									}
 									else
 									{
