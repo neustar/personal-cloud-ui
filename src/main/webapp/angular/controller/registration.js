@@ -185,13 +185,6 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			 
 			$scope.user.hasErrorCond = true;
 		if($scope.user.countryCode==null || $scope.user.countryCode==undefined)
-		{
-		
-			$scope.user.errorMessageContainer = true;
-			$scope.user.errorMessage = "Please Select Country Code";
-			return false;
-		
-		}
 		}
 	}
 	
