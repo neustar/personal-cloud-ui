@@ -130,7 +130,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		
 	 
 	 
-		if(!($scope.user.password===$scope.user.password_c)){
+		if($scope.user.password!=undefined && !($scope.user.password===$scope.user.password_c)){
 		
 			$scope.user.errorMessageContainer = true;
 			$scope.user.errorMessage = "Password don't match";
@@ -184,7 +184,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		}else{
 			 
 			$scope.user.hasErrorCond = true;
-		if($scope.user.countryCode==null || $scope.user.countryCode==undefined)
+		
 		}
 	}
 	
