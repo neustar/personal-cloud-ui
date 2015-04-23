@@ -40,7 +40,7 @@
 							<form id="userDetailForm" method="post" name="userDetailForm"   novalidate >			
 							<h1 >Registration Details</h1>
 								<div class="col-md-12">
-									<div style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
+									<div id="errorMessageContainer" style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
 									
 									<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>
 										<input type="email" class="error-control" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required/>
