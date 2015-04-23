@@ -131,7 +131,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		{
 		
 			$scope.user.errorMessageContainer = true;
-			$scope.user.errorMessage = "Please Choose Country Code";
+			$scope.user.errorMessage = "Please Select Country Code";
 			return false;
 		
 		}
