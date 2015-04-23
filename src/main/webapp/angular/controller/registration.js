@@ -127,14 +127,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	// function to submit user information
 	$scope.submitUserInfo = function(isValid,postUrl) {
 	 
-		if($scope.user.countryCode==null || $scope.user.countryCode==undefined)
-		{
 		
-			$scope.user.errorMessageContainer = true;
-			$scope.user.errorMessage = "Please Select Country Code";
-			return false;
-		
-		}
 	 
 	 
 		if(!($scope.user.password===$scope.user.password_c)){
@@ -191,6 +184,14 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		}else{
 			 
 			$scope.user.hasErrorCond = true;
+		if($scope.user.countryCode==null || $scope.user.countryCode==undefined)
+		{
+		
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please Select Country Code";
+			return false;
+		
+		}
 		}
 	}
 	
