@@ -50,7 +50,7 @@
 									<div  class="form-group required" ng-class="{'hasError': user.hasErrorCond}" show-errors>
 										<input type="text" id="countryCode"  name="countryCode"   value="" international-phone-number ng-model="user.countryCode" required/> <input class="userTelephone error-control"  id="userMobile"  name="userMobile"  placeholder="" value=""  ng-model="user.userMobile" ng-minlength="10" ng-maxlength="10" ng-pattern="/^(0|[1-9][0-9]*)$/"  required />
 										<div id="userMobileError_1" style="text-align: center;color:red" class="userMobSpan help-block" ng-if="!userDetailForm.userMobile.$error.required && (userDetailForm.userMobile.$error.minlength || userDetailForm.userMobile.$error.maxlength)">Phone number must contain 10 digits</div>
-										<div id="countryCodeError" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.userMobile.$error.required">Country Code is required</div>
+										<div id="countryCodeError" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.countryCodeError.$error.required">Country Code is required</div>
 										<div id="userMobileError_2" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.userMobile.$error.required">Phone number is required</div>
 									</div>
 									<div  class="form-group required" ng-class="{'hasError': user.hasErrorCond}" showErrors>
