@@ -26,7 +26,12 @@ $scope.dependentContainer = false;
 $scope.requestContainer = false;
 $scope.rejectedContainer = false;
 $scope.error = true;
- 
+
+$scope.addCloudFirstContainer = true;
+$scope.addCloudPayContainer = false;
+$scope.addDepCloudFirstContainer = true;
+$scope.addDepCloudPayContainer = false;
+
 $scope.userlogin.cloudName = $cookies.guardianCloudName; 
 $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 
@@ -236,6 +241,20 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	$scope.addRecord = function(modalName)
 	{ 
 			$('#'+modalName).modal();
+			$scope.addCloudFirstContainer = true;
+			$scope.addCloudPayContainer = false;
+			$scope.errorMessageContainerAddDep = false;
+			$scope.successMessageContainerAddDep = false;
+			$scope.addDepCloudFirstContainer = true;
+			$scope.addDepCloudPayContainer = false;
+			
+			$scope.additionalCloud.cloudName1 = "";
+			
+			$scope.addDepedent.depCloudName = "";	
+			$scope.addDepedent.depCloudpass = "";	
+			$scope.addDepedent.depCloudconfPass = "";	
+			$scope.addDepedent.datepicker = "";	
+			$scope.addDepedent.I_AgreeAddDep = "";	
 	};
 	/* //not need now //
 	$scope.addDependent = function()
@@ -332,6 +351,21 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
 	}
+	//this function append "=" sign to cloud Name
+	$scope.appendSign = function()
+	{ 
+		if($scope.additionalCloud.cloudName1 && !($scope.additionalCloud.cloudName1.charAt(0) == "="))
+		{
+			$scope.additionalCloud.cloudName1 = '='+$scope.additionalCloud.cloudName1;
+			
+		} 
+		if($scope.addDepedent.depCloudName && !($scope.addDepedent.depCloudName.charAt(0) == "="))
+		{
+			$scope.addDepedent.depCloudName = '='+$scope.addDepedent.depCloudName;
+			
+		} 
+	
+	}
 	
 	$scope.cloudCheckDep = function(cloudAvailUrl) {
 		blockUI.start();
@@ -364,7 +398,10 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 					}
 					else if(responseData[0].errorMessage){
 					$scope.errorMessageAddDep = responseData[0].errorMessage;
-					} 
+					}
+					else {
+					$scope.errorMessageAddDep = "Error : Invalid request.";
+					} 					
 					$scope.error = true;
 	 
 				}
@@ -375,67 +412,44 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	}
 	
 	
-	// function to submit additional cloud 
-	$scope.submitAdnCloud = function(isValid,event,serviceName) {
- 
-		if(isValid){
-			$scope.errorMessageContainer = false;
-			$scope.successMessageContainer = false;	
-			$scope.loading_contactsInfo = true;			
-			 
-			switch (serviceName) {
-        
-				case "stripe":
-							var handler = StripeCheckout.configure({
-								key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
-								token: function(token){ 
-									 
-									
-									var dataObject= {
+	$scope.submitPayCloud = function() {
+	
+					var dataObject= {
 									paymentType : "CREDIT_CARD",
-									paymentReferenceId : token.id,
+									paymentReferenceId : "xyz",
 									paymentResponseCode:"OK",
 									amount:"10",
 									productName:"SCN",
-									currency:"USD"
+									currency:"USD",
+									paymentGateway: "Test"
 									}; 
-									var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
-									commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
-									 
-										if(responseData.message == "Success"){
-															
-											$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
-																				
-										}
-										else
-										{
-											$scope.errorMessageContainer = true;
-											$scope.errorMessage = responseData[0].errorMessage;
-										}
-									});
-				
-								}
-							});
-							
-							handler.open({
-							  name: 'Personal Cloud',
-							  description: 'Payment detail',
-							  amount: 1000
-							});
-							event.preventDefault();
-							
-							// Close Checkout on page navigation
-							$(window).on('popstate', function() {
-							handler.close();
-							});
-					break;
-				default:
-					throw "Unknown checkout service: " + serviceName;
-			}
+					var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+					commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
+					 
+						if(responseData.message == "Success"){
+											
+							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
+																
+						}
+						else
+						{
+							$scope.errorMessageContainer = true;
+							$scope.errorMessage = responseData[0].errorMessage;
+						}
+					});
+	}
+	
+	// function to submit additional cloud 
+	$scope.submitAdnCloud = function(isValid,event,serviceName) {
+	
+		if(isValid){
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;	
+			$scope.addCloudFirstContainer = false;
+			$scope.addCloudPayContainer = true;				 
 			
 		}else{
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
 			$scope.errorMessage = "Error: Invalid Request";
 			$scope.error = true;
 		}
@@ -517,72 +531,46 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	}
 	
 	
+	$scope.submitDepPayCloud = function(){
+	
+		//Updating paramters accordingly
+			var dataObject= {
+				paymentType : "CREDIT_CARD",
+				paymentReferenceId : "xyz",
+				paymentResponseCode:"OK",
+				amount:"15",
+				productName:"DCN",
+				currency:"USD"
+			};
+			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+			if(responseData.paymentId != null){
+					$scope.pageLoaded = true;					
+					$scope.loading_contactsInfo=false;								  
+					$scope.userDetailContainer = false;
+					$scope.validUserContainer = false;		
+					$scope.paymentContainer = true;
+					$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
+				}
+				else
+				{
+					$scope.errorMessageContainer = true;
+					$scope.errorMessage = responseData[0].errorMessage;
+				}
+			});
+	
+	}
 	$scope.getPaymentID = function(isValid,posturl,event,serviceName)
 	{ 
-			
-
-			if(isValid){
+		if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
-			$scope.loading_contactsInfo = true;
-			switch (serviceName) {
-        
-			case "stripe":
-						var handler = StripeCheckout.configure({
-							key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
-							image: '/img/documentation/checkout/marketplace.png',
-							token: function(token) { 
-								//Updating paramters accordingly
-								var dataObject= {
-									paymentType : "CREDIT_CARD",
-									paymentReferenceId : token.id,
-									paymentResponseCode:"OK",
-									amount:"15",
-									productName:"DCN",
-									currency:"USD"
-								};
-								var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
-								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
-								if(responseData.paymentId != null){
-										$scope.pageLoaded = true;					
-										$scope.loading_contactsInfo=false;								  
-										$scope.userDetailContainer = false;
-										$scope.validUserContainer = false;		
-										$scope.paymentContainer = true;
-										$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
-									}
-									else
-									{
-										$scope.errorMessageContainer = true;
-										$scope.errorMessage = responseData[0].errorMessage;
-									}
-								});
-							 }
-						});
-						
-						handler.open({
-						  name: 'Personal Cloud',
-						  description: 'Payment detail',
-						  amount: 1500
-						});
-						event.preventDefault();
-						
-						// Close Checkout on page navigation
-						$(window).on('popstate', function() {
-						handler.close();
-						});
-				break;
-			default:
-				throw "Unknown checkout service: " + parms.serviceName;
-    }
-			
-			
-			
+			$scope.addDepCloudFirstContainer = false;
+			$scope.addDepCloudPayContainer = true; 
 		}
 		else
 		{
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
 	

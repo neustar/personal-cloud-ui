@@ -56,12 +56,17 @@
 						</tbody>
 					</table>
 				
-		 
+					</td>
+				</tr>
+				</table>
 				 
 			 
 		</div>
 		
-		<div class="modal fade" id="addCloudModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+			
+     </div>  
+
+<div class="modal fade" id="addCloudModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 				  <div class="modal-header" style="background-image: linear-gradient(#f9f9f9, #e4e4e4);">
@@ -69,31 +74,59 @@
 					<h4 class="modal-title"><span>Add Additional Cloud</span></h4>
 				  </div>
 					<div class="modal-body">
-						<form id="addCloudForm" method="post" name="addCloudForm"  novalidate>	
-							<div class="form-group">
-								<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
-								<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
-								<label  >Add cloud</label>
-								<input id="cloudName1" class="modalInput" name="cloudName1" ng-model="additionalCloud.cloudName1" type="text" placeholder="=cloud..." ng-blur="cloudCheckDep(additionalCloud.cloudName1)" required />		
-												 
+						<div id="addCloudFirst" ng-show="addCloudFirstContainer">
+							<form id="addCloudForm" method="post" name="addCloudForm"  novalidate>	
+								<div class="form-group">
+									<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
+									<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
+									<label  >Add cloud</label>
+									<input id="cloudName1" class="modalInput" name="cloudName1" ng-model="additionalCloud.cloudName1" type="text" placeholder="=cloud..." ng-change="appendSign()" ng-blur="cloudCheckDep(additionalCloud.cloudName1)" required />		
+													 
+									
+								</div>								 
+								<div class="form-group">
+							 
+									<input id="chkaddCldStatus" type="button" value="Pay $10" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
 								
-							</div>								 
-							<div class="form-group">
+								</div>
+							</form>
+						</div>
+						
+						<div id="addCloudPay" ng-show="addCloudPayContainer">
+						<form id="paymentDetailForm" method="post" name="paymentDetailForm"  novalidate>
 						 
-								<input id="chkaddCldStatus" type="button" value="Pay $10" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
-							
-							</div>
-						</form>
+									<div class="row">
+										<h4>Enter Payment Detail</h4>
+									</div>									 
+									
+									<div class="form-group" >
+										<input type="text" class="modalInput"   id="emailpayment" name="emailpayment" placeholder="email"  style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									 
+									<div  class="form-group" >
+										<input type="tel" class="modalInput"  id="cardNumber" name="cardNumber" placeholder="card number"   style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									<div  class="form-group" >
+										<input type="text"  class="modalInput"  id="cardExpDate" name="cardExpDate" placeholder="expiry date"    style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									<div  class="form-group" >
+										<input type="text" class="modalInput"   id="cardCVC" name="cardCVC" placeholder="cvc number"  style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									<div class="form-group">
+									<input type="button" value="Pay $10" ng-click="submitPayCloud()" class="modalInput"  style=" vertical-align: middle;"/>	
+									</div>									
+									 
+								</form>
+						</div>
 					</div>
 				   
 				</div>
 			</div>
-		</div>
-		
-		
-		
-     </div>  
- 
+		</div>	 
 </div>
  
 <div ng-include="'angular/views/userFooter.html'"></div>

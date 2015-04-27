@@ -138,6 +138,39 @@
 					</div>
 				</form>
 				</div>
+				<div class="row" id="paymentDetail" ng-show="paymentDetailContainer">
+							<form id="paymentDetailForm" method="post" name="paymentDetailForm"  novalidate>
+							<div class="verify">
+								    <div class="col-md-12">	
+									<div class="row">
+										<h4>Enter Payment Detail</h4>
+									</div>
+									<div style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
+									
+									<div class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="text" class="error-control" id="emailpayment" name="emailpayment" placeholder="email"  ng-model="user.emailpayment" style=" border: 1px solid #DCDCDC;"readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.emailpayment.$error.required ">required</div>
+									</div>
+									 
+									<div  class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="tel" class="error-control"  id="cardNumber" name="cardNumber" placeholder="card number"  ng-model="user.cardNumber"style=" border: 1px solid #DCDCDC;" readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.cardNumber.$error.required ">required</div>
+									</div>
+									<div  class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="text" class="error-control"  id="cardExpDate" name="cardExpDate" placeholder="expiry date"  ng-model="user.cardExpDate" style=" border: 1px solid #DCDCDC;" readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.cardExpDate.$error.required ">required</div>
+									</div>
+									<div  class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="text" class="error-control"  id="cardCVC" name="cardCVC" placeholder="cvc number"  ng-model="user.cardCVC" style=" border: 1px solid #DCDCDC;" readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.cardCVC.$error.required ">required</div>
+									</div>
+									<div class="form-group">
+									<input type="button" value="Pay $20" ng-click="getPaymentInfo()" class="grad"  style=" vertical-align: middle;"/>	
+									</div>									
+									</div>
+								</div>
+								</form>
+				</div>
 			</div>	
 		</div>
 		<div class="row" id="Congratulation" ng-show="CongratulationContainer"><p id="para1">Congratulation your cloud name {{user.cloudName}} has been registered <a href="#home">Click Here</a> to login.</p></div>

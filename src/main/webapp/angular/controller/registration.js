@@ -17,6 +17,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.registrationcontainer = true;
 	$scope.CongratulationContainer = false;
 	$scope.paymentContainer = false;
+	$scope.paymentDetailContainer = false;
 	
 	$scope.hasErrorCond = false;
 	$scope.hasErrorVerify = false;
@@ -263,12 +264,16 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
-			$scope.loading_contactsInfo = true;
-			switch (serviceName) {
+			$scope.paymentContainer = false;
+			$scope.paymentDetailContainer = true;
+			
+			 
+			
+		/*	switch (serviceName) {
         
 			case "stripe":
 						var handler = StripeCheckout.configure({
-							key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
+							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
 							image: '/img/documentation/checkout/marketplace.png',
 							token: function(token) { 
 								//Updating paramters accordingly
@@ -278,7 +283,8 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 									paymentResponseCode:"OK",
 									amount:"25",
 									productName:"PCN",
-									currency:"USD"
+									currency:"USD",
+									paymentGateway: "Test"
 								};
 								var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
 								commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	
@@ -288,7 +294,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 										$scope.userDetailContainer = false;
 										$scope.validUserContainer = false;		
 										$scope.paymentContainer = true;
-										$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
+										$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
 									}
 									else
 									{
@@ -302,7 +308,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 						handler.open({
 						  name: 'Personal Cloud',
 						  description: 'Payment detail',
-						  amount: 2500
+						  amount: 2000
 						});
 						event.preventDefault();
 						
@@ -313,9 +319,8 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				break;
 			default:
 				throw "Unknown checkout service: " + serviceName;
-			}
-			
-			
+			} 
+			*/		
 			
 		}
 		else
@@ -324,6 +329,41 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			$scope.user.hasErrorPay= true;
 		}
 	
+	}
+	$scope.getPaymentInfo = function()
+	{  
+		 
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;	
+			 
+			
+			var dataObject= {
+								paymentType : "CREDIT_CARD",
+								paymentReferenceId : "xyz",
+								paymentResponseCode:"OK",
+								amount:"20",
+								productName:"PCN",
+								currency:"USD",
+								paymentGateway: "Test"
+							};
+			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+			
+			commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	
+			if(responseData.paymentId != null){
+					$scope.pageLoaded = true;
+					$scope.userDetailContainer = false;
+					$scope.validUserContainer = false;		
+					$scope.paymentContainer = false;		
+					$scope.paymentDetailContainer = true;
+					$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
+				}
+				else
+				{
+					$scope.errorMessageContainer = true;
+					$scope.errorMessage = responseData[0].errorMessage;
+				}
+			});		
+			 
 	}
 	
 	$scope.registerCloudName = function(paymentID,posturl)
@@ -361,8 +401,9 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					$scope.loading_contactsInfo=false;								  
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
-					$scope.paymentContainer = false;
+					$scope.paymentDetailContainer = false;
 					$scope.registrationcontainer = false;
+					$scope.paymentContainer = false;
 					$scope.CongratulationContainer = true;
 				}
 				else
