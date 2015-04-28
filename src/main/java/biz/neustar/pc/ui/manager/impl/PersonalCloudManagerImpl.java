@@ -17,13 +17,15 @@ import biz.neustar.pcloud.PCRestClient;
 import biz.neustar.pcloud.ResponseData;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.SynonymInfo;
+
+import com.sun.jersey.api.representation.Form;
 
 /**
  * Author: kvats Date: Apr 8, 2015 Time: 1:25:28 PM
  */
-public class PersonalCloudManagerImpl {
-    private final static Logger LOGGER = LoggerFactory
-            .getLogger(PersonalCloudManagerImpl.class);
+public class PersonalCloudManagerImpl implements PersonalCloudManager {
+    private final static Logger LOGGER = LoggerFactory.getLogger(PersonalCloudManagerImpl.class);
     /**
      * 
      */
@@ -33,38 +35,135 @@ public class PersonalCloudManagerImpl {
         this.pcRestClient = pcRestClient;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * biz.neustar.pc.ui.manager.impl.PersonalCloudManager#isCloudNameAvailable
+     * (java.lang.String)
+     */
+    @Override
     public String isCloudNameAvailable(String cloudName) {
         LOGGER.info("Check if cloud name {} is available.", cloudName);
-        ResponseData responseData = pcRestClient.get(MessageFormat.format(
-                UIRestPathConstants.NAME_AVAILABILITY_API, cloudName));
+        ResponseData responseData = pcRestClient.get(MessageFormat.format(UIRestPathConstants.NAME_AVAILABILITY_API,
+                cloudName));
         return responseData.getBody();
 
     }
 
-    public String validateDetailsAndGenerateSecurityCode(
-            CloudValidation cloudValidation) {
-        LOGGER.info(
-                "Validate details and generate security codes for identifier {}",
-                cloudValidation.getIdentifier());
-        ResponseData responseData = pcRestClient.post(
-                UIRestPathConstants.GENERATE_SECURITY_CODES, cloudValidation);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see biz.neustar.pc.ui.manager.impl.PersonalCloudManager#
+     * validateDetailsAndGenerateSecurityCode
+     * (biz.neustar.pcloud.rest.dto.CloudValidation)
+     */
+    @Override
+    public String validateDetailsAndGenerateSecurityCode(CloudValidation cloudValidation) {
+        LOGGER.info("Validate details and generate security codes for identifier {}", cloudValidation.getIdentifier());
+        ResponseData responseData = pcRestClient.post(UIRestPathConstants.GENERATE_SECURITY_CODES, cloudValidation);
         return responseData.getBody();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * biz.neustar.pc.ui.manager.impl.PersonalCloudManager#validateSecurityCodes
+     * (biz.neustar.pcloud.rest.dto.CloudValidation)
+     */
+    @Override
     public String validateSecurityCodes(CloudValidation cloudValidation) {
-        LOGGER.info("Validate security codes for identifier {}",
-                cloudValidation.getIdentifier());
-        ResponseData responseData = pcRestClient.post(
-                UIRestPathConstants.VALIDATE_SECURITY_CODES, cloudValidation);
+        LOGGER.info("Validate security codes for identifier {}", cloudValidation.getIdentifier());
+        ResponseData responseData = pcRestClient.post(UIRestPathConstants.VALIDATE_SECURITY_CODES, cloudValidation);
         return responseData.getBody();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * biz.neustar.pc.ui.manager.impl.PersonalCloudManager#registerPersonalCloud
+     * (java.lang.String, biz.neustar.pcloud.rest.dto.CloudInfo)
+     */
+    @Override
     public String registerPersonalCloud(String cspCloudName, CloudInfo cloudInfo) {
-        LOGGER.info("Register cloud name {} for {}", cloudInfo.getProperties()
-                .getCloudName(), cspCloudName);
-        ResponseData responseData = pcRestClient.post(MessageFormat.format(
-                UIRestPathConstants.REGISTER_PERSONAL_CLOUD_API, cspCloudName),
-                cloudInfo);
+        LOGGER.info("Register cloud name {} for {}", cloudInfo.getProperties().getCloudName(), cspCloudName);
+        ResponseData responseData = pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.REGISTER_PERSONAL_CLOUD_API, cspCloudName), cloudInfo);
         return responseData.getBody();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * biz.neustar.pc.ui.manager.impl.PersonalCloudManager#registerSynonyms(
+     * java.lang.String, java.lang.String,
+     * biz.neustar.pcloud.rest.dto.SynonymInfo)
+     */
+    @Override
+    public String registerSynonyms(String cspCloudName, String cloudName, SynonymInfo synonymInfo) {
+        LOGGER.info("Register synonym cloud name {} for {}", synonymInfo.getSynonymCloudNames().toString(), cloudName);
+        ResponseData responseData = pcRestClient
+                .post(MessageFormat.format(UIRestPathConstants.SYNONYMS_CLOUD_NAME_API, cspCloudName, cloudName),
+                        synonymInfo);
+        return responseData.getBody();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * biz.neustar.pc.ui.manager.impl.PersonalCloudManager#getAllSynonyms(java
+     * .lang.String, java.lang.String)
+     */
+    @Override
+    public String getAllSynonyms(String cspCloudName, String cloudName) {
+        LOGGER.info("Get all synonym cloud names for {}", cloudName);
+        ResponseData responseData = pcRestClient.get(MessageFormat.format(UIRestPathConstants.SYNONYMS_CLOUD_NAME_API,
+                cspCloudName, cloudName));
+        return responseData.getBody();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * biz.neustar.pc.ui.manager.impl.PersonalCloudManager#getAllDependents(
+     * java.lang.String, java.lang.String)
+     */
+    @Override
+    public String getAllDependents(String cspCloudName, String cloudName) {
+        LOGGER.info("Get all dependent cloud names for {}", cloudName);
+        ResponseData responseData = pcRestClient.get(MessageFormat.format(UIRestPathConstants.GET_DEPENDENTS_API,
+                cspCloudName, cloudName));
+        return responseData.getBody();
+    }
+
+    public String authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
+        LOGGER.info("Register cloud name {} for {}", cspCloudName, cspCloudName, password);
+        Form form = new Form();
+        form.add("password", password);
+        ResponseData responseData = pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cspCloudName), form);
+        return responseData.getBody();
+    }
+
+    public String resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
+        LOGGER.info("Register cloud name {} for {}", cspCloudName);
+        ResponseData responseData = pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_RESET_PASSWORD_API, cspCloudName, cloudName),
+                cloudValidation);
+        return responseData.getBody();
+    }
+
+    public String forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
+        LOGGER.info("Register cloud name {} for {}", cspCloudName);
+        ResponseData responseData = pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_FORGOT_PASSWORD_API, cspCloudName, cloudName),
+                cloudValidation);
+        return responseData.getBody();
+    }
+
 }
