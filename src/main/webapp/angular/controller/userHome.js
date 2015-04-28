@@ -12,6 +12,8 @@ $scope.errorMessageContainerAddDep = false;
 $scope.successMessageContainerAddDep = false;
 $scope.successMessageContainer = false;
 $scope.successReqContainer = false;
+$scope.successMessageContainerChangePass=false;
+$scope.errorMessageContainerChangePass = false;
 $scope.userlogin = {};	 
 $scope.addDepedent={};
 $scope.guardianCloudName = "=les-cynja-parent1";
@@ -19,14 +21,16 @@ $scope.cloudName = "";
 $scope.addRecordType = "";
 $scope.uuid="";
 $scope.additionalCloud = {};
+$scope.changePassword = {};
 $scope.additionalCloudList = {};	
+$scope.user= {};	
 
 // avaiable registration form container
 $scope.dependentContainer = false;
 $scope.requestContainer = false;
 $scope.rejectedContainer = false;
 $scope.error = true;
-
+$scope.user.hasErrorCond = false;
 $scope.addCloudFirstContainer = true;
 $scope.addCloudPayContainer = false;
 $scope.addDepCloudFirstContainer = true;
@@ -249,7 +253,9 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.addDepCloudPayContainer = false;
 			
 			$scope.additionalCloud.cloudName1 = "";
-			
+			$scope.changePassword.currentPassword = "";
+			$scope.changePassword.newPassword ="";
+			$scope.changePassword.confNewPassword="";
 			$scope.addDepedent.depCloudName = "";	
 			$scope.addDepedent.depCloudpass = "";	
 			$scope.addDepedent.depCloudconfPass = "";	
@@ -628,6 +634,54 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.loading_contactsInfo = false;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
+	
+	}
+	
+	$scope.changePassword = function(isvalid,apiUrl)
+	{
+		if(isvalid)
+		{	
+			if($scope.changePassword.newPassword!=undefined && !($scope.changePassword.newPassword===$scope.changePassword.confNewPassword))
+			{
+		
+			$scope.errorMessageContainerChangePass = true;
+			$scope.errorMessageChangePass = "New Password and Confirm Password doesn't match";
+			return false;
+		
+			}
+		
+			var dataObject = {
+								currentPassword:$scope.changePassword.currentPassword,
+								password:$scope.changePassword.newPassword,
+								confirmPassword:$scope.changePassword.confNewPassword
+			
+			
+								};
+								
+			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+			
+				if(responseData.message == "Success")
+				{
+							$scope.addDependentContainer = true;
+							$scope.successMessageContainerChangePass=true;
+							$scope.successMessageChangePass="Password Changed Successfully Successfully";
+							$('#changePassword').modal('hide');
+						
+;				}
+				else
+				{
+					$scope.errorMessageContainerChangePass = true;
+					$scope.errorMessageChangePass = responseData[0].errorMessage;
+				}
+			});
+		
+		
+		}
+		else
+		{
+				$scope.user.hasErrorCond = true;
+		}
+			
 	
 	}
 	
