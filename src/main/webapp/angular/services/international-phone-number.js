@@ -58,7 +58,7 @@
         });
         ctrl.$parsers.push(function(value) {
           if (value) {
-            ctrl.$setValidity('international-phone-number', element.intlTelInput("isValidNumber"));
+            //ctrl.$setValidity('international-phone-number', element.intlTelInput("isValidNumber"));
           } else {
             value = '';
             delete ctrl.$error['international-phone-number'];

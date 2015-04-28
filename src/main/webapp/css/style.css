@@ -238,7 +238,7 @@ nav{
 	border-radius: 10px;
 }
 
-nav ul{
+.header-shadow ul{
 	list-style: none;
 	
 	margin: 0 auto;
@@ -396,7 +396,7 @@ footer{
 }
 
 .para{
-	 margin: -9px 116px 10px 1px;
+	 margin: -14px 116px 30px 28px;
 	display: block;
     padding-left: 15px;
     text-indent: -15px;
@@ -515,12 +515,13 @@ footer{
 
 .table-heading{
 	margin-top: 150px;
-	background-image: linear-gradient(#f9f9f9, #e4e4e4);
-	border-bottom: 1px solid #c5c5c5;
-	border-right: 1px solid #c5c5c5;
-	color: #000000;
+	background-image: linear-gradient(#337ab7, #337ab7);
+	border-bottom: 1px solid #337ab7;
+	border-right: 1px solid #337ab7;
+	color: #fff;
 	margin: 0;
     padding: 0;
+	
 
 }
 
@@ -640,3 +641,26 @@ footer{
  {
     padding: 0 59px;
 }
+
+
+ .help-block {
+  display: none;
+}
+ 
+.hasError .help-block {
+  display: block;
+  margin-bottom: -5px;
+  color: #b94a48;
+ }
+ .hasError .error-control {
+	color: #b94a48;
+    border-color: #a94442;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.hasError .control-label {
+	color: #b94a48;
+    border-color: #a94442;
+     
+}
+
+

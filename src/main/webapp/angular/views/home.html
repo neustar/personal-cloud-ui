@@ -6,7 +6,7 @@
 </div>
 <div class="col-md-4">
 	<div class="login-container" style="width:100%;">
-	<form id="logindetail" method="post" name="logindetail"  novalidate>
+	
 		<div class="row">
 			<nav class="header-shadow">
 				<ul>
@@ -16,22 +16,28 @@
 				</ul>	
 			</nav>
 			<center><img src="images/new-login.png"><b>Login</b></center>
+			<form id="logindetail" method="post" name="logindetail"  novalidate>
 				<div class="col-md-12">
-				
-					<label>CloudName</label>
-					<input type="text" placeholder="Cloud Name"  ng-model="userlogin.cloudName" required />
-					<label>Password</label>
-					<input type="password" placeholder="Your secret token"  ng-model="userlogin.secretToken" required />								
-					<div style="text-align: center;color:red" ng-show="errorMessageContainer" role="alert">{{errorMessage}}</div> 
+					<div  class="form-group required"  ng-class="{hasError: userlogin.hasErrorCond}" show-errors>					
+						<label class="control-label">CloudName</label>
+						<input type="text" class="error-control" id="cloudName" name="cloudName"   placeholder="Cloud Name"  ng-model="userlogin.cloudName" required />
+						<div id="cloudNameError" style="text-align: center;color:red;" class="help-block" ng-show="logindetail.cloudName.$error.required ">Cloud name is required</div>
+					</div>
+					<div  class="form-group required"  ng-class="{hasError: userlogin.hasErrorCond}" show-errors>	
+						<label class="control-label">Password</label>
+						<input type="password" id="secretToken" name="secretToken" class="error-control"  placeholder="Your secret token"  ng-model="userlogin.secretToken" required />	
+						<div id="passwordError" style="text-align: center;color:red;" class="help-block"  ng-show="logindetail.secretToken.$error.required ">Password is required</div>	
+					</div>
+					<div  id="errorMessage" style="text-align: center;color:red" ng-show="errorMessageContainer" role="alert">{{errorMessage}}</div> 
 					
-					<input type="button" value="Login" ng-click="login('csp/+testcsp/clouds/personalClouds/'+userlogin.cloudName+'/authenticate')" class="grad" ng-disabled="!logindetail.$valid"/>
+					<input type="button" id="submitLogin" value="Login" ng-click="login('csp/+testcsp/clouds/personalClouds/'+userlogin.cloudName+'/authenticate')" class="grad"  />
 					<a href="javascript:void(0)"><h4>Forgot Password</h4></a>
 					<p>New User<span><a href="#registration_step1"> click here </a></span>for registration.
-				
-				</div>
-			
+					</div>
+				 
+			</form>
 		</div>	
-		</form>
+		
 	</div>
 </div>
 <div class="col-md-4 login-para">

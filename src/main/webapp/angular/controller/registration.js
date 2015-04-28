@@ -8,6 +8,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.error = true;
 	$scope.user= {};
 	
+	
 	// avaiable registration form container
 	$scope.cloudAvalContainer = true;
 	$scope.userDetailContainer = false;
@@ -16,7 +17,20 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	$scope.registrationcontainer = true;
 	$scope.CongratulationContainer = false;
 	$scope.paymentContainer = false;
+	$scope.paymentDetailContainer = false;
+	
+	$scope.hasErrorCond = false;
+	$scope.hasErrorVerify = false;
+	$scope.hasErrorPay = false;
+	
 	 
+	
+	
+	$scope.reset = function() {
+    $scope.$broadcast('show-errors-reset');
+    $scope.user = {userEmail:"", userMobile:"", password:"", password_c:""};
+	}
+	
 	//this function append "=" sign to cloud Name
 	$scope.appendSign = function()
 	{
@@ -33,42 +47,55 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 	
 	//function to check cloud Name is available
 	$scope.cloudCheck = function(cloudAvailUrl) {
-		blockUI.start();
+		 blockUI.start();
 		if(cloudAvailUrl){
 		cloudAvailUrl = 'clouds/personalClouds/'+cloudAvailUrl+'/available';
-			$scope.loading_contactsInfo = true;
+			 
 			commonServices.getInfo(cloudAvailUrl).then(function(responseData){	
-				blockUI.stop();
-				$scope.loading_contactsInfo = false;
-				if(responseData.message =="true"){
+			 	blockUI.stop();
+				 
+				if(responseData.message =="true"){ 
 					$scope.successMessageContainer = true;
 					$scope.errorMessageContainer = false;
 					$scope.successMessage = "This cloud name is available.";
 					$scope.error = false;
-				}else if((responseData.message =="false")){
+					 
+				}else if((responseData.message =="false")){ 
 					$scope.successMessageContainer = false;
 					$scope.errorMessageContainer = true;
 					$scope.errorMessage = "This cloud name is not available.";
 					$scope.error = true;
+				 
 				}				
-				else if(responseData.errorMessage){
+				else if(responseData.errorMessage || responseData[0].errorMessage){ 
+					
+					 
+					$scope.successMessageContainer = false;					
 					$scope.errorMessageContainer = true;
-					$scope.successMessageContainer = false;
+					if(responseData.errorMessage){
 					$scope.errorMessage = responseData.errorMessage;
-					$scope.error = true;
-				}
-				else{
+					}
+					else if(responseData[0].errorMessage){
+					$scope.errorMessage = responseData[0].errorMessage;
+					}
+					$scope.error = true;					 
+					 
+					}
+				else{ 
 					$scope.errorMessageContainer = true;
 					$scope.successMessageContainer = false;
-					$scope.errorMessage = responseData[0].errorMessage;
+					$scope.errorMessage = responseData.message;
 					$scope.error = true;
+					 
 
 				}
 			
 			});
 		}else{
-			$scope.errorMessageContainer = true;
-			$scope.errorMessage = "Error: Invalid Request";
+			blockUI.stop();
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;
+			 
 		}
 	
 	}
@@ -78,26 +105,44 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 		 
 	}
 	// function to submit cloudname 
-	$scope.submitForm = function(isValid) {
-	 
-	if(isValid){
+	$scope.submitForm = function(isValid,errorContainer) {
+	  
+	if(isValid && !errorContainer){
 			$scope.userDetailContainer = true;
 			$scope.cloudAvalContainer = false;
 			$scope.validUserContainer = false;
 			$scope.errorMessageContainer = false;
+			 
 						
 		}else{
+			$scope.errorMessage = "";
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.successMessageContainer = false;			
+			$scope.error = true; 	
+			
+			 
+			
 		}
 	}
 	
 	// function to submit user information
 	$scope.submitUserInfo = function(isValid,postUrl) {
-
+	 
+		
+	 
+	 
+		if($scope.user.password!=undefined && !($scope.user.password===$scope.user.password_c)){
+		
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Password don't match";
+			return false;
+		
+		}
+	 
 		if(isValid){
-			$scope.errorMessageContainer = false;
+		
+		
+			$scope.user.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.loading_contactsInfo = true;
 			$scope.user.userTel = "+"+$scope.user.countryCode+"."+$scope.user.userMobile; 
@@ -113,6 +158,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				confirmPassword : $scope.user.password_c,
 				identifier:$scope.user.identifier
 			};
+			 
 			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			 
 			 
@@ -124,20 +170,35 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				}
 				else
 				{
-					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
+					$scope.user.errorMessageContainer = true;
+					if(responseData.errorMessage)
+					{
+					$scope.user.errorMessage = responseData.errorMessage;
+					}
+					else if(responseData[0] != undefined)
+					{
+						$scope.user.errorMessage = responseData[0].errorMessage;
+					}
+					 
 				}
 			});
 		}else{
-			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			 
+			$scope.user.hasErrorCond = true;
+		
 		}
 	}
 	
 	$scope.validatesCodes = function(isValid,postUrl)
-	{
-			if(isValid){
+	{ 
+		if(!($scope.user.I_Agree) || $scope.user.I_Agree === "undefined"){
+			 
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please agree on rule.";
+			return false;
+		
+		}
+		if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.loading_contactsInfo = true;
@@ -156,7 +217,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			
 				if(responseData.message == "Success"){
 					$scope.pageLoaded = true;					
-					$scope.loading_contactsInfo=false;								  
+					 					  
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = true;
@@ -164,30 +225,55 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				else
 				{
 					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
+					if(responseData.errorMessage)
+					$scope.user.errorMessage = responseData.errorMessage;
+					else if(responseData[0].errorMessage)
+					$scope.user.errorMessage = responseData[0].errorMessage;
+					
+					 
 				}
 			});
 		}
 		else
 		{
-			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.errorMessageContainer = true;			 
+			$scope.user.hasErrorVerify= true;
 		}
+		
 		
 	}
 	
 	$scope.getPaymentID = function(isValid,event,serviceName)
 	{  
+		 
+		if(!($scope.user.paymentOption) || $scope.user.paymentOption === "undefined"){
+			 
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please choose payment option.";
+			return false;
+		
+		}
+		if(!($scope.user.I_Agree1) || $scope.user.I_Agree1 === "undefined"){
+			 
+			$scope.user.errorMessageContainer = true;
+			$scope.user.errorMessage = "Please agree on rule.";
+			return false;
+		
+		}	
+			
 			if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
-			$scope.loading_contactsInfo = true;
-			switch (serviceName) {
+			$scope.paymentContainer = false;
+			$scope.paymentDetailContainer = true;
+			
+			 
+			
+		/*	switch (serviceName) {
         
 			case "stripe":
 						var handler = StripeCheckout.configure({
-							key: 'pk_test_tnwB8ZjNU2o8CaKCFJXwEIMQ',
+							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
 							image: '/img/documentation/checkout/marketplace.png',
 							token: function(token) { 
 								//Updating paramters accordingly
@@ -197,10 +283,11 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 									paymentResponseCode:"OK",
 									amount:"25",
 									productName:"PCN",
-									currency:"USD"
+									currency:"USD",
+									paymentGateway: "Test"
 								};
-								var apiUrl = {postUrl : 'processPayment'};
-								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+								var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+								commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	
 								if(responseData.paymentId != null){
 										$scope.pageLoaded = true;					
 										$scope.loading_contactsInfo=false;								  
@@ -232,18 +319,51 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 				break;
 			default:
 				throw "Unknown checkout service: " + serviceName;
-    }
-			
-			
+			} 
+			*/		
 			
 		}
 		else
 		{
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.user.hasErrorPay= true;
 		}
 	
+	}
+	$scope.getPaymentInfo = function()
+	{  
+		 
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;	
+			 
+			
+			var dataObject= {
+								paymentType : "CREDIT_CARD",
+								paymentReferenceId : "xyz",
+								paymentResponseCode:"OK",
+								amount:"20",
+								productName:"PCN",
+								currency:"USD",
+								paymentGateway: "Test"
+							};
+			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+			
+			commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	
+			if(responseData.paymentId != null){
+					$scope.pageLoaded = true;
+					$scope.userDetailContainer = false;
+					$scope.validUserContainer = false;		
+					$scope.paymentContainer = false;		
+					$scope.paymentDetailContainer = true;
+					$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
+				}
+				else
+				{
+					$scope.errorMessageContainer = true;
+					$scope.errorMessage = responseData[0].errorMessage;
+				}
+			});		
+			 
 	}
 	
 	$scope.registerCloudName = function(paymentID,posturl)
@@ -281,8 +401,9 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					$scope.loading_contactsInfo=false;								  
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
-					$scope.paymentContainer = false;
+					$scope.paymentDetailContainer = false;
 					$scope.registrationcontainer = false;
+					$scope.paymentContainer = false;
 					$scope.CongratulationContainer = true;
 				}
 				else

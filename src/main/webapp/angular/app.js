@@ -31,18 +31,54 @@ app.controller('AppCtrl', function($scope) {
 			 // route for the user home page after login
             .when('/userhome', {
                 templateUrl : 'angular/views/userHome.html',
-                controller  : 'userHome'
+                controller  : 'userHome',
+				resolve:{
+                	load:function($location, $q, $cookies){
+                		var def = $q.defer();
+                		if ($cookies.guardianCloudName == undefined) {
+                			$location.path("/home");
+                		}
+                		else{
+                			def.resolve();
+                		}
+                		return def.promise;
+                	}
+                }
             })
 									
 			// route for the guardian dependent list
             .when('/guardianProxy', {
                 templateUrl : 'angular/views/dependentList.html',
-                controller  : 'userHome'
+                controller  : 'userHome',
+				resolve:{
+                	load:function($location, $q, $cookies){
+                		var def = $q.defer();
+                		if ($cookies.guardianCloudName == undefined) {
+                			$location.path("/home");
+                		}
+                		else{
+                			def.resolve();
+                		}
+                		return def.promise;
+                	}
+                }
             })
 			
 			.when('/addDependent', {
                 templateUrl : 'angular/views/manageDependent.html',
-                controller  : 'userHome'
+                controller  : 'userHome',
+				resolve:{
+                	load:function($location, $q, $cookies){
+                		var def = $q.defer();
+                		if ($cookies.guardianCloudName == undefined) {
+                			$location.path("/home");
+                		}
+                		else{
+                			def.resolve();
+                		}
+                		return def.promise;
+                	}
+                }
             })
 			
 			// route for the guardian dependent list
@@ -54,7 +90,19 @@ app.controller('AppCtrl', function($scope) {
 			// route for the additional cloud list
             .when('/additionalCloud', {
                 templateUrl : 'angular/views/additionalCloud.html',
-                controller  : 'userHome'
+                controller  : 'userHome',
+				resolve:{
+                	load:function($location, $q, $cookies){
+                		var def = $q.defer();
+                		if ($cookies.guardianCloudName == undefined) {
+                			$location.path("/home");
+                		}
+                		else{
+                			def.resolve();
+                		}
+                		return def.promise;
+                	}
+                }
             })
 			.otherwise({
 				templateUrl : 'angular/views/home.html',

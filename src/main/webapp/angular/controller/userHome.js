@@ -12,6 +12,8 @@ $scope.errorMessageContainerAddDep = false;
 $scope.successMessageContainerAddDep = false;
 $scope.successMessageContainer = false;
 $scope.successReqContainer = false;
+$scope.successMessageContainerChangePass=false;
+$scope.errorMessageContainerChangePass = false;
 $scope.userlogin = {};	 
 $scope.addDepedent={};
 $scope.guardianCloudName = "=les-cynja-parent1";
@@ -19,20 +21,27 @@ $scope.cloudName = "";
 $scope.addRecordType = "";
 $scope.uuid="";
 $scope.additionalCloud = {};
+$scope.changePassword = {};
 $scope.additionalCloudList = {};	
+$scope.user= {};	
 
 // avaiable registration form container
 $scope.dependentContainer = false;
 $scope.requestContainer = false;
 $scope.rejectedContainer = false;
 $scope.error = true;
- 
+$scope.user.hasErrorCond = false;
+$scope.addCloudFirstContainer = true;
+$scope.addCloudPayContainer = false;
+$scope.addDepCloudFirstContainer = true;
+$scope.addDepCloudPayContainer = false;
+
 $scope.userlogin.cloudName = $cookies.guardianCloudName; 
 $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 
 
 	//function is called to allow a request 
-	$scope.allowBlockUrl = function(type,urlHost,requestlist)
+	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
 	{
 
 		var dataObject= {};
@@ -58,8 +67,13 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			if(responseData.uuid)
 			{
 				$scope.successMessageContainer = true;
-				//$scope.deleteProxyRecord(accesstype,urlHost,requestlist);
+				if(requestType=="old"){
+				$scope.deleteProxyRecord(accesstype,urlHost,requestlist);				
+				}
+				else if(requestType=="new"){
 				$('#addRecordModal').modal('hide');
+				$scope.showRequestList(type,$scope.cloudName);
+				}
 			}
 			else
 			{
@@ -95,7 +109,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			if(responseData.uuid)
 			{
 				$scope.successMessageContainer = true;
-				//$scope.deleteProxyRecord(accesstype,urlHost,requestlist);
+				$scope.deleteProxyRecord(accesstype,urlHost,requestlist);
 			}
 			else
 			{
@@ -111,15 +125,21 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		if(type=="requested")
 		{
 			$scope.requestContainer = true;
+			$scope.allowedContainer = false;
+			$scope.blockedContainer = false;
 		}
 		else if(type=="allowed")
 		{
 			$scope.allowedContainer = true;
+			$scope.blockedContainer = false;
+			$scope.requestContainer = false;
 			$scope.addRecordType = type;
 		}
 		else if(type=="blocked")
 		{
 			$scope.blockedContainer = true;
+			$scope.requestContainer = false;
+			$scope.allowedContainer = false;
 			$scope.addRecordType = type;
 		}
 		$scope.dependentContainer = false;
@@ -150,6 +170,12 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		{
 			
 			$scope.dependentContainer = true;
+			$scope.blockedContainer = false;
+			$scope.requestContainer = false;
+			$scope.allowedContainer = false;
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;
+			
 			blockUI.start();
 			commonServices.getProxyInfo('proxies/dependents').then(function(result)
 			{	
@@ -219,6 +245,22 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	$scope.addRecord = function(modalName)
 	{ 
 			$('#'+modalName).modal();
+			$scope.addCloudFirstContainer = true;
+			$scope.addCloudPayContainer = false;
+			$scope.errorMessageContainerAddDep = false;
+			$scope.successMessageContainerAddDep = false;
+			$scope.addDepCloudFirstContainer = true;
+			$scope.addDepCloudPayContainer = false;
+			
+			$scope.additionalCloud.cloudName1 = "";
+			$scope.changePassword.currentPassword = "";
+			$scope.changePassword.newPassword ="";
+			$scope.changePassword.confNewPassword="";
+			$scope.addDepedent.depCloudName = "";	
+			$scope.addDepedent.depCloudpass = "";	
+			$scope.addDepedent.depCloudconfPass = "";	
+			$scope.addDepedent.datepicker = "";	
+			$scope.addDepedent.I_AgreeAddDep = "";	
 	};
 	/* //not need now //
 	$scope.addDependent = function()
@@ -315,6 +357,21 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
 	}
+	//this function append "=" sign to cloud Name
+	$scope.appendSign = function()
+	{ 
+		if($scope.additionalCloud.cloudName1 && !($scope.additionalCloud.cloudName1.charAt(0) == "="))
+		{
+			$scope.additionalCloud.cloudName1 = '='+$scope.additionalCloud.cloudName1;
+			
+		} 
+		if($scope.addDepedent.depCloudName && !($scope.addDepedent.depCloudName.charAt(0) == "="))
+		{
+			$scope.addDepedent.depCloudName = '='+$scope.addDepedent.depCloudName;
+			
+		} 
+	
+	}
 	
 	$scope.cloudCheckDep = function(cloudAvailUrl) {
 		blockUI.start();
@@ -347,7 +404,10 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 					}
 					else if(responseData[0].errorMessage){
 					$scope.errorMessageAddDep = responseData[0].errorMessage;
-					} 
+					}
+					else {
+					$scope.errorMessageAddDep = "Error : Invalid request.";
+					} 					
 					$scope.error = true;
 	 
 				}
@@ -358,67 +418,44 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	}
 	
 	
-	// function to submit additional cloud 
-	$scope.submitAdnCloud = function(isValid,event,serviceName) {
- 
-		if(isValid){
-			$scope.errorMessageContainer = false;
-			$scope.successMessageContainer = false;	
-			$scope.loading_contactsInfo = true;			
-			 
-			switch (serviceName) {
-        
-				case "stripe":
-							var handler = StripeCheckout.configure({
-								key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
-								token: function(token){ 
-									 
-									
-									var dataObject= {
+	$scope.submitPayCloud = function() {
+	
+					var dataObject= {
 									paymentType : "CREDIT_CARD",
-									paymentReferenceId : token.id,
+									paymentReferenceId : "xyz",
 									paymentResponseCode:"OK",
 									amount:"10",
 									productName:"SCN",
-									currency:"USD"
+									currency:"USD",
+									paymentGateway: "Test"
 									}; 
-									var apiUrl = {postUrl : 'processPayment'};
-									commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
-									 
-										if(responseData.message == "Success"){
-															
-											$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
-																				
-										}
-										else
-										{
-											$scope.errorMessageContainer = true;
-											$scope.errorMessage = responseData[0].errorMessage;
-										}
-									});
-				
-								}
-							});
-							
-							handler.open({
-							  name: 'Personal Cloud',
-							  description: 'Payment detail',
-							  amount: 1000
-							});
-							event.preventDefault();
-							
-							// Close Checkout on page navigation
-							$(window).on('popstate', function() {
-							handler.close();
-							});
-					break;
-				default:
-					throw "Unknown checkout service: " + serviceName;
-			}
+					var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+					commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
+					 
+						if(responseData.message == "Success"){
+											
+							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
+																
+						}
+						else
+						{
+							$scope.errorMessageContainer = true;
+							$scope.errorMessage = responseData[0].errorMessage;
+						}
+					});
+	}
+	
+	// function to submit additional cloud 
+	$scope.submitAdnCloud = function(isValid,event,serviceName) {
+	
+		if(isValid){
+			$scope.errorMessageContainer = false;
+			$scope.successMessageContainer = false;	
+			$scope.addCloudFirstContainer = false;
+			$scope.addCloudPayContainer = true;				 
 			
 		}else{
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
 			$scope.errorMessage = "Error: Invalid Request";
 			$scope.error = true;
 		}
@@ -500,72 +537,46 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	}
 	
 	
+	$scope.submitDepPayCloud = function(){
+	
+		//Updating paramters accordingly
+			var dataObject= {
+				paymentType : "CREDIT_CARD",
+				paymentReferenceId : "xyz",
+				paymentResponseCode:"OK",
+				amount:"15",
+				productName:"DCN",
+				currency:"USD"
+			};
+			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+			if(responseData.paymentId != null){
+					$scope.pageLoaded = true;					
+					$scope.loading_contactsInfo=false;								  
+					$scope.userDetailContainer = false;
+					$scope.validUserContainer = false;		
+					$scope.paymentContainer = true;
+					$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
+				}
+				else
+				{
+					$scope.errorMessageContainer = true;
+					$scope.errorMessage = responseData[0].errorMessage;
+				}
+			});
+	
+	}
 	$scope.getPaymentID = function(isValid,posturl,event,serviceName)
 	{ 
-			
-
-			if(isValid){
+		if(isValid){
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
-			$scope.loading_contactsInfo = true;
-			switch (serviceName) {
-        
-			case "stripe":
-						var handler = StripeCheckout.configure({
-							key: 'pk_test_7WeMMrZ1Slh1QzRO7Nk53mqs',
-							image: '/img/documentation/checkout/marketplace.png',
-							token: function(token) { 
-								//Updating paramters accordingly
-								var dataObject= {
-									paymentType : "CREDIT_CARD",
-									paymentReferenceId : token.id,
-									paymentResponseCode:"OK",
-									amount:"25",
-									currency:"USD"
-								};
-								var apiUrl = {postUrl : 'processPayment'};
-								commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
-								if(responseData.paymentId != null){
-										$scope.pageLoaded = true;					
-										$scope.loading_contactsInfo=false;								  
-										$scope.userDetailContainer = false;
-										$scope.validUserContainer = false;		
-										$scope.paymentContainer = true;
-										$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
-										$('#addDependent').modal('hide');
-									}
-									else
-									{
-										$scope.errorMessageContainer = true;
-										$scope.errorMessage = responseData[0].errorMessage;
-									}
-								});
-							 }
-						});
-						
-						handler.open({
-						  name: 'Personal Cloud',
-						  description: 'Payment detail',
-						  amount: 1000
-						});
-						event.preventDefault();
-						
-						// Close Checkout on page navigation
-						$(window).on('popstate', function() {
-						handler.close();
-						});
-				break;
-			default:
-				throw "Unknown checkout service: " + parms.serviceName;
-    }
-			
-			
-			
+			$scope.addDepCloudFirstContainer = false;
+			$scope.addDepCloudPayContainer = true; 
 		}
 		else
 		{
 			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
 	
@@ -608,6 +619,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 							$scope.addDependentContainer = true;
 							$scope.successMessageContainerAddDep=true;
 							$scope.successMessageAddDep="Dependent Added Successfully";
+							$('#addDependent').modal('hide');
 ;				}
 				else
 				{
@@ -622,6 +634,54 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.loading_contactsInfo = false;
 			$scope.errorMessage = "Error: Invalid Request";
 		}
+	
+	}
+	
+	$scope.changePassword = function(isvalid,apiUrl)
+	{
+		if(isvalid)
+		{	
+			if($scope.changePassword.newPassword!=undefined && !($scope.changePassword.newPassword===$scope.changePassword.confNewPassword))
+			{
+		
+			$scope.errorMessageContainerChangePass = true;
+			$scope.errorMessageChangePass = "New Password and Confirm Password doesn't match";
+			return false;
+		
+			}
+		
+			var dataObject = {
+								currentPassword:$scope.changePassword.currentPassword,
+								password:$scope.changePassword.newPassword,
+								confirmPassword:$scope.changePassword.confNewPassword
+			
+			
+								};
+								
+			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
+			
+				if(responseData.message == "Success")
+				{
+							$scope.addDependentContainer = true;
+							$scope.successMessageContainerChangePass=true;
+							$scope.successMessageChangePass="Password Changed Successfully Successfully";
+							$('#changePassword').modal('hide');
+						
+;				}
+				else
+				{
+					$scope.errorMessageContainerChangePass = true;
+					$scope.errorMessageChangePass = responseData[0].errorMessage;
+				}
+			});
+		
+		
+		}
+		else
+		{
+				$scope.user.hasErrorCond = true;
+		}
+			
 	
 	}
 	

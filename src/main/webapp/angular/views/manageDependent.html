@@ -5,12 +5,22 @@
 	<div class="container"  >  
 
 		
-		<div class="row" id="add_dependent" ng-show="addDependentContainer">		         
-					<input ng-click="addRecord('addDependent')" class="graybutton3" type="button" name="action" id="'action_'+$index" value="Add"  >	 
-						<table class="table table-bordered" style="margin-top:100px">
+		<div class="row" id="add_dependent" ng-show="addDependentContainer">
+			
+			<table   style="margin-top:100px;max-width: 100%;width: 100%;">
+				<tr>
+					<td><a href="#userhome" class="btn btn-primary " style="margin-bottom: 10px;">Back</a>&nbsp;&nbsp;					
+					<input style="margin-bottom: 10px;" ng-click="addRecord('addDependent')" class="btn btn-primary"   name="action" id="'action_'+$index" value="Add dependent"  >
+					</td>
+					
+				</tr>
+				<tr>
+					<td>
+						 
+						<table class="table table-bordered"  >
 						<thead>
-							<tr class="table-heading" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainerAddDep" style="color:red;" role="alert">{{errorMessageAddDep}}</span>
-					<span ng-show="successMessageContainerAddDep" style="color:Green;" role="alert">{{successMessageAddDep}}</span></th></tr>
+							<!--tr class="table-heading" ng-show="errorMessageContainerAddDep || successMessageContainerAddDep" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainerAddDep" style="color:red;" role="alert">{{errorMessageAddDep}}</span>
+					<span ng-show="successMessageContainerAddDep" style="color:Green;" role="alert">{{successMessageAddDep}}</span></th></tr-->
 							<tr class="table-heading">
 								<th>Dependent</th>
 								<th>Date Created</th>
@@ -20,10 +30,24 @@
 						<tbody>
 							 <tr class="color0">
 								<td>
-									<span >=testDepdendent</span>
+									<span >=testDepdendent1</span>
 									
 								</td>
-								<td><span >10/12/15</span></td>
+								<td><span >03/01/15</span></td>
+							 </tr>
+							 <tr class="color1">
+								<td>
+									<span >=testDepdendent2</span>
+									
+								</td>
+								<td><span >03/02/15</span></td>
+							 </tr>
+							 <tr class="color0">
+								<td>
+									<span >=testDepdendent3</span>
+									
+								</td>
+								<td><span >04/02/15</span></td>
 							 </tr>
 							<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
@@ -34,8 +58,12 @@
 								<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
 								<td><input class="graybuttonSmall" type="button" name="Allow" value="Allow" ng-click="allowBlockUrl('allowed',requestList.url,requestList)" ></td>
 							</tr>
+							<tr  ng-if="requestList.totalrow === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
 						</tbody>
 					</table>
+				</td>
+				</tr>
+			</table>
 		</div>	
 		
 		
@@ -46,11 +74,14 @@
 					<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title"><span>Add Dependent Cloud Name</span></h4>
 				  </div>
-					<div class="modal-body">
+				<div class="modal-body">
+					<div id="addDepCloudFirst" ng-show="addDepCloudFirstContainer">
 						<form id="addDependentForm" method="post" name="addDependentForm"  novalidate>	
+							<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
+							<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
 							<div class="form-group">
 								<label  >Dependent Cloud Name:</label>
-								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-blur="cloudCheckDep(addDepedent.depCloudName)" required/>
+								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-change="appendSign()" ng-blur="cloudCheckDep(addDepedent.depCloudName)" required/>
 								<div style="text-align: center;color:red;" ng-show="addDependentForm.depCloudName.$dirty && addDependentForm.depCloudName.$invalid">
 								<span ng-show="addDependentForm.depCloudName.$error.required">Dependent Cloud Name is required.</span>
 								</div>
@@ -79,7 +110,39 @@
 							</div>
 						</form>
 					</div>
+					
+					<div id="addDepCloudPay" ng-show="addDepCloudPayContainer">
+						<form id="depPaymentDetailForm" method="post" name="depPaymentDetailForm"  novalidate>
+						 
+									<div class="row">
+										<h4>Enter Payment Detail</h4>
+									</div>									 
+									
+									<div class="form-group" >
+										<input type="text" class="modalInput"   id="emailpayment" name="emailpayment" placeholder="email"  style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									 
+									<div  class="form-group" >
+										<input type="tel" class="modalInput"  id="cardNumber" name="cardNumber" placeholder="card number"   style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									<div  class="form-group" >
+										<input type="text"  class="modalInput"  id="cardExpDate" name="cardExpDate" placeholder="expiry date"    style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									<div  class="form-group" >
+										<input type="text" class="modalInput"   id="cardCVC" name="cardCVC" placeholder="cvc number"  style=" border: 1px solid #DCDCDC;" readonly />
+										 
+									</div>
+									<div class="form-group">
+									<input type="button" value="Pay $10" ng-click="submitDepPayCloud()" class="modalInput"  style=" vertical-align: middle;"/>	
+									</div>									
+									 
+								</form>
+						</div>
 				   
+				   </div>
 				</div>
 			</div>
 		</div>

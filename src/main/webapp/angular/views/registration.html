@@ -15,20 +15,21 @@
 							</nav>
 				<div class="row" id="cloudAvaliable" ng-show="cloudAvalContainer">					 
 					<form id="cloudAvailForm" method="post" name="cloudAvailForm"  novalidate>			
-						<h3>Choose Your Cloud Name:</h3>
+						
 							<div class="col-md-12">
-								<div class="form-group" >
-									<input id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
-									<div style="text-align: center;color:red;" ng-show="cloudAvailForm.cloudName.$dirty && cloudAvailForm.cloudName.$invalid">
-									<div ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
-									</div>
-									<div style="text-align: center;color:red" ng-show="errorMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{errorMessage}}</div>
-									<div style="text-align: center;color:green" ng-show="successMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{successMessage}}</div>	
+								<div  class="form-group" ng-class="{'hasError':errorMessageContainer}" show-errors>
+									<h3 class="control-label" >Choose Your Cloud Name:</h3>
+									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
+									 
+									<div  id="cloudAvailError" style="text-align: center;color:red" class="help-block" ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
+								 
+									<div id="cloudNotAvail" style="text-align: center;color:red" ng-if="errorMessageContainer" role="alert">{{errorMessage}}</div>
+									<div id="cloudAvailSuccess" style="text-align: center;color:green" ng-if="successMessageContainer" role="alert">{{successMessage}}</div>	
 								</div>
 								<div style="text-align:center;" for="example_name">e.g: =jane,=john</div>
 								<div class="form-group">
 								<!--input id="chkCldStatus" type="submit" value="Submit" ng-click='submitForm(cloudAvailForm.$valid)' class="btn" ng-disabled="error" /-->
-								<input id="chkCldStatus" type="submit" value="Submit" ng-click='submitForm(cloudAvailForm.$valid)' class="btn" ng-disabled="error"  />
+								<input id="chkCldStatus" type="submit" value="Submit" ng-click='submitForm(cloudAvailForm.$valid,errorMessageContainer)' class="btn"  />
 								
 								</div>
 							</div>
@@ -36,34 +37,39 @@
 				</div>	
 				<div class="row" id="cloudUserDetail" ng-show="userDetailContainer">
 				
-							<form id="userDetailForm" method="post" name="userDetailForm" ng-submit="submitUserInfo(userDetailForm.$valid,'codes/generate')" novalidate >			
+							<form id="userDetailForm" method="post" name="userDetailForm"   novalidate >			
 							<h1 >Registration Details</h1>
 								<div class="col-md-12">
-									<div class="row" class="form-group required">
-										<input type="email" class="userEmail" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required/>
-									   <span style="color:red;" ng-show="userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$dirty">required</span>
-									   <span style="color:red;" ng-show="!userDetailForm.userEmail.$error.required && userDetailForm.userEmail.$error.userEmail && userDetailForm.userEmail.$dirty">invalid email</span>
-									</div>
-									<div class="row" class="form-group">
-										<input type="text" id="countryCode"  name="countryCode"  placeholder="+1" value="" international-phone-number ng-model="user.countryCode" required /> <input class="userTelephone"  id="userMobile"  name="userMobile"  placeholder="" value=""  ng-model="user.userMobile" ng-minlength="10" ng-maxlength="10" ng-pattern="/^(0|[1-9][0-9]*)$/"  required />
-										<span class="userMobSpan" style="color:red;" ng-show="!userDetailForm.userMobile.$error.required && userDetailForm.userMobile.$dirty && (userDetailForm.userMobile.$error.minlength || userDetailForm.userMobile.$error.maxlength)">Phone Number Must be Contain 10 digits</span>
-									</div>
-									<div class="row" class="form-group">
-										<input type="password" id="password"  name="password"  placeholder="Password" ng-model="user.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required  />
-										<span style="color:red;" ng-show="userDetailForm.password.$error.required && userDetailForm.password.$dirty">required</span>
-										<span style="color:red;" ng-show="!userDetailForm.password.$error.required && (userDetailForm.password.$error.minlength || userDetailForm.password.$error.maxlength) && userDetailForm.password.$dirty">Passwords must be between 8 and 20 characters.</span>
-										<span style="color:red;" ng-show="!userDetailForm.password.$error.required && !userDetailForm.password.$error.minlength && !userDetailForm.password.$error.maxlength && userDetailForm.password.$error.pattern && userDetailForm.password.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
-									</div>
-									<div class="row" class="form-group">
-										<input type="password" id="password_c"  name="password_c"  ng-model="user.password_c" placeholder="Confirm Password"  required="true" />
-										<span ng-show="userDetailForm.password_c.$error.required && userDetailForm.password_c.$dirty">Please confirm your password.</span>
-										<span ng-show="!userDetailForm.password_c.$error.required && userDetailForm.password_c.$error.noMatch && userDetailForm.password.$dirty">Passwords do not match.</span>
-									</div>
+									<div id="errorMessageContainer" style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
 									
-									<div style="text-align: center;color:red" ng-show="errorMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{errorMessage}}</div>
+									<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>
+										<input type="email" class="error-control" id="userEmail" name="userEmail" placeholder="Email Address" ng-model="user.userEmail" required/>
+									   <div id="userEmailError_1" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.userEmail.$error.required">Email is required</div>
+										<div id="userEmailError_2" style="text-align: center;color:red"   ng-if="userDetailForm.userEmail.$error.email">Given email address is invalid</div>
+									</div>
+									<div  class="form-group required" ng-class="{'hasError': user.hasErrorCond}" show-errors>
+										<input type="text" id="countryCode"  name="countryCode"   value="" international-phone-number ng-model="user.countryCode" required/> <input class="userTelephone error-control"  id="userMobile"  name="userMobile"  placeholder="" value=""  ng-model="user.userMobile" ng-minlength="10" ng-maxlength="10" ng-pattern="/^(0|[1-9][0-9]*)$/"  required />
+										<div id="userMobileError_1" style="text-align: center;color:red" class="userMobSpan help-block" ng-if="!userDetailForm.userMobile.$error.required && (userDetailForm.userMobile.$error.minlength || userDetailForm.userMobile.$error.maxlength)">Phone number must contain 10 digits</div>
+										<div id="countryCodeError" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.countryCodeError.$error.required">Country Code is required</div>
+										<div id="userMobileError_2" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.userMobile.$error.required">Phone number is required</div>
+									</div>
+									<div  class="form-group required" ng-class="{'hasError': user.hasErrorCond}" showErrors>
+										<input class="error-control" type="password" id="password"  name="password"  placeholder="Password" ng-model="user.password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required  />
+										<div id="passwordError_1" style="text-align: center;color:red" class="help-block" ng-if="userDetailForm.password.$error.required">Password is required</div>
+										<div id="passwordError_2" style="text-align: center;color:red"   ng-if="!userDetailForm.password.$error.required && (userDetailForm.password.$error.minlength || userDetailForm.password.$error.maxlength)">Passwords must be between 8 and 20 characters.</div>
+										<div id="passwordError_3" style="text-align: center;color:red"   ng-if="!userDetailForm.password.$error.required && !userDetailForm.password.$error.minlength && !userDetailForm.password.$error.maxlength && userDetailForm.password.$error.pattern ">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</div>
+										
+									</div>
+									<div  class="form-group required" ng-class="{'hasError': user.hasErrorCond}"  showErrors>
+										<input class="error-control" type="password" id="password_c"  name="password_c"  ng-model="user.password_c" placeholder="Confirm Password"  required="true"  />
+										<div id="passwordConfError_1" style="text-align: center;color:red"class="help-block" ng-if="userDetailForm.password_c.$error.required">Confirm password is required.</div>
+										<!--div style="text-align: center;color:red" class="help-block"  ng-if="(user.password_c != '') && (user.password != user.password_c) ">Passwords do not match.</-->
+									</div>									
 									
-									<div class="row" class="form-group">
-									<input  type="submit" value="Submit" class="btn"  ng-disabled="!userDetailForm.$valid"/>
+									
+									<div class="form-group">
+									<input  id="userDetailSubmit" type="submit" value="Submit" class="btn"  ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')"/>
+									<input  id="userDetailResetuse" type="submit" value="Reset" class="btn" ng-click="reset()"> 
 									</div>
 								</div>
 							</form>
@@ -75,27 +81,30 @@
 									<div class="row">
 										<h4>Enter Verification Code sent to your email and Mobile</h4>
 									</div>
-									<div class="row" class="form-group">
-										<input type="text" id="emailCode" name="emailCode" placeholder="email code"  ng-model="user.emailCode" required/>
-										<span style="color:red;" ng-show="validateUserForm.emailCode.$error.required && validateUserForm.emailCode.$dirty">required</span>
+									<div style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
+									
+									<div class="form-group" ng-class="{hasError: user.hasErrorVerify}" show-errors>
+										<input type="text" class="error-control" id="emailCode" name="emailCode" placeholder="email code"  ng-model="user.emailCode" required/>
+										<div style="text-align: center;color:red;" class="help-block" ng-show="validateUserForm.emailCode.$error.required ">required</div>
 									</div>	
 									<div class="row">
 										<center><label>Sent to: {{user.userEmail}}</label></center>
 									</div>	
-									<div class="row" class="form-group">
-										<input type="phoneCode" id="phoneCode" name="phoneCode" placeholder="phone code"  ng-model="user.phoneCode" required>
-										<span style="color:red;" ng-show="validateUserForm.phoneCode.$error.required && validateUserForm.phoneCode.$dirty">required</span>
+									<div  class="form-group" ng-class="{hasError: user.hasErrorVerify}" show-errors>
+										<input type="phoneCode" class="error-control"  id="phoneCode" name="phoneCode" placeholder="phone code"  ng-model="user.phoneCode" required>
+										<div style="text-align: center;color:red;" class="help-block" ng-show="validateUserForm.phoneCode.$error.required ">required</div>
 									</div>
 									<div class="row">
 										<center><label>Sent to: {{user.userTel}}</label></center>
 									</div>
-									<div style="text-align: center;color:red" ng-show="errorMessageContainer && cloudAvailForm.cloudName.$valid" role="alert">{{errorMessage}}</div> 
+									 
 										<div class="checkbox">									
 										<input type="checkbox" id="I_Agree" name="I_Agree" ng-model="user.I_Agree" value="CSP" required></div><div class="checkbox-one"><p>I agree to CSP trust framework and one person one account rule</p></div>
 									
-									
-									<input id="verifyCodes" type="button" value="Verify" ng-click="validatesCodes(validateUserForm.$valid,'codes/validate')" class="grad pull-left checkbox-three" ng-disabled="!validateUserForm.$valid || !(user.I_Agree)"/>
-									<input type="button" value="Send New Codes" ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')" class="grad pull-right checkbox-three"/>											
+									<div class="form-group">
+										<input id="verifyCodes" type="button" value="Verify" ng-click="validatesCodes(validateUserForm.$valid,'codes/validate')" class="grad pull-left checkbox-three"  "/>
+										<input id="sendNewCodes" type="button" value="Send New Codes" ng-click="submitUserInfo(userDetailForm.$valid,'codes/generate')" class="grad pull-right checkbox-three"/>	
+									</div>									
 									</div>
 								</div>
 								</form>
@@ -106,21 +115,61 @@
 						<div class="paymentName-container">
 							<div class="row">
 								<h3>Select Your Payment method</h3>
-									<input type="radio" name="paymentOption" value="Gift Code" disabled='disabled'> <input type="text" placeholder="Gift Code Coming Soon" required="true" readonly/><br>
-									<input type="radio" name="paymentOption" value="Credit Card">Credit Card<br>
-									<center><b>Life Hosting + Lifetime Connection</b></center><br>
-									<center><b>=$25</b></center><br>
-									<div class="checkbox-four">									
-									<input type="checkbox" id="I_Agree1" name="I_Agree1" value="CSP" ng-model="I_Agree1" required>
+								<div style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
 									
+									<div class="form-group" ng-class="{hasError: user.hasErrorPay}" show-errors>
+										<input type="radio" name="paymentOption"  value="Gift Code" disabled='disabled'> <input type="text" placeholder="Gift Code Coming Soon" required="true" readonly/><br>
+										<input type="radio" name="paymentOption" id="paymentOption" ng-model="user.paymentOption" value="Credit Card">Credit Card<br>
+										<center><b>Life Hosting + Lifetime Connection</b></center><br>
+										<center><b>=$25</b></center><br>
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentModeForm.paymentOption.$error.required ">required</div>
 									</div>
-									<div class="checkbox-one"><p class="para">I agree to CSP terms of service</p></div>
-									<span style="color:red;" ng-show="paymentModeForm.I_Agree1.$error.required && paymentModeForm.I_Agree1.$dirty">required</span>
-									<center><input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,$event,'stripe')" class="grad" ng-disabled="!(I_Agree1)" /></center>
+									<div class="checkbox-four form-group" ng-class="{hasError: user.hasErrorPay}" show-errors>									
+										<input type="checkbox" id="I_Agree1" name="I_Agree1" value="CSP" ng-model="user.I_Agree1" required>
+																		
+										<div class="checkbox-one"><p class="para">I agree to CSP terms of service</p></div>
+										<div style="text-align: center;color:red;" class="help-block"ng-show="paymentModeForm.I_Agree1.$error.required">required</div>
+									</div>
+									
+									<div class="form-group">
+									<input type="button" value="Submit" ng-click="getPaymentID(paymentModeForm.$valid,$event,'stripe')" class="grad"  style=" margin: 35px; vertical-align: middle;"/></div>
 							</div>	
 						</div>
 					</div>
 				</form>
+				</div>
+				<div class="row" id="paymentDetail" ng-show="paymentDetailContainer">
+							<form id="paymentDetailForm" method="post" name="paymentDetailForm"  novalidate>
+							<div class="verify">
+								    <div class="col-md-12">	
+									<div class="row">
+										<h4>Enter Payment Detail</h4>
+									</div>
+									<div style="text-align: center;color:red" ng-show="user.errorMessageContainer" role="alert">{{user.errorMessage}}</div>
+									
+									<div class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="text" class="error-control" id="emailpayment" name="emailpayment" placeholder="email"  ng-model="user.emailpayment" style=" border: 1px solid #DCDCDC;"readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.emailpayment.$error.required ">required</div>
+									</div>
+									 
+									<div  class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="tel" class="error-control"  id="cardNumber" name="cardNumber" placeholder="card number"  ng-model="user.cardNumber"style=" border: 1px solid #DCDCDC;" readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.cardNumber.$error.required ">required</div>
+									</div>
+									<div  class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="text" class="error-control"  id="cardExpDate" name="cardExpDate" placeholder="expiry date"  ng-model="user.cardExpDate" style=" border: 1px solid #DCDCDC;" readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.cardExpDate.$error.required ">required</div>
+									</div>
+									<div  class="form-group" ng-class="{hasError: user.hasErrorPayDetail}" show-errors>
+										<input type="text" class="error-control"  id="cardCVC" name="cardCVC" placeholder="cvc number"  ng-model="user.cardCVC" style=" border: 1px solid #DCDCDC;" readonly />
+										<div style="text-align: center;color:red;" class="help-block" ng-show="paymentDetailForm.cardCVC.$error.required ">required</div>
+									</div>
+									<div class="form-group">
+									<input type="button" value="Pay $20" ng-click="getPaymentInfo()" class="grad"  style=" vertical-align: middle;"/>	
+									</div>									
+									</div>
+								</div>
+								</form>
 				</div>
 			</div>	
 		</div>
