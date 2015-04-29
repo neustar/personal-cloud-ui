@@ -39,6 +39,9 @@ $scope.addDepCloudPayContainer = false;
 $scope.userlogin.cloudName = $cookies.guardianCloudName; 
 $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 
+$scope.requestActive = true;
+$scope.blockedActive = false;
+$scope.allowedActive = false;
 
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
@@ -117,7 +120,32 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			}
 		});
 	}
-
+	
+	$scope.enableTab = function(type,cloudName)
+	{
+		$scope.user.selectedCloudName =  cloudName;
+		$scope.errorMessageContainer = false;
+		$scope.successMessageContainer = false;
+		if(type=='requestActive'){
+			$scope.blockedActive = false;
+			$scope.allowedActive = false;
+			$scope.requestActive = true;
+			
+			$scope.showRequestList("requested",cloudName);
+		}else if(type=='blockedActive'){
+			$scope.requestActive = false;
+			$scope.allowedActive = false;
+			$scope.blockedActive = true;
+			
+			$scope.showRequestList("blocked",cloudName);
+		} else if(type=='allowedActive'){
+			$scope.blockedActive = false;
+			$scope.requestActive = false;
+			$scope.allowedActive = true;
+			$scope.showRequestList("allowed",cloudName);
+		}
+			 
+	}
 
 	//function is called to load request list of dependents
 	$scope.showRequestList = function(type,cloudName)
@@ -125,21 +153,22 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		if(type=="requested")
 		{
 			$scope.requestContainer = true;
-			$scope.allowedContainer = false;
-			$scope.blockedContainer = false;
+			// $scope.allowedContainer = false;
+			// $scope.blockedContainer = false;
+			
 		}
 		else if(type=="allowed")
 		{
-			$scope.allowedContainer = true;
-			$scope.blockedContainer = false;
-			$scope.requestContainer = false;
+			// $scope.allowedContainer = true;
+			// $scope.blockedContainer = false;
+			// $scope.requestContainer = false;
 			$scope.addRecordType = type;
 		}
 		else if(type=="blocked")
 		{
-			$scope.blockedContainer = true;
-			$scope.requestContainer = false;
-			$scope.allowedContainer = false;
+			// $scope.blockedContainer = true;
+			// $scope.requestContainer = false;
+			// $scope.allowedContainer = false;
 			$scope.addRecordType = type;
 		}
 		$scope.dependentContainer = false;
@@ -519,7 +548,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			
 			
 			blockUI.start();
-			commonServices.getProxyInfo('/v1/csp/+testscp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
+			commonServices.getInfo('csp/+testscp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
 			{	
 				if(!result.error)
 				{  

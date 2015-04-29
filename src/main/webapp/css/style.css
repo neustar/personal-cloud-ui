@@ -662,5 +662,24 @@ footer{
     border-color: #a94442;
      
 }
+.nav-pills li{
+	background-color :#f8f8ff;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 0em;
+	border-bottom-right-radius: 0em;
+}
 
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    background-color: #337ab7;    
+    border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    color: #fff;
+}
+.nav-pills li a{
+	font-weight: bold;
+	color : #9d9d9d;
+}
 
