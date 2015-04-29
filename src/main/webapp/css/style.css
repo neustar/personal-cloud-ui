@@ -429,9 +429,17 @@ footer{
 }
 
 #para1 {
-		font-size:214%;
-	 margin: -9px 116px 10px 1px;
-	 padding:200px;
+		font-size:180%;
+	
+	 padding:190px 135px 0px 150px;
+	 text-align:justify;
+}
+
+#para2 {
+		font-size:180%;
+	
+	 padding:0px 0px 0px 0px;
+	 text-align:center;
 }
 
 #I_Agree1
@@ -681,5 +689,75 @@ footer{
 .nav-pills li a{
 	font-weight: bold;
 	color : #9d9d9d;
+}
+
+.bodyContainer {
+    max-height: 300px;
+}
+.bodyContainer table {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+}
+.bodyContainer table thead {
+    /* head takes the height it requires, 
+    and it's not scaled when table is resized */
+    flex: 0 0 auto;
+    width: calc(100% - 0.9em);
+}
+.bodyContainer table tbody {
+    /* body takes all the remaining available space */
+	max-height: 300px;
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+}
+.bodyContainer table tbody tr {
+    width: 100%;
+}
+.bodyContainer table tbody td {
+    width: cal(100% / 3);
+}
+
+.bodyContainer table thead th {
+     width: cal(100% / 3);
+}
+
+
+
+.container-height-100{
+	height: 100%;
+}
+.border-white{
+	border:1px solid #eee;
+}
+ .bg-success{
+	background: #337AB7;
+ }
+.text-white{
+	color : white;
+}
+.text-black{
+	color : #000;
+}
+
+
+.table-height{
+	height : 38px;
+}
+ .y-scroll{
+	overflow-y:auto;
+	max-height	: 300px;
+ }
+.no-margin{
+	margin : 0px;
+}
+.no-padding{
+	padding : 0px;
+}
+
+.head-padding{
+		padding: 8px 11px;
 }
 

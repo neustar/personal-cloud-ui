@@ -4,6 +4,7 @@ angular.module('myApp').controller("userHome", function ($scope,ModalService,$co
 $scope.dependentData = {};
 $scope.requestData = {};
 $scope.dpName = "";
+$scope.actCloudName="";
 $scope.dependentDetail = {};
 $scope.errorMessageContainer = false;
 $scope.errorMessageContaineruserModal = false;
@@ -42,6 +43,12 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 $scope.requestActive = true;
 $scope.blockedActive = false;
 $scope.allowedActive = false;
+
+
+$scope.activityContainer = false;
+$scope.numberRequested = {};
+$scope.numberBlocked = {};
+$scope.numberAllowed = {};
 
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
@@ -713,6 +720,36 @@ $scope.allowedActive = false;
 			
 	
 	}
+	
+	$scope.activityMonitor = function(dependentList)
+	{
+			
+			var index= $scope.dependentData.indexOf(dependentList);
+			$scope.actCloudName = $scope.dependentData[index].cloud_name;
+			$scope.numberRequested = $scope.dependentData[index].number_of_requests;
+			$scope.numberBlocked = $scope.dependentData[index].number_of_requests_blocked;
+			$scope.numberAllowed = $scope.dependentData[index].number_of_requests_allowed;
+			
+			var apiURl = "/proxies/dependents/"+$scope.actCloudName+"/access/log";
+			$scope.blockedContainer = false;
+			$scope.requestContainer = false;
+			$scope.allowedContainer = false;
+			$scope.dependentContainer = false;
+			$scope.activityContainer = true;
+			
+			commonServices.getProxyInfo(apiURl).then(function(result)
+			{	
+				if(result)
+				{  
+					$scope.dependentlog = result ;
+				}
+				else
+				{
+					$scope.error = false;
+				}
+				blockUI.stop();
+			});
+	};
 	
 	
 	$scope.initiateList();
