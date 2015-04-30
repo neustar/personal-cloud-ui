@@ -465,7 +465,7 @@ $scope.numberAllowed = {};
 									currency:"USD"
 									};
 					var apiUrl = {postUrl : 'products/SCN/payments'};
-					commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	 
+					commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
 					 
 						if(responseData.message == "Success"){
 											
