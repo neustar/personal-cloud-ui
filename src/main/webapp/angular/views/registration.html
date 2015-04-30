@@ -19,7 +19,7 @@
 							<div class="col-md-12">
 								<div  class="form-group" ng-class="{'hasError':errorMessageContainer}" show-errors>
 									<h3 class="control-label" >Choose Your Cloud Name:</h3>
-									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
+									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()" ng-blur="cloudCheck(user.cloudName)" required/>
 									 
 									<div  id="cloudAvailError" style="text-align: center;color:red" class="help-block" ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 								 

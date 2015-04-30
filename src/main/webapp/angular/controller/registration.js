@@ -41,7 +41,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			
 		}
 		
-		$scope.cloudCheck($scope.user.cloudName);
+		
 	
 	}
 	
