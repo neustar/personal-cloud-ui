@@ -469,9 +469,9 @@ $scope.numberAllowed = {};
 					var apiUrl = {postUrl : 'products/SCN/payments'};
 					commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
 					 
-						if(responseData.message == "Success"){
+						if(responseData.paymentId != null){
 											
-							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
+							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testcsp/synonyms");
 																
 						}
 						else
