@@ -209,6 +209,7 @@ $scope.numberAllowed = {};
 			$scope.blockedContainer = false;
 			$scope.requestContainer = false;
 			$scope.allowedContainer = false;
+			$scope.activityContainer = false;
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;
 			
