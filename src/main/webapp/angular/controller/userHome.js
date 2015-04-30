@@ -673,7 +673,7 @@ $scope.numberAllowed = {};
 	
 	}
 	
-	$scope.changePassword = function(isvalid,apiUrl)
+	$scope.changePassword = function(isvalid,apiurl)
 	{
 		if(isvalid)
 		{	
@@ -693,6 +693,7 @@ $scope.numberAllowed = {};
 			
 			
 								};
+								var apiUrl = {postUrl : apiurl};
 								
 			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			
