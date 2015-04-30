@@ -206,10 +206,10 @@ $scope.numberAllowed = {};
 		{
 			
 			$scope.dependentContainer = true;
+			$scope.activityContainer = false;
 			$scope.blockedContainer = false;
 			$scope.requestContainer = false;
 			$scope.allowedContainer = false;
-			$scope.activityContainer = false;
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;
 			
@@ -459,15 +459,13 @@ $scope.numberAllowed = {};
 	
 					var dataObject= {
 									paymentType : "CREDIT_CARD",
-									paymentReferenceId : "xyz",
+									paymentReferenceId : "abcde0123456789",
 									paymentResponseCode:"OK",
 									amount:"10",
-									productName:"SCN",
-									currency:"USD",
-									paymentGateway: "Test"
-									}; 
-					var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
-					commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
+									currency:"USD"
+									};
+					var apiUrl = {postUrl : 'products/SCN/payments'};
+					commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	 
 					 
 						if(responseData.message == "Success"){
 											
@@ -579,13 +577,12 @@ $scope.numberAllowed = {};
 		//Updating paramters accordingly
 			var dataObject= {
 				paymentType : "CREDIT_CARD",
-				paymentReferenceId : "xyz",
+				paymentReferenceId : "abcde0123456789",
 				paymentResponseCode:"OK",
 				amount:"15",
-				productName:"DCN",
 				currency:"USD"
 			};
-			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+			var apiUrl = {postUrl : 'products/DCN/payments'};
 			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			if(responseData.paymentId != null){
 					$scope.pageLoaded = true;					
