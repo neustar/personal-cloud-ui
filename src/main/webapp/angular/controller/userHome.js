@@ -516,7 +516,7 @@ $scope.numberAllowed = {};
 			//Updating paramters accordingly
 			var dataObject= {
 				paymentId : paymentID,
-				personalCloudPassword : "test@123",
+				personalCloudPassword :$scope.userlogin.guardianPassword,
 				rnpolicyConsent : true,
 				csppolicyConsent : true,
 				synonymCloudNames: additionalCloudArray
