@@ -749,6 +749,13 @@ $scope.numberAllowed = {};
 			});
 	};
 	
+	$scope.logout = function()
+	{
+			delete $cookies['guardianCloudName'];
+			delete $cookies['guardianPassword'];
+			$location.path('home');
+	
+	}
 	
 	$scope.initiateList();
 	$scope.additionalCldList();
