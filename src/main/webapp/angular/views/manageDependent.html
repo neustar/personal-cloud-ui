@@ -19,8 +19,8 @@
 						 
 						<table class="table table-bordered"  >
 						<thead>
-							<!--tr class="table-heading" ng-show="errorMessageContainerAddDep || successMessageContainerAddDep" align="center"><th colspan="3" align="center"><span ng-show="errorMessageContainerAddDep" style="color:red;" role="alert">{{errorMessageAddDep}}</span>
-					<span ng-show="successMessageContainerAddDep" style="color:Green;" role="alert">{{successMessageAddDep}}</span></th></tr-->
+							<tr class="table-heading" ng-show="successMessageContainerAddDep"  align="center"><th colspan="3" align="center" style="text-align:center;">
+					<span  style="color:white;font-weight:bold;" role="alert">{{successMessageAddDep}}</span></th></tr>
 							<tr class="table-heading">
 								<th>Dependent</th>
 								<th>Date Created</th>
@@ -78,7 +78,7 @@
 					<div id="addDepCloudFirst" ng-show="addDepCloudFirstContainer">
 						<form id="addDependentForm" method="post" name="addDependentForm"  novalidate>	
 							<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
-							<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
+							
 							<div class="form-group">
 								<label  >Dependent Cloud Name:</label>
 								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-change="appendSign()" ng-blur="cloudCheckDep(addDepedent.depCloudName)" required/>
@@ -117,7 +117,7 @@
 									<div class="row">
 										<h4>Enter Payment Detail</h4>
 									</div>									 
-									
+									<div ng-show="errorPaymentContainer" class="alert alert-danger" role="alert">{{errorPaymentMessage}}</div>
 									<div class="form-group" >
 										<input type="text" class="modalInput"   id="emailpayment" name="emailpayment" placeholder="email"  style=" border: 1px solid #DCDCDC;" readonly />
 										 

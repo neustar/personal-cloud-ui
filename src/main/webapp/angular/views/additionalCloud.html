@@ -86,7 +86,7 @@
 								</div>								 
 								<div class="form-group">
 							 
-									<input id="chkaddCldStatus" type="button" value="Pay $10" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
+									<input id="chkaddCldStatus" type="button" value="Submit" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
 								
 								</div>
 							</form>
@@ -98,7 +98,7 @@
 									<div class="row">
 										<h4>Enter Payment Detail</h4>
 									</div>									 
-									
+									<div ng-show="errorPaymentContainer" class="alert alert-danger" role="alert">{{errorPaymentMessage}}</div>
 									<div class="form-group" >
 										<input type="text" class="modalInput"   id="emailpayment" name="emailpayment" placeholder="email"  style=" border: 1px solid #DCDCDC;" readonly />
 										 

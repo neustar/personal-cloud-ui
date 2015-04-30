@@ -25,6 +25,7 @@ $scope.additionalCloud = {};
 $scope.changePassword = {};
 $scope.additionalCloudList = {};	
 $scope.user= {};	
+$scope.errorPaymentContainer = false;
 
 // avaiable registration form container
 $scope.dependentContainer = false;
@@ -288,6 +289,7 @@ $scope.numberAllowed = {};
 			$scope.successMessageContainerAddDep = false;
 			$scope.addDepCloudFirstContainer = true;
 			$scope.addDepCloudPayContainer = false;
+			$scope.errorPaymentContainer = false;
 			
 			$scope.additionalCloud.cloudName1 = "";
 			$scope.changePassword.currentPassword = "";
@@ -474,8 +476,8 @@ $scope.numberAllowed = {};
 						}
 						else
 						{
-							$scope.errorMessageContainer = true;
-							$scope.errorMessage = responseData[0].errorMessage;
+							$scope.errorPaymentContainer = true;
+							$scope.errorPaymentMessage = "Error: Invalid request";
 						}
 					});
 	}
@@ -594,8 +596,8 @@ $scope.numberAllowed = {};
 				}
 				else
 				{
-					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
+					$scope.errorPaymentContainer = true;
+					$scope.errorPaymentMessage = "Error: Invalid request";
 				}
 			});
 	
@@ -610,8 +612,8 @@ $scope.numberAllowed = {};
 		}
 		else
 		{
-			$scope.errorMessageContainer = true;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.errorMessageContainerAddDep = true;
+			$scope.errorMessageAddDep = "Error: Invalid Request";
 		}
 	
 	}
@@ -652,7 +654,7 @@ $scope.numberAllowed = {};
 				{
 							$scope.addDependentContainer = true;
 							$scope.successMessageContainerAddDep=true;
-							$scope.successMessageAddDep="Dependent Added Successfully";
+							$scope.successMessageAddDep="Dependent Cloud Added Successfully";
 							$('#addDependent').modal('hide');
 ;				}
 				else
