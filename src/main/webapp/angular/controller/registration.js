@@ -353,7 +353,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = false;		
 					$scope.paymentDetailContainer = true;
-					$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
+					$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
 				}
 				else
 				{
