@@ -24,7 +24,7 @@ $scope.uuid="";
 $scope.additionalCloud = {};
 $scope.changePassword = {};
 $scope.additionalCloudList = {};	
-$scope.dependentcldlist = {};
+$scope.dependentcloudlist = {};
 $scope.user= {};	
 $scope.errorPaymentContainer = false;
 
@@ -559,15 +559,16 @@ $scope.numberAllowed = {};
 			blockUI.start();
 			commonServices.getInfo('csp/+testcsp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
 			{	
-				if(!result.error)
+				if(result)
 				{  
 					$scope.additionalCloudList = result ;
 				}else{
 					
-					$scope.additionalCloudList.totalrow = Object.getOwnPropertyNames($scope.additionalCloudList).length ; 				
+					$scope.additionalCloudList.totalrow = 0 ; 	
+					
 				}
 				 
-				 
+				
 				blockUI.stop();
 			});
 		}
@@ -584,12 +585,12 @@ $scope.numberAllowed = {};
 			blockUI.start();
 			commonServices.getInfo('csp/+cynja/clouds/personalClouds/=cynjapersonal1/dependents').then(function(result)
 			{	
-				if(!result.error)
+				if(result)
 				{  
-					$scope.dependentcldlist = result ;
+					$scope.dependentcloudlist = result ;
 				}else{
 					
-					$scope.dependentcldlist.totalrow = Object.getOwnPropertyNames($scope.dependentcldlist).length ; 				
+					$scope.dependentcloudlist.totalrow = 0; 				
 				}
 				 
 				 

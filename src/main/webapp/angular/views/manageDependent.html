@@ -29,12 +29,12 @@
 						</thead>
 					
 						<tbody>
-							<tr ng-repeat="deplist in dependentcldlist" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+							<tr ng-repeat="deplist in dependentcloudlist" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
 								<td><span >{{ deplist.cloudName}}</span></td>
 								<td ><span >{{ deplist.dateOfBirth }}</span></td>					 
 							</tr>
-							<tr  ng-if="dependentcldlist.totalrow === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
+							<tr  ng-if="dependentcloudlist.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
 						</tbody>
 							 
 					</table>
