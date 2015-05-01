@@ -28,7 +28,7 @@
 						<tbody>
 							<tr ng-repeat="dependentList in dependentData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 							 
-								<td><span title="click here to see all requests" ng-click="enableTab('requestActive',dependentList.cloud_name)">{{ dependentList.cloud_name }}</td>
+								<td><span title="click here to see all requests" ng-click="enableTab('requestActive',dependentList.cloud_name)" style="text-decoration: underline;cursor: pointer;">{{ dependentList.cloud_name }}</td>
 								<td>{{ dependentList.hostname }}</td>
 								<td>{{ dependentList.port }}</td>
 								<td style="text-align:center"><input type="button" ng-click="show(dependentList)" class="btn btn-primary  " name="action" id="'action_'+$index" value="Start" ng-hide="dependentList.time_started" >
