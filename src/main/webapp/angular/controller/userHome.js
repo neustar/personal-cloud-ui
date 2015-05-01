@@ -556,7 +556,7 @@ $scope.numberAllowed = {};
 			
 			
 			blockUI.start();
-			commonServices.getInfo('csp/+testscp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
+			commonServices.getInfo('csp/+testcsp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
 			{	
 				if(!result.error)
 				{  
