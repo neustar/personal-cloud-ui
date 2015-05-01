@@ -472,7 +472,7 @@ $scope.numberAllowed = {};
 					 
 						if(responseData.paymentId != null){
 											
-							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testcsp/synonyms");
+							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/"+$scope.userlogin.cloudName+"/synonyms");
 																
 						}
 						else
@@ -789,5 +789,6 @@ $scope.numberAllowed = {};
 	
 	$scope.initiateList();
 	$scope.additionalCldList();
+	$scope.dependentCldList();
 
 	});

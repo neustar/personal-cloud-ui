@@ -55,7 +55,7 @@
 					<div id="addDepCloudFirst" ng-show="addDepCloudFirstContainer">
 						<form id="addDependentForm" method="post" name="addDependentForm"  novalidate>	
 							<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
-							
+							<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
 							<div class="form-group">
 								<label  >Dependent Cloud Name:</label>
 								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-change="appendSign()" ng-blur="cloudCheckDep(addDepedent.depCloudName)" required/>
