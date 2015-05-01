@@ -24,6 +24,7 @@ $scope.uuid="";
 $scope.additionalCloud = {};
 $scope.changePassword = {};
 $scope.additionalCloudList = {};	
+$scope.dependentcldlist = {};
 $scope.user= {};	
 $scope.errorPaymentContainer = false;
 
@@ -564,6 +565,31 @@ $scope.numberAllowed = {};
 				}else{
 					
 					$scope.additionalCloudList.totalrow = Object.getOwnPropertyNames($scope.additionalCloudList).length ; 				
+				}
+				 
+				 
+				blockUI.stop();
+			});
+		}
+		 
+	}
+	
+	
+	$scope.dependentCldList = function()
+	{
+		if($location.path() == "/addDependent")
+		{
+			
+			
+			blockUI.start();
+			commonServices.getInfo('csp/+cynja/clouds/personalClouds/=cynjapersonal1/dependents').then(function(result)
+			{	
+				if(!result.error)
+				{  
+					$scope.dependentcldlist = result ;
+				}else{
+					
+					$scope.dependentcldlist.totalrow = Object.getOwnPropertyNames($scope.dependentcldlist).length ; 				
 				}
 				 
 				 
