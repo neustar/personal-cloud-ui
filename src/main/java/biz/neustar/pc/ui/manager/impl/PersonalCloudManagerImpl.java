@@ -7,6 +7,7 @@
  */
 package biz.neustar.pc.ui.manager.impl;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.slf4j.Logger;
@@ -19,8 +20,10 @@ import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
 import biz.neustar.pcloud.rest.dto.PaymentInfo;
+import biz.neustar.pcloud.rest.dto.PaymentResponse;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.representation.Form;
 
 /**
@@ -144,11 +147,11 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
     }
 
     public String authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
-        LOGGER.info("In authenticate cloud name {} and csp {}", cspCloudName, cspCloudName);
+        LOGGER.info("In authenticate cloud name {} and csp {}", cloudName, cspCloudName);
         Form form = new Form();
         form.add("password", password);
         ResponseData responseData = pcRestClient.post(
-                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cspCloudName), form);
+                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cloudName), form);
         return responseData.getBody();
     }
 
@@ -168,9 +171,16 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
         return responseData.getBody();
     }
 
-    public String processPayment(ProductNames productName, PaymentInfo paymentInfo) {
+    public PaymentResponse processPayment(ProductNames productName, PaymentInfo paymentInfo) {
         ResponseData responseData = pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PAYMENT_API, productName), paymentInfo);
-        return responseData.getBody();
+        PaymentResponse paymentResponse = null;
+        try {
+            paymentResponse = new ObjectMapper().readValue(responseData.getBody(), PaymentResponse.class);
+        } catch (IOException e) {
+            LOGGER.debug("Error while reading payment response.");
+            e.printStackTrace();
+        }
+        return paymentResponse;
     }
 }
