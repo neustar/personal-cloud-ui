@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import biz.neustar.pc.ui.constants.UIRestPathConstants;
 import biz.neustar.pc.ui.manager.impl.PersonalCloudManager;
+import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
 /**
@@ -114,4 +116,10 @@ public class PersonalCloudRegistrationController {
 
     }
 
+    @RequestMapping(value = UIRestPathConstants.BASE_URI_PAYMENT_API, method = RequestMethod.POST)
+    public @ResponseBody
+    String processPayment(@PathVariable(UIRestPathConstants.PRODUCT_NAME) final ProductNames productName,
+            final PaymentInfo paymentInfo, HttpServletRequest request, HttpServletResponse response) {
+        return personalCloudManagerImpl.processPayment(productName, paymentInfo);
+    }
 }

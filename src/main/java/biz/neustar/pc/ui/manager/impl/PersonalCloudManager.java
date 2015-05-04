@@ -1,7 +1,9 @@
 package biz.neustar.pc.ui.manager.impl;
 
+import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
 public interface PersonalCloudManager {
@@ -26,4 +28,5 @@ public interface PersonalCloudManager {
 
     public abstract String resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 
+    public abstract String processPayment(ProductNames productName, PaymentInfo paymentInfo);
 }

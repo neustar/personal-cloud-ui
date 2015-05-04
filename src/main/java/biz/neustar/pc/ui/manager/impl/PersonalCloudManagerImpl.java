@@ -15,8 +15,10 @@ import org.slf4j.LoggerFactory;
 import biz.neustar.pc.ui.constants.UIRestPathConstants;
 import biz.neustar.pcloud.PCRestClient;
 import biz.neustar.pcloud.ResponseData;
+import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
 import com.sun.jersey.api.representation.Form;
@@ -166,4 +168,9 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
         return responseData.getBody();
     }
 
+    public String processPayment(ProductNames productName, PaymentInfo paymentInfo) {
+        ResponseData responseData = pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.PAYMENT_API, productName), paymentInfo);
+        return responseData.getBody();
+    }
 }
