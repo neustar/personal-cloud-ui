@@ -41,7 +41,7 @@
 <script src="angular/controller/userHome.js"></script>
 <script src="angular/services/commonServices.js"></script>
 <script src="angular/services/international-phone-number.js"></script>
-<script src='https://checkout.stripe.com/checkout.js'></script>
+<!--script src='https://checkout.stripe.com/checkout.js'></script-->
 <!-- MAIN CONTENT AND INJECTED VIEWS -->
  
 	<section id="main" class="container-fluid bg-img-one clearfix">

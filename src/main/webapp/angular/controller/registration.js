@@ -41,7 +41,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			
 		}
 		
-		$scope.cloudCheck($scope.user.cloudName);
+		
 	
 	}
 	
@@ -338,24 +338,22 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 			 
 			
 			var dataObject= {
-								paymentType : "CREDIT_CARD",
-								paymentReferenceId : "xyz",
-								paymentResponseCode:"OK",
-								amount:"20",
-								productName:"PCN",
-								currency:"USD",
-								paymentGateway: "Test"
-							};
-			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+									paymentType : "CREDIT_CARD",
+									paymentReferenceId : "abcde0123456789",
+									paymentResponseCode:"OK",
+									amount:"25",
+									currency:"USD"
+									};
+					var apiUrl = {postUrl : 'products/PCN/payments'};
 			
-			commonServices.saveInfo1(dataObject,apiUrl).then(function(responseData){	
+			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			if(responseData.paymentId != null){
 					$scope.pageLoaded = true;
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = false;		
 					$scope.paymentDetailContainer = true;
-					$scope.registerCloudName(responseData.paymentId,"csp/+testscp/clouds/personalClouds");
+					$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
 				}
 				else
 				{

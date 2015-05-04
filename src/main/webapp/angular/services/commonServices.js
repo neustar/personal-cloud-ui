@@ -112,7 +112,7 @@ angular.module('cloudServices', [])
         fd.append('password', 'test@123');
 		var request = $http({
 			method: "POST",
-			url: 'http://localhost:8080/v1/'+apiUrl,
+			url: 'v1/'+apiUrl,
 			headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
 						'Accept': 'application/json',

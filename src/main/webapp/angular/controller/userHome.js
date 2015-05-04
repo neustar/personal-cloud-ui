@@ -4,6 +4,7 @@ angular.module('myApp').controller("userHome", function ($scope,ModalService,$co
 $scope.dependentData = {};
 $scope.requestData = {};
 $scope.dpName = "";
+$scope.actCloudName="";
 $scope.dependentDetail = {};
 $scope.errorMessageContainer = false;
 $scope.errorMessageContaineruserModal = false;
@@ -23,7 +24,9 @@ $scope.uuid="";
 $scope.additionalCloud = {};
 $scope.changePassword = {};
 $scope.additionalCloudList = {};	
+$scope.dependentcloudlist = {};
 $scope.user= {};	
+$scope.errorPaymentContainer = false;
 
 // avaiable registration form container
 $scope.dependentContainer = false;
@@ -39,6 +42,15 @@ $scope.addDepCloudPayContainer = false;
 $scope.userlogin.cloudName = $cookies.guardianCloudName; 
 $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 
+$scope.requestActive = true;
+$scope.blockedActive = false;
+$scope.allowedActive = false;
+
+
+$scope.activityContainer = false;
+$scope.numberRequested = {};
+$scope.numberBlocked = {};
+$scope.numberAllowed = {};
 
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
@@ -117,7 +129,32 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			}
 		});
 	}
-
+	
+	$scope.enableTab = function(type,cloudName)
+	{
+		$scope.user.selectedCloudName =  cloudName;
+		$scope.errorMessageContainer = false;
+		$scope.successMessageContainer = false;
+		if(type=='requestActive'){
+			$scope.blockedActive = false;
+			$scope.allowedActive = false;
+			$scope.requestActive = true;
+			
+			$scope.showRequestList("requested",cloudName);
+		}else if(type=='blockedActive'){
+			$scope.requestActive = false;
+			$scope.allowedActive = false;
+			$scope.blockedActive = true;
+			
+			$scope.showRequestList("blocked",cloudName);
+		} else if(type=='allowedActive'){
+			$scope.blockedActive = false;
+			$scope.requestActive = false;
+			$scope.allowedActive = true;
+			$scope.showRequestList("allowed",cloudName);
+		}
+			 
+	}
 
 	//function is called to load request list of dependents
 	$scope.showRequestList = function(type,cloudName)
@@ -125,21 +162,22 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		if(type=="requested")
 		{
 			$scope.requestContainer = true;
-			$scope.allowedContainer = false;
-			$scope.blockedContainer = false;
+			// $scope.allowedContainer = false;
+			// $scope.blockedContainer = false;
+			
 		}
 		else if(type=="allowed")
 		{
-			$scope.allowedContainer = true;
-			$scope.blockedContainer = false;
-			$scope.requestContainer = false;
+			// $scope.allowedContainer = true;
+			// $scope.blockedContainer = false;
+			// $scope.requestContainer = false;
 			$scope.addRecordType = type;
 		}
 		else if(type=="blocked")
 		{
-			$scope.blockedContainer = true;
-			$scope.requestContainer = false;
-			$scope.allowedContainer = false;
+			// $scope.blockedContainer = true;
+			// $scope.requestContainer = false;
+			// $scope.allowedContainer = false;
 			$scope.addRecordType = type;
 		}
 		$scope.dependentContainer = false;
@@ -170,6 +208,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		{
 			
 			$scope.dependentContainer = true;
+			$scope.activityContainer = false;
 			$scope.blockedContainer = false;
 			$scope.requestContainer = false;
 			$scope.allowedContainer = false;
@@ -251,6 +290,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			$scope.successMessageContainerAddDep = false;
 			$scope.addDepCloudFirstContainer = true;
 			$scope.addDepCloudPayContainer = false;
+			$scope.errorPaymentContainer = false;
 			
 			$scope.additionalCloud.cloudName1 = "";
 			$scope.changePassword.currentPassword = "";
@@ -422,25 +462,23 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	
 					var dataObject= {
 									paymentType : "CREDIT_CARD",
-									paymentReferenceId : "xyz",
+									paymentReferenceId : "abcde0123456789",
 									paymentResponseCode:"OK",
 									amount:"10",
-									productName:"SCN",
-									currency:"USD",
-									paymentGateway: "Test"
-									}; 
-					var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+									currency:"USD"
+									};
+					var apiUrl = {postUrl : 'products/SCN/payments'};
 					commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	 
 					 
-						if(responseData.message == "Success"){
+						if(responseData.paymentId != null){
 											
-							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/+testscp/synonyms");
+							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/"+$scope.userlogin.cloudName+"/synonyms");
 																
 						}
 						else
 						{
-							$scope.errorMessageContainer = true;
-							$scope.errorMessage = responseData[0].errorMessage;
+							$scope.errorPaymentContainer = true;
+							$scope.errorPaymentMessage = "Error: Invalid request";
 						}
 					});
 	}
@@ -479,7 +517,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			//Updating paramters accordingly
 			var dataObject= {
 				paymentId : paymentID,
-				personalCloudPassword : "test@123",
+				personalCloudPassword :$scope.userlogin.guardianPassword,
 				rnpolicyConsent : true,
 				csppolicyConsent : true,
 				synonymCloudNames: additionalCloudArray
@@ -519,14 +557,40 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			
 			
 			blockUI.start();
-			commonServices.getProxyInfo('/v1/csp/+testscp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
+			commonServices.getInfo('csp/+testcsp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
 			{	
-				if(!result.error)
+				if(result)
 				{  
 					$scope.additionalCloudList = result ;
 				}else{
 					
-					$scope.additionalCloudList.totalrow = Object.getOwnPropertyNames($scope.additionalCloudList).length ; 				
+					$scope.additionalCloudList.totalrow = 0 ; 	
+					
+				}
+				 
+				
+				blockUI.stop();
+			});
+		}
+		 
+	}
+	
+	
+	$scope.dependentCldList = function()
+	{
+		if($location.path() == "/addDependent")
+		{
+			
+			
+			blockUI.start();
+			commonServices.getInfo('csp/+cynja/clouds/personalClouds/=cynjapersonal1/dependents').then(function(result)
+			{	
+				if(result)
+				{  
+					$scope.dependentcloudlist = result ;
+				}else{
+					
+					$scope.dependentcloudlist.totalrow = 0; 				
 				}
 				 
 				 
@@ -542,13 +606,12 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		//Updating paramters accordingly
 			var dataObject= {
 				paymentType : "CREDIT_CARD",
-				paymentReferenceId : "xyz",
+				paymentReferenceId : "abcde0123456789",
 				paymentResponseCode:"OK",
 				amount:"15",
-				productName:"DCN",
 				currency:"USD"
 			};
-			var apiUrl = {postUrl : 'processPayment?cspCloudName=+testcsp'};
+			var apiUrl = {postUrl : 'products/DCN/payments'};
 			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			if(responseData.paymentId != null){
 					$scope.pageLoaded = true;					
@@ -560,8 +623,8 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 				}
 				else
 				{
-					$scope.errorMessageContainer = true;
-					$scope.errorMessage = responseData[0].errorMessage;
+					$scope.errorPaymentContainer = true;
+					$scope.errorPaymentMessage = "Error: Invalid request";
 				}
 			});
 	
@@ -576,8 +639,8 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 		}
 		else
 		{
-			$scope.errorMessageContainer = true;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.errorMessageContainerAddDep = true;
+			$scope.errorMessageAddDep = "Error: Invalid Request";
 		}
 	
 	}
@@ -618,7 +681,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 				{
 							$scope.addDependentContainer = true;
 							$scope.successMessageContainerAddDep=true;
-							$scope.successMessageAddDep="Dependent Added Successfully";
+							$scope.successMessageAddDep="Dependent Cloud Added Successfully";
 							$('#addDependent').modal('hide');
 ;				}
 				else
@@ -637,7 +700,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	
 	}
 	
-	$scope.changePassword = function(isvalid,apiUrl)
+	$scope.changePassword = function(isvalid,apiurl)
 	{
 		if(isvalid)
 		{	
@@ -657,6 +720,7 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 			
 			
 								};
+								var apiUrl = {postUrl : apiurl};
 								
 			commonServices.saveInfo(dataObject,apiUrl).then(function(responseData){	
 			
@@ -685,8 +749,46 @@ $scope.userlogin.guardianPassword = $cookies.guardianPassword;
 	
 	}
 	
+	$scope.activityMonitor = function(dependentList)
+	{
+			
+			var index= $scope.dependentData.indexOf(dependentList);
+			$scope.actCloudName = $scope.dependentData[index].cloud_name;
+			$scope.numberRequested = $scope.dependentData[index].number_of_requests;
+			$scope.numberBlocked = $scope.dependentData[index].number_of_requests_blocked;
+			$scope.numberAllowed = $scope.dependentData[index].number_of_requests_allowed;
+			
+			var apiURl = "/proxies/dependents/"+$scope.actCloudName+"/access/log";
+			$scope.blockedContainer = false;
+			$scope.requestContainer = false;
+			$scope.allowedContainer = false;
+			$scope.dependentContainer = false;
+			$scope.activityContainer = true;
+			
+			commonServices.getProxyInfo(apiURl).then(function(result)
+			{	
+				if(result)
+				{  
+					$scope.dependentlog = result ;
+				}
+				else
+				{
+					$scope.error = false;
+				}
+				blockUI.stop();
+			});
+	};
+	
+	$scope.logout = function()
+	{
+			delete $cookies['guardianCloudName'];
+			delete $cookies['guardianPassword'];
+			$location.path('home');
+	
+	}
 	
 	$scope.initiateList();
 	$scope.additionalCldList();
+	$scope.dependentCldList();
 
 	});

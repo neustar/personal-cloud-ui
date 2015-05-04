@@ -19,7 +19,7 @@
 							<div class="col-md-12">
 								<div  class="form-group" ng-class="{'hasError':errorMessageContainer}" show-errors>
 									<h3 class="control-label" >Choose Your Cloud Name:</h3>
-									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()"  required/>
+									<input class="error-control"  id="cloudName" name="cloudName" ng-model="user.cloudName" ng-change="appendSign()" ng-blur="cloudCheck(user.cloudName)" required/>
 									 
 									<div  id="cloudAvailError" style="text-align: center;color:red" class="help-block" ng-show="cloudAvailForm.cloudName.$error.required">Cloud Name is required.</div>
 								 
@@ -173,7 +173,12 @@
 				</div>
 			</div>	
 		</div>
-		<div class="row" id="Congratulation" ng-show="CongratulationContainer"><p id="para1">Congratulation your cloud name {{user.cloudName}} has been registered <a href="#home">Click Here</a> to login.</p></div>
+				<div class="row" id="Congratulation" ng-show="CongratulationContainer"><p id="para1">Thank you {{user.cloudName}} for your personal cloud order.
+
+																							We will shortly notify once we complete registering your cloud with the network.<br>
+
+																							We are processing your order and will notify you once it completes registration in the network.<br></p>
+																				<p id="para2"><a href="#home">Click Here</a> for login Page.</p></div>
 	</div>	
 </div>
 </div>		 

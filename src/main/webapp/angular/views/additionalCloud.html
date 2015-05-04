@@ -16,41 +16,22 @@
 					
 					<table class="table table-bordered" >
 						<thead>
-							 
+							 <tr class="table-heading" ng-show="successMessageContainerAddDep"  align="center"><th colspan="3" align="center" style="text-align:center;">
+							<span  style="color:white;font-weight:bold;" role="alert">{{successMessageAddDep}}</span></th></tr>
 							<tr class="table-heading">
 								<th>Cloud Name</th>
-								<th>Added Date</th>								 						 
+								<!--th>Added Date</th-->								 						 
 							</tr>							 
 						</thead>
 						<tbody>
 							  
-							 <tr class="color0">
-								<td>
-									<span >=additionalCloud1</span>
-									
-								</td>
-								<td><span >03/01/15</span></td>
-							 </tr>
-							 <tr class="color1">
-								<td>
-									<span >=additionalCloud2</span>
-									
-								</td>
-								<td><span >03/02/15</span></td>
-							 </tr>
-							 <tr class="color0">
-								<td>
-									<span >=additionalCloud3</span>
-									
-								</td>
-								<td><span >04/02/15</span></td>
-							 </tr> 
-							<tr ng-if="additionalCloudList.totalrow > 0" ng-repeat="addList in additionalCloudList" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
+							
+							<tr  ng-repeat="addList in additionalCloudList.synonymCloudNames" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
-								<td><span >{{ addList.cloudName }}</span></td>
-								<td ><span >{{ addList.Date | limitTo:10 }}</span></td>					 
+								<td ng-if="$index > 0"><span >{{ addList }}</span></td>
+								<!--td ><span >{{ addList.Date | limitTo:10 }}</span></td-->					 
 							</tr>
-							<!--tr  ng-if="additionalCloudList.totalrow === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr-->
+							<tr ng-if="additionalCloudList.synonymCloudNames.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
 						</tbody>
 							 
 						</tbody>
@@ -86,7 +67,7 @@
 								</div>								 
 								<div class="form-group">
 							 
-									<input id="chkaddCldStatus" type="button" value="Pay $10" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
+									<input id="chkaddCldStatus" type="button" value="Submit" ng-click="submitAdnCloud(addCloudForm.$valid,'personalClouds/+testscp/synonyms',$event,'stripe')" class="modalInput" ng-disabled="error"  />
 								
 								</div>
 							</form>
@@ -98,7 +79,7 @@
 									<div class="row">
 										<h4>Enter Payment Detail</h4>
 									</div>									 
-									
+									<div ng-show="errorPaymentContainer" class="alert alert-danger" role="alert">{{errorPaymentMessage}}</div>
 									<div class="form-group" >
 										<input type="text" class="modalInput"   id="emailpayment" name="emailpayment" placeholder="email"  style=" border: 1px solid #DCDCDC;" readonly />
 										 
