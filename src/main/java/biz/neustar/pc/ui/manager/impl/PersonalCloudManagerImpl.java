@@ -142,7 +142,7 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
     }
 
     public String authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
-        LOGGER.info("Register cloud name {} for {}", cspCloudName, cspCloudName, password);
+        LOGGER.info("In authenticate cloud name {} and csp {}", cspCloudName, cspCloudName);
         Form form = new Form();
         form.add("password", password);
         ResponseData responseData = pcRestClient.post(
@@ -151,7 +151,7 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
     }
 
     public String resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
-        LOGGER.info("Register cloud name {} for {}", cspCloudName);
+        LOGGER.info("In reset password for cloud name {} and csp {}", cloudName, cspCloudName);
         ResponseData responseData = pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_RESET_PASSWORD_API, cspCloudName, cloudName),
                 cloudValidation);
@@ -159,7 +159,7 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
     }
 
     public String forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
-        LOGGER.info("Register cloud name {} for {}", cspCloudName);
+        LOGGER.info("In forgot password for cloud name {} and csp {}", cloudName, cspCloudName);
         ResponseData responseData = pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_FORGOT_PASSWORD_API, cspCloudName, cloudName),
                 cloudValidation);

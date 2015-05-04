@@ -50,7 +50,7 @@ public class UIRestPathConstants {
     // Personal cloud synonym registration URI's
     public static final String BASE_URI_SYNONYMS_API = REGISTER_PERSONAL_CLOUD_URI + "/{cloudName}/synonyms";
 
-    public static final String PERSONAL_CLOUD_AUTH_URI = "/{cloudName}/authenticate";
+    public static final String PERSONAL_CLOUD_AUTH_URI = REGISTER_PERSONAL_CLOUD_URI+"/{cloudName}/authenticate";
 
     public static final String PERSONAL_CLOUD_FORGOT_PASSWORD_URI = REGISTER_PERSONAL_CLOUD_URI
             + "/{cloudName}/forgotPassword";
@@ -58,7 +58,7 @@ public class UIRestPathConstants {
     public static final String PERSONAL_CLOUD_RESET_PASSWORD_URI = REGISTER_PERSONAL_CLOUD_URI
             + "/{cloudName}/resetPassword";
 
-    public static final String PERSONAL_CLOUD_CHANGE_PASSWORD_URI = "/{cloudName}/changePassword";
+    public static final String PERSONAL_CLOUD_CHANGE_PASSWORD_URI = REGISTER_PERSONAL_CLOUD_URI+"/{cloudName}/changePassword";
 
     public static final String GET_DEPENDENTS_URI = REGISTER_PERSONAL_CLOUD_URI + "/{cloudName}/dependents";
 
@@ -67,10 +67,10 @@ public class UIRestPathConstants {
     public static final String PAYMENT_API_URI = PATH_WITH_CURRENT_API_VERSION + "/products/{0}/payments";
     public static final String REGISTER_PERSONAL_CLOUD_API = PATH_WITH_CURRENT_API_VERSION
             + "/csp/{0}/clouds/personalClouds";
-    public static final String SYNONYMS_CLOUD_NAME_API = "/csp/{0}/clouds/personalClouds/{1}/synonyms";
-    public static final String GET_DEPENDENTS_API = "/csp/{0}/clouds/personalClouds/{1}/dependents";
-    public static final String PERSONAL_CLOUD_FORGOT_PASSWORD_API = "/csp/{0}/clouds/personalCloud/{1}/forgotPassword";
+    public static final String SYNONYMS_CLOUD_NAME_API = "/v1/csp/{0}/clouds/personalClouds/{1}/synonyms";
+    public static final String GET_DEPENDENTS_API = "/v1/csp/{0}/clouds/personalClouds/{1}/dependents";
+    public static final String PERSONAL_CLOUD_FORGOT_PASSWORD_API = "/v1/csp/{0}/clouds/personalCloud/{1}/forgotPassword";
 
-    public static final String PERSONAL_CLOUD_RESET_PASSWORD_API = "/csp/{0}/clouds/personalCloud/{1}/resetPassword";
-    public static final String PERSONAL_CLOUD_AUTH_API = "/csp/{0}/clouds/personalClouds/{1}/authenticate";
+    public static final String PERSONAL_CLOUD_RESET_PASSWORD_API = "/v1/csp/{0}/clouds/personalCloud/{1}/resetPassword";
+    public static final String PERSONAL_CLOUD_AUTH_API = "/v1/csp/{0}/clouds/personalClouds/{1}/authenticate";
 }
