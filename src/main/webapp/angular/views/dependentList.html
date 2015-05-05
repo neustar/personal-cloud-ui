@@ -12,6 +12,7 @@
 			<table   style="margin-top:100px;max-width: 100%;width: 100%;">
 				<tr>
 					<td><a href="#userhome" class="btn btn-primary" style="margin-bottom: 10px;">Back</a>
+					<a ng-click="addRecord('userHelp')" class="btn btn-primary" style="margin-bottom: 10px;float:right;">Help</a>
 					</td>
 				</tr>
 				<tr>
@@ -28,7 +29,8 @@
 						<tbody>
 							<tr ng-repeat="dependentList in dependentData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 							 
-								<td><span title="click here to see all requests" ng-click="enableTab('requestActive',dependentList.cloud_name)" style="text-decoration: underline;cursor: pointer;">{{ dependentList.cloud_name }}</td>
+								<td ng-show="dependentList.time_started"><span title="click here to see all requests" ng-click="enableTab('requestActive',dependentList.cloud_name)" style="text-decoration: underline;cursor: pointer;">{{ dependentList.cloud_name }}</td>
+								<td ng-show="!dependentList.time_started"><span title="click here to see all requests"  >{{ dependentList.cloud_name }}</td>
 								<td>{{ dependentList.hostname }}</td>
 								<td>{{ dependentList.port }}</td>
 								<td style="text-align:center"><input type="button" ng-click="show(dependentList)" class="btn btn-primary  " name="action" id="'action_'+$index" value="Start" ng-hide="dependentList.time_started" >
@@ -335,7 +337,77 @@
 			</div>
 		</div>
 		
-		
+		<div class="modal fade" id="userHelp"  tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+			<div class="modal-dialog" style="width:80%;">
+				<div class="modal-content">
+				  <div class="modal-header" style="background-image: linear-gradient(#f9f9f9, #e4e4e4);">
+					<button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title"><span>Configuring proxy server</span></h4>
+				  </div>
+					<div class="modal-body">
+						 	 <div property="content:encoded" class="field-item even"><h4>Which browser is best to use?</h4>
+									<p>We have found that most browsers are compatible with the proxy server. Here are a few special considerations:</p>
+									<ul><li>Mac Users - . Safari, Firefox and Chrome are all compatible with our proxy server.</li>
+									<li>Windows Users - All popular browsers appear to work well with the proxy server including Internet Explorer, Firefox and Chrome.&nbsp; Chrome uses the Windows proxy server; the sames ones used by IE. DSL users may find the configuration more difficult in IE than in Netscape or Firefox but all will work.</li>
+									<li>Many users find it convenient to configure one Web browser to use the proxy server which they will use to access Yale resources and leave another browser "unproxied" for all other Web applications.&nbsp; For the above reason, select Firefox and one of the other browsers to accomplish this.</li>
+									</ul><p>&nbsp;</p>
+									<h4>Configuring your Web Browser to use the Proxy Server</h4>
+									
+									<p>It is not possible to fully document all of the variations for every combination of OS version, browser version and connection configuration. That said, these configuration instructions should work for most everyone.</p>
+									<h4>Configuring Mozilla Firefox (for both Windows &amp; Macs)</h4>
+									
+									<ul><li>Open your Web browser.</li>
+									<li>For Windows: Under "Tools", select "Options"</li>
+									<li>For Macs: Under "Firefox", select "Preferences".
+									<ul><li>Select the "Advanced" category icon and then click on "Network" tab</li>
+									<li>Click "Settings" next to "Connection: Configure how Firefox connects to the Internet"</li>
+									<li>Select "Manual proxy configuration"</li>
+									<li>Next to "HTTP Proxy" enter: proxy.med.yale.edu</li>
+									<li>In the field labeld "Port:" enter: 3128</li>
+									<li>Enter the same server name and port address for "SSL Proxy"</li>
+									<li>Click "OK" (or "apply" of the Mac) until you've closed all dialog boxes.</li>
+									<li>The first page you go to after enabling the proxy will generatea dialog box requesting a User Name and Password. Enter your email address for username, and the password you received.</li>
+									</ul></li>
+									</ul><h4>Configuring Internet Explorer (for Windows Users)&nbsp;</h4>
+									
+									<ul><li>Open your browser. Under the 'Tools' menu, select 'Internet Options'</li>
+									<li>Click on the 'Connections' Tab</li>
+									<li>***IF CONNECTING THROUGH A DIALUP MODEM or SOLO DSL CONNECTION (i.e. no LAN, only one computer connected)<br> Under 'Dialup Settings', highlight the dialup networking profile you use for Internet access. Then click on the 'Settings' button to access options for that specific dialup session.</li>
+									<li>***IF CONNECTING THROUGH CABLE MODEM, DSL ROUTER or LAN<br> Click on the box "LAN Settings...". then check the box next to 'Use a proxy server' in the 'Proxy Server' section</li>
+									<li>Click on 'Advanced'</li>
+									<li>Go to the box next to HTTP: in the column 'Proxy Address to Use' and type: proxy.med.yale.edu</li>
+									<li>Go to the next space in the column labeled 'Port' and type: 3128</li>
+									<li>Enter the same server name and port number for "Secure"</li>
+									<li>Click on 'OK' to save settings until all boxes are closed</li>
+									<li>The first page you go to after enabling the proxy will generate a dialog box requesting a User Name and Password Enter your email address for username, and your proxy password.</li>
+									</ul><h4><br>Configuring Safari</h4>
+									
+									<ul><li>Open Safari. Under the "Safari" tab select "Preferences".</li>
+									<li>Select the "Advanced" category icon</li>
+									<li>Next to "Proxies:" click on "Change Settings" (this will open the System Network Preferences)</li>
+									<li>Make certain that the correct connection method is in the "Show" window (e.g. airport, built-in ethernet)</li>
+									<li>Check the box next to "Web Proxy (HTTP)", then enter proxy.med.yale.edu in the first field and 3128 in the field labeled "Port".</li>
+									<li>Do the same for "Secure Web Proxy (HTTPS)"</li>
+									<li>Click "Apply" and then close all dialog boxes.</li>
+									<li>The first page you go to after enabling the proxy will generate a dialog box requesting a User Name and Password. Enter your email address for username, and the password you received.</li>
+									</ul>
+									<h4><br>Configuring Chrome</h4>
+									 <p>Google Chrome uses your computer's system proxy settings to connect to the network. Changing these settings will affect Google Chrome as well as other programs that connects to the Internet.</p>
+									<p>To set up or change network connections, follow these steps:</p>
+									<ul>
+										<li>Click the Chrome menu on the browser toolbar.</li>
+										<li>Select <strong>Settings</strong>.</li>
+										<li>Click <strong>Show advanced settings</strong>.</li>
+										<li>In the "Network" section, click <strong>Change proxy settings </strong>. This will open the Internet Properties dialog (Windows) or the Network dialog (Mac) where you can adjust your network settings.</li>
+									</ul>
+									  
+									</div>
+						 
+					</div>
+				   
+				</div>
+			</div>
+		</div>
 		
 		
      </div>  
