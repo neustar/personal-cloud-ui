@@ -532,6 +532,7 @@ $scope.numberAllowed = {};
 					$scope.successMessageAddDep = "This cloud name is registered successfully.";
 					$scope.CongratulationContainer = true;
 					$('#addCloudModal').modal('hide');
+					$scope.additionalCldList();
 				}
 				else
 				{
@@ -557,7 +558,7 @@ $scope.numberAllowed = {};
 			
 			
 			blockUI.start();
-			commonServices.getInfo('csp/+testcsp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/getSynonyms').then(function(result)
+			commonServices.getInfo('csp/+testcsp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/synonyms').then(function(result)
 			{	
 				if(result)
 				{  
@@ -683,7 +684,7 @@ $scope.numberAllowed = {};
 							$scope.successMessageContainerAddDep=true;
 							$scope.successMessageAddDep="Dependent Cloud Added Successfully";
 							$('#addDependent').modal('hide');
-;				}
+				}
 				else
 				{
 					$scope.errorMessageContainer = true;
@@ -730,8 +731,9 @@ $scope.numberAllowed = {};
 							$scope.successMessageContainerChangePass=true;
 							$scope.successMessageChangePass="Password Changed Successfully Successfully";
 							$('#changePassword').modal('hide');
-						
-;				}
+				
+				
+				}
 				else
 				{
 					$scope.errorMessageContainerChangePass = true;
