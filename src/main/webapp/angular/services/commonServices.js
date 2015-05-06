@@ -108,17 +108,16 @@ angular.module('cloudServices', [])
 	}
 	
 	function userlogin(pass,apiUrl) {   
-		var fd = new FormData();
-        fd.append('password', 'test@123');
+	
 		var request = $http({
 			method: "POST",
 			url: 'v1/'+apiUrl,
 			headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
+						'Content-Type': 'application/json',
 						'Accept': 'application/json',
 						'Authorization' : 'Bearer 4799dca4c5054d5e899f57ec579d47b2'
 					 },
-			data: $.param({password: pass}),
+			data: pass,
 		});
 
 		return( request.then( handleSuccess, handleError ) );
