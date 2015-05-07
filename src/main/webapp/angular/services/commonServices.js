@@ -113,11 +113,11 @@ angular.module('cloudServices', [])
 			method: "POST",
 			url: 'v1/'+apiUrl,
 			headers: {
-						'Content-Type': 'application/json',
+						'Content-Type': 'application/x-www-form-urlencoded',
 						'Accept': 'application/json',
 						'Authorization' : 'Bearer 4799dca4c5054d5e899f57ec579d47b2'
 					 },
-			data: pass,
+			data: $.param({"password":pass}),
 		});
 
 		return( request.then( handleSuccess, handleError ) );
