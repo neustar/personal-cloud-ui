@@ -17,7 +17,7 @@ $scope.successMessageContainerChangePass=false;
 $scope.errorMessageContainerChangePass = false;
 $scope.userlogin = {};	 
 $scope.addDepedent={};
-$scope.guardianCloudName = "=les-cynja-parent1";
+$scope.guardianCloudName = $cookies.guardianCloudName;
 $scope.cloudName = "";
 $scope.addRecordType = "";
 $scope.uuid="";
@@ -27,6 +27,7 @@ $scope.additionalCloudList = {};
 $scope.dependentcloudlist = {};
 $scope.user= {};	
 $scope.errorPaymentContainer = false;
+$scope.guardiandata = {};
 
 // avaiable registration form container
 $scope.dependentContainer = false;
@@ -51,6 +52,8 @@ $scope.activityContainer = false;
 $scope.numberRequested = {};
 $scope.numberBlocked = {};
 $scope.numberAllowed = {};
+
+$scope.guardianName = $scope.guardianCloudName;
 
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
@@ -183,8 +186,11 @@ $scope.numberAllowed = {};
 		$scope.dependentContainer = false;
 		$scope.cloudName = cloudName; 
 		blockUI.start();
-
-		commonServices.getProxyInfo('proxies/dependents/'+cloudName+'/access/'+type).then(function(result)
+		var dataObject= {
+							"cloud_name": $scope.guardianCloudName,
+							"secret_token":$scope.userlogin.guardianPassword
+						};
+		commonServices.putProxyInfo(dataObject,'proxies/dependents/'+cloudName+'/access/'+type).then(function(result)
 		{	
 			if(result)
 			{  
@@ -216,18 +222,38 @@ $scope.numberAllowed = {};
 			$scope.successMessageContainer = false;
 			
 			blockUI.start();
-			commonServices.getProxyInfo('proxies/dependents').then(function(result)
-			{	
-				if(result)
-				{  
-					$scope.dependentData = result ;
-				}
-				else
+			var dataObject= {
+								"cloud_name": $scope.guardianCloudName,
+								"secret_token":$scope.userlogin.guardianPassword
+							};
+			//checking first guardian is login or not
+			commonServices.putProxyInfo(dataObject,'proxies/guardian').then(function(result)
+			{
+				if(!result.error)
 				{
-					$scope.error = false;
+					$scope.guardiandata.guardianName = result.cloud_name;
+					$scope.guardiandata.guardianTimeStarted = result.time_started;
+					
+					commonServices.putProxyInfo(dataObject,'proxies/dependents').then(function(result)
+						{	
+							if(result)
+							{  
+								$scope.dependentData = result ;
+							}
+							else
+							{
+								$scope.error = false;
+							}
+							
+						});
+				}else{
+						$scope.guardianName = $scope.guardianCloudName;
+						$scope.guardiandata.guardianTimeStarted ="";
+						$scope.dependentData = {};
 				}
 				blockUI.stop();
 			});
+			
 		}
 		else if($location.path() == "/addDependent")
 		{
@@ -280,7 +306,45 @@ $scope.numberAllowed = {};
 			var index= $scope.dependentData.indexOf(dependentList);
 			$scope.dpName = $scope.dependentData[index].cloud_name;
 	};
-
+	
+	$scope.startGuardian = function()
+	{ 
+			var dataObject= {
+								"cloud_name": $scope.guardianCloudName,
+								"secret_token":$scope.userlogin.guardianPassword
+							};
+			
+			commonServices.saveProxyInfo(dataObject,'proxies/guardian').then(function(result)
+			{ 
+					if(result.cloud_name!='' && result.cloud_name!=undefined)
+					{
+						$scope.initiateList();
+					}else{
+					 
+						$scope.errorMessageContainer= true;
+						$scope.errorMessage = result.error;
+					}
+				
+			});
+	};
+	
+	$scope.stopGuardian = function()
+	{ 
+	var dataObject= {
+								"cloud_name": $scope.guardianCloudName,
+								"secret_token":$scope.userlogin.guardianPassword
+							};
+	commonServices.deleteProxyInfo(dataObject,'proxies/guardian').then(function(responseData)
+					{ 
+						if(responseData.error!='' && responseData.error!= undefined){
+							$scope.errorMessageContainer= true;
+							$scope.errorMessage = responseData.error;
+						}else{
+							$scope.initiateList();
+						}
+						 
+					});
+	};
 	$scope.addRecord = function(modalName)
 	{ 
 			$('#'+modalName).modal();
@@ -320,7 +384,7 @@ $scope.numberAllowed = {};
 			{
 				'guardian' : {
 				'cloud_name': $scope.guardianCloudName,
-				'secret_token' : 'respect123!'
+				'secret_token' : $scope.userlogin.guardianPassword
 				},
 				'access' : {
 				'type' : type,
@@ -334,7 +398,7 @@ $scope.numberAllowed = {};
 		{
 			'dependent' : {
 			'cloud_name': $scope.cloudName,
-			'secret_token' : 'respect123!'
+			'secret_token' : $scope.userlogin.guardianPassword
 			},
 			'access' : {
 			'type' : type,
@@ -357,7 +421,7 @@ $scope.numberAllowed = {};
 					var deleteurl = "/proxies/dependents/"+$scope.cloudName+"/access/"+accesstype+"/uuid/"+$scope.uuid;
 					dataobject1 ={
 					"cloud_name" : $scope.guardianCloudName,
-					"secret_token" : "respect123!"
+					"secret_token" : $scope.userlogin.guardianPassword
 					};
 
 					commonServices.deleteProxyInfo(dataobject1,deleteurl).then(function(responseData)
@@ -381,7 +445,7 @@ $scope.numberAllowed = {};
 			//Updating paramters accordingly
 				var dataObject= {
 				"cloud_name" : $scope.dpName,
-				"secret_token" : "respect123!"
+				"secret_token" : $scope.userlogin.guardianPassword
 				};
 
 					commonServices.deleteProxyInfo(dataObject,deleteurl).then(function(responseData)
@@ -767,7 +831,12 @@ $scope.numberAllowed = {};
 			$scope.dependentContainer = false;
 			$scope.activityContainer = true;
 			
-			commonServices.getProxyInfo(apiURl).then(function(result)
+			var dataObject= {
+								"cloud_name": $scope.guardianCloudName,
+								"secret_token":$scope.userlogin.guardianPassword
+							};
+	 
+			commonServices.putProxyInfo(dataObject,apiURl).then(function(result)
 			{	
 				if(result)
 				{  

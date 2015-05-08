@@ -7,7 +7,7 @@ angular.module('cloudServices', [])
 		getInfo: getInfo,
 		saveInfo: saveInfo,
 		saveInfo1: saveInfo1,
-		getProxyInfo: getProxyInfo,
+		putProxyInfo: putProxyInfo,
 		saveProxyInfo: saveProxyInfo,
 		deleteProxyInfo: deleteProxyInfo,
 		setCloudName:setCloudName,
@@ -39,22 +39,22 @@ angular.module('cloudServices', [])
 	}
 	
 	// Get all of the Contact Information in the remote collection.
-	function getProxyInfo(getUrl) {  
+	function putProxyInfo(saveObject,getUrl) {  
 												 
 		var request = $http({
-			method: "GET",
+			method: "PUT",
 			url: 'https://54.172.108.151:8443/'+getUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
 						'Connection' : 'keep-alive'
-					 }
+					 },
+			data:saveObject
 		
 		});
 		  
 		return( request.then( handleSuccess, handleError ) );
 	}
-	
 	
 	function deleteProxyInfo( saveObject,getUrl) {  
 												 
@@ -125,24 +125,22 @@ angular.module('cloudServices', [])
 	}
 	
 	//Save all the Contact Information 
-	function saveProxyInfo( saveObject,postUrl) {   
-	 
+	function saveProxyInfo(saveObject,postUrl) {  
+												 
 		var request = $http({
 			method: "POST",
-			url: 'https://54.172.108.151:8443'+postUrl,
+			url: 'https://54.172.108.151:8443/'+postUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						
+						'Connection' : 'keep-alive'
 					 },
 			data:saveObject
-
-		});
 		
+		});
+		  
 		return( request.then( handleSuccess, handleError ) );
-
 	}
-	
 	
 	// ---
 	// PRIVATE METHODS.
