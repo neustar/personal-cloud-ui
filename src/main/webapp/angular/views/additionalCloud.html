@@ -28,7 +28,7 @@
 							
 							<tr  ng-repeat="addList in additionalCloudList.synonymCloudNames" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
-								<td ng-if="$index > 0"><span >{{ addList }}</span></td>
+								<td ng-if="addList != userlogin.cloudName"><span >{{ addList }}</span></td>
 								<!--td ><span >{{ addList.Date | limitTo:10 }}</span></td-->					 
 							</tr>
 							<tr ng-if="additionalCloudList.synonymCloudNames.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
