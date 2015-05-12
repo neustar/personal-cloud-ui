@@ -355,6 +355,7 @@ $scope.guardianName = $scope.guardianCloudName;
 			$scope.addDepCloudFirstContainer = true;
 			$scope.addDepCloudPayContainer = false;
 			$scope.errorPaymentContainer = false;
+			$scope.user.hasErrorCond = false;
 			
 			$scope.additionalCloud.cloudName1 = "";
 			$scope.changePassword.currentPassword = "";
@@ -626,7 +627,7 @@ $scope.guardianName = $scope.guardianCloudName;
 			{	
 				if(result)
 				{  
-					$scope.additionalCloudList = result ;
+					$scope.additionalCloudList = result.synonymCloudNames;
 				}else{
 					
 					$scope.additionalCloudList.totalrow = 0 ; 	
@@ -652,7 +653,7 @@ $scope.guardianName = $scope.guardianCloudName;
 			{	
 				if(result)
 				{  
-					$scope.dependentcloudlist = result ;
+					$scope.dependentcloudlist = result.dependents ;
 				}else{
 					
 					$scope.dependentcloudlist.totalrow = 0; 				
@@ -704,8 +705,7 @@ $scope.guardianName = $scope.guardianCloudName;
 		}
 		else
 		{
-			$scope.errorMessageContainerAddDep = true;
-			$scope.errorMessageAddDep = "Error: Invalid Request";
+			$scope.user.hasErrorCond = true;
 		}
 	
 	}
