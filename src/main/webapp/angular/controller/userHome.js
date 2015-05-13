@@ -1,5 +1,5 @@
 'use strict'
-angular.module('myApp').controller("userHome", function ($scope,ModalService,$cookies,$location,commonServices,blockUI) {
+angular.module('myApp').controller("userHome", function ($scope,ModalService,$cookies,$location,commonServices,blockUI,globalInfo) {
 
 $scope.dependentData = {};
 $scope.requestData = {};
@@ -28,6 +28,7 @@ $scope.dependentcloudlist = {};
 $scope.user= {};	
 $scope.errorPaymentContainer = false;
 $scope.guardiandata = {};
+$scope.cspName = globalInfo.cspName;
 
 // avaiable registration form container
 $scope.dependentContainer = false;
@@ -623,7 +624,7 @@ $scope.guardianName = $scope.guardianCloudName;
 			
 			
 			blockUI.start();
-			commonServices.getInfo('csp/+testcsp/clouds/personalClouds/'+$scope.userlogin.cloudName+'/synonyms').then(function(result)
+			commonServices.getInfo('csp/'+globalInfo.cspName+'/clouds/personalClouds/'+$scope.userlogin.cloudName+'/synonyms').then(function(result)
 			{	
 				if(result)
 				{  
@@ -685,7 +686,7 @@ $scope.guardianName = $scope.guardianCloudName;
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = true;
-					$scope.registerDepCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
+					$scope.registerDepCloudName(responseData.paymentId,"csp/"+globalInfo.cspName+"/clouds/personalClouds");
 				}
 				else
 				{

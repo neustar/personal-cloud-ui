@@ -1,5 +1,5 @@
 'use strict'
-angular.module('myApp').controller("homeController", function ($scope, $filter,$location,$cookies, commonServices) {
+angular.module('myApp').controller("homeController", function ($scope, $filter,$location,$cookies, commonServices,globalInfo) {
 	  
 	$scope.pageLoaded = true;
 	$scope.errorMessageContainer = false;
@@ -7,6 +7,7 @@ angular.module('myApp').controller("homeController", function ($scope, $filter,$
 	$scope.userlogin={};
 	$cookies.test='';
 	$scope.hasErrorCond = false;
+	$scope.cspName = globalInfo.cspName;
 	
 	$scope.resetForm = function(item, event) {
 		$scope.pageLoaded = false;											

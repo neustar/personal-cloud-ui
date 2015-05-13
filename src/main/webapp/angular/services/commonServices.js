@@ -1,6 +1,6 @@
 'use strict'
 angular.module('cloudServices', [])
-.factory("commonServices", ["$http","proxyApiUrl", function ($http,proxyApiUrl) {
+.factory("commonServices", ["$http","globalInfo", function ($http,globalInfo) {
 	
 	// Return public API.
 	return({
@@ -43,7 +43,7 @@ angular.module('cloudServices', [])
 												 
 		var request = $http({
 			method: "PUT",
-			url: proxyApiUrl+getUrl,
+			url: globalInfo.proxyApiUrl+getUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ angular.module('cloudServices', [])
 												 
 		var request = $http({
 			method: "DELETE",
-			url: proxyApiUrl+getUrl,
+			url: globalInfo.proxyApiUrl+getUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ angular.module('cloudServices', [])
 												 
 		var request = $http({
 			method: "POST",
-			url: proxyApiUrl+postUrl,
+			url: globalInfo.proxyApiUrl+postUrl,
 			headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',

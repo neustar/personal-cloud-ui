@@ -1,5 +1,5 @@
 'use strict'
-angular.module('myApp').controller("registration", function ($scope,$location,blockUI, commonServices) {
+angular.module('myApp').controller("registration", function ($scope,$location,blockUI, commonServices,globalInfo) {
 	
 	$scope.pageLoaded = true;
 	$scope.errorMessageContainer = false;
@@ -353,7 +353,7 @@ angular.module('myApp').controller("registration", function ($scope,$location,bl
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = false;		
 					$scope.paymentDetailContainer = true;
-					$scope.registerCloudName(responseData.paymentId,"csp/+testcsp/clouds/personalClouds");
+					$scope.registerCloudName(responseData.paymentId,"csp/"+globalInfo.cspName+"/clouds/personalClouds");
 				}
 				else
 				{

@@ -30,7 +30,7 @@
 					</div>
 					<div  id="errorMessage" style="text-align: center;color:red" ng-show="errorMessageContainer" role="alert">{{errorMessage}}</div> 
 					
-					<input type="button" id="submitLogin" value="Login" ng-click="login('csp/+testcsp/clouds/personalClouds/'+userlogin.cloudName+'/authenticate')" class="grad"  />
+					<input type="button" id="submitLogin" value="Login" ng-click="login('csp/'+cspName+'/clouds/personalClouds/'+userlogin.cloudName+'/authenticate')" class="grad"  />
 					<a href="javascript:void(0)"><h4>Forgot Password</h4></a>
 					<p>New User<span><a href="#registration"> click here </a></span>for registration.
 					</div>
