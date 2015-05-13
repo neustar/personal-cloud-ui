@@ -20,7 +20,7 @@
 				<div class="col-md-12">
 					<div  class="form-group required"  ng-class="{hasError: userlogin.hasErrorCond}" show-errors>					
 						<label class="control-label">CloudName</label>
-						<input type="text" class="error-control" id="cloudName" name="cloudName"   placeholder="Cloud Name"  ng-model="userlogin.cloudName" required />
+						<input type="text" class="error-control" id="cloudName" name="cloudName"   placeholder="Cloud Name" ng-change="appendSign()"  ng-model="userlogin.cloudName" required />
 						<div id="cloudNameError" style="text-align: center;color:red;" class="help-block" ng-show="logindetail.cloudName.$error.required ">Cloud name is required</div>
 					</div>
 					<div  class="form-group required"  ng-class="{hasError: userlogin.hasErrorCond}" show-errors>	

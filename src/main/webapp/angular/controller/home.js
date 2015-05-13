@@ -14,6 +14,17 @@ angular.module('myApp').controller("homeController", function ($scope, $filter,$
 		 
 	}
 	
+	$scope.appendSign = function()
+	{ 
+		if($scope.userlogin.cloudName && !($scope.userlogin.cloudName.charAt(0) == "="))
+		{
+			$scope.userlogin.cloudName = '='+$scope.userlogin.cloudName;
+			
+		} 
+		 
+	
+	}
+	
 	$scope.login = function(postUrl)
 	{
 		
