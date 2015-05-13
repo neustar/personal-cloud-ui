@@ -1,6 +1,8 @@
 'use strict';
 // Declare app level module which depends on filters, and services
 var app= angular.module('myApp', ['ngGrid', 'angularModalService', 'ui.bootstrap','internationalPhoneNumber','ng-bootstrap-datepicker','cloudServices','ngCookies','ngRoute','blockUI']);
+
+app.value('proxyApiUrl', 'https://54.172.108.151:8443/');
  
 app.controller('AppCtrl', function($scope) {
             $scope.datepickerOptions = {
