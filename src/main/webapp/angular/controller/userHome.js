@@ -294,9 +294,8 @@ $scope.guardianName = $scope.guardianCloudName;
 		}
 		else
 		{
-			$scope.errorMessageContainer = true;
-			$scope.loading_contactsInfo = false;
-			$scope.errorMessage = "Error: Invalid Request";
+			$scope.errorMessageContaineruserModal = true;
+			$scope.errorMessageuserModal = "Error: Invalid Request";
 		}
 	}
 
@@ -306,6 +305,10 @@ $scope.guardianName = $scope.guardianCloudName;
 			$('#userModal').modal();
 			var index= $scope.dependentData.indexOf(dependentList);
 			$scope.dpName = $scope.dependentData[index].cloud_name;
+			
+			$scope.dependentDetail.dependentForm.$setPristine();
+			$scope.errorMessageContaineruserModal= false;
+			$scope.dependentDetail.dependentPass = '';
 	};
 	
 	$scope.startGuardian = function()
@@ -366,7 +369,11 @@ $scope.guardianName = $scope.guardianCloudName;
 			$scope.addDepedent.depCloudpass = "";	
 			$scope.addDepedent.depCloudconfPass = "";	
 			$scope.addDepedent.datepicker = "";	
-			$scope.addDepedent.I_AgreeAddDep = "";	
+			$scope.addDepedent.I_AgreeAddDep = "";
+			$scope.dependentDetail.addRecordForm.$setPristine();
+			$scope.dependentDetail.urlAllowBlock = "";
+			
+			
 	};
 	/* //not need now //
 	$scope.addDependent = function()

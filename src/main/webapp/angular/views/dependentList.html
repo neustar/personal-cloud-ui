@@ -309,21 +309,20 @@
 					<h4 class="modal-title"><span>{{dpName}}</span></h4>
 				  </div>
 					<div class="modal-body">
-						<form id="dependentForm" method="post" name="dependentForm"  novalidate>	
+						<form id="dependentForm" method="post" name="dependentDetail.dependentForm"  novalidate>	
 							<div class="form-group">
 								<div ng-show="errorMessageContaineruserModal" class="alert alert-danger" role="alert">{{errorMessageuserModal}}</div>
 								<label  >Password</label>
 								<input  class="modalInput" id="dependentPass" name="dependentPass" ng-model="dependentDetail.dependentPass" type="password" placeholder="secret token"    required  />		
 							 
-								<div style="text-align: center;color:red;" ng-show="dependentForm.dependentPass.$dirty && dependentForm.dependentPass.$invalid">
-								<div ng-show="dependentForm.dependentPass.$error.required">Password is required.</div>
-								</div>
+								<div style="text-align: center;color:red;" ng-show="dependentDetail.dependentForm.dependentPass.$dirty && dependentDetail.dependentForm.dependentPass.$error.required">Password is required.</div>
+							  
 								<input type="hidden"  class="modalInput" id="dpName" name="dpName" ng-model="dpName" /> 
 								
 							</div>								 
 							<div class="form-group">
 						 
-								<input id="chkCldStatus" type="button" value="Submit" ng-click="dependentService(dependentForm.$valid,'/proxies/dependents')" class="modalInput" ng-disabled="dependentForm.$invalid"  />
+								<input id="chkCldStatus" type="button" value="Submit" ng-click="dependentService(dependentDetail.dependentForm.$valid,'/proxies/dependents')" class="modalInput" ng-disabled="dependentDetail.dependentForm.$invalid"  />
 							
 							</div>
 						</form>
@@ -341,21 +340,21 @@
 					<h4 class="modal-title"><span>Add Access Record</span></h4>
 				  </div>
 					<div class="modal-body">
-						<form id="addRecordForm" method="post" name="addRecordForm"  novalidate>	
+						<form id="addRecordForm" method="post" name="dependentDetail.addRecordForm"  novalidate>	
 							<div class="form-group">
 								<div ng-show="errorMessageContainerRecordModal" class="alert alert-danger" role="alert">{{errorMessageRecordModal}}</div>
 								<label  >Enter URL</label>
-								<input  class="modalInput" id="url" name="url" ng-model="dependentDetail.urlAllowBlock" type="url" placeholder="URL to be {{addRecordType}}"    required  />		
+								<input  class="modalInput" id="url" name="url" ng-model="dependentDetail.urlAllowBlock" type="url" placeholder="URL to be {{addRecordType}} e.g. http://www.abc.com"    required  />		
 							 
 								 
-								<div style="text-align: center;color:red;"  ng-show="addRecordForm.url.$error.required && addRecordForm.url.$invalid">URL is required.</div>
+								<div style="text-align: center;color:red;"  ng-show="dependentDetail.addRecordForm.url.$error.required && dependentDetail.addRecordForm.url.$dirty">URL is required.</div>
 								 
 								<input type="hidden"  class="modalInput" id="dpName" name="dpName" ng-model="dpName" /> 
 								
 							</div>								 
 							<div class="form-group">
 						 
-								<input id="chkCldStatus" type="button" value="Submit" ng-click="allowBlockUrl(addRecordType,dependentDetail.urlAllowBlock,'','new')" class="modalInput" ng-disabled="addRecordForm.$invalid"  />
+								<input id="chkCldStatus" type="button" value="Submit" ng-click="allowBlockUrl(addRecordType,dependentDetail.urlAllowBlock,'','new')" class="modalInput" ng-disabled="dependentDetail.addRecordForm.$invalid"  />
 							
 							</div>
 						</form>
