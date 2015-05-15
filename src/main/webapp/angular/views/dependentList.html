@@ -97,84 +97,120 @@
 							</ul>
 					<div class="tab-content">
 						<div id="sectionA" class="tab-pane fade" ng-class="{'in active': requestActive}">
-							<table class="table table-bordered" >		
-										<thead>
-										<tr class="table-heading" ng-show="errorMessageContainer || successReqContainer" align="center"><th colspan="3" align="center" style="text-align:center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
-								<span ng-show="successReqContainer" style="color:white;" role="alert">{{successReqMessage}}</span></th></tr>
-										<tr class="table-heading">
-											<th>Requested url</th>
-											<th>Requested date</th>
-											<th>Action</th>								 
-										</tr>
-									</thead>
-									<tbody>
-										 
-										<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
-											
-											<td>
-												<span ng-if="requestList.url">{{ requestList.url }}</span>
-												<span ng-if="requestList.host">{{ requestList.host }}</span>
-											</td>
-											<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
-											<td><input class="btn btn-primary "   width="20%"  type="button" name="Allow" value="Allow" ng-click="allowBlockreqUrl('allowed',requestList.host)" >&nbsp;&nbsp;&nbsp;<input class="btn btn-primary " type="button" name="Block" value="Block" ng-click="allowBlockreqUrl('blocked',requestList.host)" ></td>
-										</tr>
-										<tr ng-if="requestData.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
-									</tbody>
-							</table>
+							
+							<div class="row no-margin" >
+											<div class="col-xs-12 no-padding border-white bg-success table-height text-white head-padding" ng-show="errorMessageContainer || successReqContainer" align="center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
+								<span ng-show="successReqContainer" style="color:white;" role="alert">{{successReqMessage}}</span></div>
+											<div class="col-xs-8 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Requested url</strong></div>
+											</div>
+											<div class="col-xs-2 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Requested date</strong></div>
+											</div>
+											<div class="col-xs-2 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Action</strong></div>
+											</div>
+							</div>
+							<div class="row no-margin" style="overflow-y:auto ;height:300px !important">
+												<div class="col-xs-12 no-padding container-height-100">
+													<div class="row no-margin" style="height:38px;" ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)">
+														<div class="w2ui-odd col-xs-8 no-padding border-white table-height text-black"  >
+															<span ng-if="requestList.url">{{ requestList.url }}</span>
+															<span ng-if="requestList.host">{{ requestList.host }}</span>
+														</div>
+														<div class="w2ui-odd col-xs-2 no-padding border-white table-height text-black"  >
+															<span >{{ requestList.timestamp | limitTo:10 }}</span>
+														</div>
+														<div class="w2ui-odd col-xs-2 no-padding border-white table-height text-black"  >
+															<input class="btn btn-primary "   width="20%"  type="button" name="Allow" value="Allow" ng-click="allowBlockreqUrl('allowed',requestList.host)" >&nbsp;&nbsp;&nbsp;<input class="btn btn-primary " type="button" name="Block" value="Block" ng-click="allowBlockreqUrl('blocked',requestList.host)" >
+														</div>
+														
+													</div>
+													<div ng-if="requestData.length === 0" class="col-xs-12 no-padding  color0" style="width:100%;text-align:center">
+													<div class="row no-margin" style="height:38px;" ng-class="'color'+($index % 2)">
+														No item found.
+													</div>
+													</div>
+												</div>
+											</div>
 						</div>
 						
-						<div id="sectionB" class="tab-pane fade" ng-class="{'in active': allowedActive}">						
-							<table class="table table-bordered" >
-									<thead>
-										<tr class="table-heading" ng-show="errorMessageContainer || successMessageContainer" align="center"><th colspan="3" align="center" style="text-align:center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
-								<span ng-show="successMessageContainer" style="color:white;" role="alert">{{successMessage}}</span></th></tr>
-										<tr class="table-heading">
-											<th>Allowed url</th>
-											<th>Allowed date</th>
-											<th>Action</th>								 
-										</tr>
-									</thead>
-									<tbody>
-										 
-										<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
-											
-											<td>
-												<span ng-if="requestList.url">{{ requestList.url }}</span>
-												<span ng-if="requestList.host">{{ requestList.host }}</span>
-											</td>
-											<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
-											<td><input class="btn btn-primary " type="button" name="Block" value="Block" ng-click="allowBlockUrl('blocked',requestList.url,requestList,'old')" ></td>
-										</tr>
-										<tr ng-if="requestData.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
-									</tbody>
-								</table>
+						<div id="sectionB" class="tab-pane fade" ng-class="{'in active': allowedActive}" >						
+							
+							<div class="row no-margin" >
+											<div class="col-xs-12 no-padding border-white bg-success table-height text-white head-padding" ng-show="errorMessageContainer || successMessageContainer" align="center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
+								<span ng-show="successMessageContainer" style="color:white;" role="alert">{{successMessage}}</span></div>
+											<div class="col-xs-8 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Allowed url</strong></div>
+											</div>
+											<div class="col-xs-2 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Allowed date</strong></div>
+											</div>
+											<div class="col-xs-2 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Action</strong></div>
+											</div>
+							</div>
+										<div class="row no-margin" style="overflow-y:auto ;height:300px !important">
+												<div class="col-xs-12 no-padding container-height-100">
+													<div class="row no-margin" style="height:38px;" ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)">
+														<div class="w2ui-odd col-xs-8 no-padding border-white table-height text-black"  >
+															<span ng-if="requestList.url">{{ requestList.url }}</span>
+															<span ng-if="requestList.host">{{ requestList.host }}</span>
+														</div>
+														<div class="w2ui-odd col-xs-2 no-padding border-white table-height text-black"  >
+															<span >{{ requestList.timestamp | limitTo:10 }}</span>
+														</div>
+														<div class="w2ui-odd col-xs-2 no-padding border-white table-height text-black"  >
+															<input class="btn btn-primary " type="button" name="Block" value="Block" ng-click="allowBlockUrl('blocked',requestList.url,requestList,'old')" >
+														</div>
+														
+													</div>
+													<div ng-if="requestData.length === 0" class="col-xs-12 no-padding  color0" style="width:100%;text-align:center">
+													<div class="row no-margin" style="height:38px;" ng-class="'color'+($index % 2)">
+														No item found.
+													</div>
+													</div>
+												</div>
+											</div>	
 							</div>
 							
 							<div id="sectionC" class="tab-pane fade" ng-class="{'in active': blockedActive}">
-									<table class="table table-bordered" >
-								<thead>
-							<tr class="table-heading" ng-show="errorMessageContainer || successMessageContainer" align="center"><th colspan="3" align="center" style="text-align:center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
-					<span ng-show="successMessageContainer" style="color:white;" role="alert">{{successMessage}}</span></th></tr>
-							<tr class="table-heading">
-								<th>Blocked url</th>
-								<th>Blocked date</th>
-								<th>Action</th>								 
-							</tr>
-						</thead>
-						<tbody>
-							 
-							<tr ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
-								<td>
-									<span ng-if="requestList.url">{{ requestList.url }}</span>
-									<span ng-if="requestList.host">{{ requestList.host }}</span>
-								</td>
-								<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
-								<td><input class="btn btn-primary " type="button" name="Allow" value="Allow" ng-click="allowBlockUrl('allowed',requestList.url,requestList,'old')" ></td>
-							</tr>
-							<tr ng-if="requestData.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
-						</tbody>
-								</table>
+									<div class="row no-margin" >
+											<div class="col-xs-12 no-padding border-white bg-success table-height text-white head-padding" ng-show="errorMessageContainer || successMessageContainer" align="center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
+								<span ng-show="successMessageContainer" style="color:white;" role="alert">{{successMessage}}</span></div>
+											<div class="col-xs-8 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Blocked url</strong></div>
+											</div>
+											<div class="col-xs-2 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Blocked date</strong></div>
+											</div>
+											<div class="col-xs-2 no-padding border-white bg-success table-height text-white">
+												<div class="head-padding"><strong>Action</strong></div>
+											</div>
+									</div>
+									<div class="row no-margin" style="overflow-y:auto ;height:300px !important">
+												<div class="col-xs-12 no-padding container-height-100">
+													<div class="row no-margin" style="height:38px;" ng-repeat="requestList in requestData" ng-class="'color'+($index % 2)">
+														<div class="w2ui-odd col-xs-8 no-padding border-white table-height text-black"  >
+															<span ng-if="requestList.url">{{ requestList.url }}</span>
+															<span ng-if="requestList.host">{{ requestList.host }}</span>
+														</div>
+														<div class="w2ui-odd col-xs-2 no-padding border-white table-height text-black"  >
+															<span >{{ requestList.timestamp | limitTo:10 }}</span>
+														</div>
+														<div class="w2ui-odd col-xs-2 no-padding border-white table-height text-black"  >
+															<input class="btn btn-primary " type="button" name="Allow" value="Allow" ng-click="allowBlockUrl('allowed',requestList.url,requestList,'old')" >
+														</div>
+														
+													</div>
+													<div ng-if="requestData.length === 0" class="col-xs-12 no-padding  color0" style="width:100%;text-align:center">
+													<div class="row no-margin" style="height:38px;" ng-class="'color'+($index % 2)">
+														No item found.
+													</div>
+													</div>
+												</div>
+											</div>
 								</div>
 							 
 							</div>
@@ -234,32 +270,7 @@
 				<tr>
 					<td>
 					<div class="bodyContainer">
-					<!--<table class="table table-bordered" >		
-						<thead>
-							<tr class="table-heading" ng-show="errorMessageContainer || successReqContainer" align="center"><th colspan="3" align="center" style="text-align:center"><span ng-show="errorMessageContainer" style="color:white;" role="alert">{{errorMessage}}</span>
-									<span ng-show="successReqContainer" style="color:white;display: block;" role="alert">{{successReqMessage}}</span></th></tr>
-				
-							<tr class="table-heading" align="center">
-							<th colspan="3" style="text-align:center" >Dependent Access Logs</th>
-							</tr>
-							<tr class="table-heading" >
-								<th >URL</th>
-								<th >Type</th>
-								<th >Time</th>								 
-							</tr>
-						</thead>
-						
-						<tbody >
-							<tr ng-repeat="requestList in dependentlog" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
-								
-								<td ><span >{{ requestList.url }}</span></td>
-								<td ><span >{{ requestList.type }}</span></td>
-								<td ><span >{{ requestList.timestamp | limitTo:10 }}</span></td>
-								
-							</tr>
-							<tr ng-if="dependentlog.length === 0" class="color0" ><td colspan="3" align="center" style="width:2%;text-align:center">No item found.</td></tr>
-						</tbody>
-					</table>-->
+					
 					<div class="row container-height-100 no-margin">
 						<div class="col-xs-8 no-padding border-white bg-success table-height text-white">
 							<div class="head-padding"><strong>URL</strong></div>
