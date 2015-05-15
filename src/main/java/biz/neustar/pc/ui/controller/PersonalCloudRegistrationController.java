@@ -72,7 +72,8 @@ public class PersonalCloudRegistrationController {
     @RequestMapping(value = UIRestPathConstants.BASE_URI_SYNONYMS_API, method = RequestMethod.POST)
     public @ResponseBody
     String registerSynonyms(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
-            @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName, final SynonymInfo synonymInfo) {
+            @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName,
+            @RequestBody final SynonymInfo synonymInfo) {
         return personalCloudManagerImpl.registerSynonyms(cspCloudName, cloudName, synonymInfo);
     }
 
@@ -103,7 +104,7 @@ public class PersonalCloudRegistrationController {
     public @ResponseBody
     String processForgotPassword(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(value = UIRestPathConstants.CLOUD_NAME) final String cloudName,
-            final CloudValidation cloudValidation) {
+            @RequestBody final CloudValidation cloudValidation) {
         return personalCloudManagerImpl.forgotPassword(cspCloudName, cloudName, cloudValidation);
 
     }
@@ -112,7 +113,7 @@ public class PersonalCloudRegistrationController {
     public @ResponseBody
     String processResetPassword(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(value = UIRestPathConstants.CLOUD_NAME) final String cloudName,
-            final CloudValidation cloudValidation) {
+            @RequestBody final CloudValidation cloudValidation) {
         return personalCloudManagerImpl.resetPassword(cspCloudName, cloudName, cloudValidation);
 
     }
@@ -120,7 +121,16 @@ public class PersonalCloudRegistrationController {
     @RequestMapping(value = UIRestPathConstants.BASE_URI_PAYMENT_API, method = RequestMethod.POST)
     public @ResponseBody
     PaymentResponse processPayment(@PathVariable(UIRestPathConstants.PRODUCT_NAME) final ProductNames productName,
-            final PaymentInfo paymentInfo, HttpServletRequest request, HttpServletResponse response) {
+            @RequestBody final PaymentInfo paymentInfo, HttpServletRequest request, HttpServletResponse response) {
         return personalCloudManagerImpl.processPayment(productName, paymentInfo);
+    }
+
+    @RequestMapping(value = UIRestPathConstants.PERSONAL_CLOUD_CHANGE_PASSWORD_URI, method = RequestMethod.POST)
+    public @ResponseBody
+    String processChangePassword(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+            @PathVariable(value = UIRestPathConstants.CLOUD_NAME) final String cloudName,
+            @RequestBody final CloudValidation cloudValidation) {
+        return personalCloudManagerImpl.changePassword(cspCloudName, cloudName, cloudValidation);
+
     }
 }

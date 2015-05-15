@@ -30,4 +30,6 @@ public interface PersonalCloudManager {
     public abstract String resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 
     public abstract PaymentResponse processPayment(ProductNames productName, PaymentInfo paymentInfo);
+
+    public abstract String changePassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 }

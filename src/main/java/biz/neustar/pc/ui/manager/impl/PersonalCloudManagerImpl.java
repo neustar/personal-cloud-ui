@@ -183,4 +183,13 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
         }
         return paymentResponse;
     }
+
+    @Override
+    public String changePassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
+        LOGGER.info("In changePassword for cloud name {} and csp {}", cloudName, cspCloudName);
+        ResponseData responseData = pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_CHANGE_PASSWORD_API, cspCloudName, cloudName),
+                cloudValidation);
+        return responseData.getBody();
+    }
 }

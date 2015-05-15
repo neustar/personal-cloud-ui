@@ -50,9 +50,9 @@
     </beans:bean>
     <beans:bean id="pcRestClient" class="biz.neustar.pcloud.PCRestClientFactory" factory-method="createRestClient" >
         <beans:constructor-arg  name="baseUrl" value="${pcloud.csp.baseUrl}" />
-        <beans:constructor-arg  name="authUrl" value="${pcloud.csp.authUrl}" />
         <beans:constructor-arg  name="userName" value="${pcloud.csp.cspUserName}" />
         <beans:constructor-arg  name="password" value="${pcloud.csp.password}" />
+         <beans:constructor-arg  name="authUrl" value="${pcloud.csp.authUrl}" />
     </beans:bean>
     <beans:bean class="biz.neustar.pc.ui.manager.impl.PaymentManagerImpl">
       <beans:constructor-arg name="pcRestClient" ref="pcRestClient"/>
