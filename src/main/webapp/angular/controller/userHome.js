@@ -546,7 +546,7 @@ $scope.guardianName = $scope.guardianCloudName;
 					 
 						if(responseData.paymentId != null){
 											
-							$scope.registerAdtCloudName(responseData.paymentId,"personalClouds/"+$scope.userlogin.cloudName+"/synonyms");
+							$scope.registerAdtCloudName(responseData.paymentId,'csp/'+globalInfo.cspName+'/clouds/personalClouds/'+$scope.userlogin.cloudName+'/synonyms');
 																
 						}
 						else
@@ -694,7 +694,7 @@ $scope.guardianName = $scope.guardianCloudName;
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = true;
-					$scope.registerDepCloudName(responseData.paymentId,'csp/'+globalInfo.cspName+'/clouds/personalClouds/'+$scope.userlogin.cloudName+'/synonyms');
+					$scope.registerDepCloudName(responseData.paymentId,'csp/'+globalInfo.cspName+'/clouds/personalClouds');
 				}
 				else
 				{
