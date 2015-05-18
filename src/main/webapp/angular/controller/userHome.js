@@ -371,8 +371,11 @@ $scope.guardianName = $scope.guardianCloudName;
 			$scope.addDepedent.datepicker = "";	
 			$scope.addDepedent.depCloudDOB = "";
 			$scope.addDepedent.I_AgreeAddDep = "";
-			$scope.dependentDetail.addRecordForm.$setPristine();
-			$scope.dependentDetail.urlAllowBlock = "";
+			if($location.path() == "/guardianProxy")
+			{
+				$scope.dependentDetail.addRecordForm.$setPristine();
+				$scope.dependentDetail.urlAllowBlock = "";
+			}
 			
 			
 	};
