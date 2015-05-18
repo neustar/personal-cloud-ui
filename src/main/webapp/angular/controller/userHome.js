@@ -369,6 +369,7 @@ $scope.guardianName = $scope.guardianCloudName;
 			$scope.addDepedent.depCloudpass = "";	
 			$scope.addDepedent.depCloudconfPass = "";	
 			$scope.addDepedent.datepicker = "";	
+			$scope.addDepedent.depCloudDOB = "";
 			$scope.addDepedent.I_AgreeAddDep = "";
 			$scope.dependentDetail.addRecordForm.$setPristine();
 			$scope.dependentDetail.urlAllowBlock = "";
@@ -693,7 +694,7 @@ $scope.guardianName = $scope.guardianCloudName;
 					$scope.userDetailContainer = false;
 					$scope.validUserContainer = false;		
 					$scope.paymentContainer = true;
-					$scope.registerDepCloudName(responseData.paymentId,"csp/"+globalInfo.cspName+"/clouds/personalClouds");
+					$scope.registerDepCloudName(responseData.paymentId,'csp/'+globalInfo.cspName+'/clouds/personalClouds/'+$scope.userlogin.cloudName+'/synonyms');
 				}
 				else
 				{
