@@ -55,6 +55,8 @@ $scope.numberBlocked = {};
 $scope.numberAllowed = {};
 
 $scope.guardianName = $scope.guardianCloudName;
+$scope.changepass = {};
+$scope.changepass.show = false;
 
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
@@ -360,6 +362,7 @@ $scope.guardianName = $scope.guardianCloudName;
 			$scope.addDepCloudPayContainer = false;
 			$scope.errorPaymentContainer = false;
 			$scope.user.hasErrorCond = false;
+			$scope.changepass.show = false;
 			
 			$scope.additionalCloud.cloudName1 = "";
 			$scope.changePassword.currentPassword = "";
@@ -804,9 +807,13 @@ $scope.guardianName = $scope.guardianCloudName;
 				if(responseData.message == "Success")
 				{
 							$scope.addDependentContainer = true;
-							$scope.successMessageContainerChangePass=true;
+							$scope.successMessageContainerChangePass=false;
 							$scope.successMessageChangePass="Password Changed Successfully Successfully";
-							$('#changePassword').modal('hide');
+							//$('#changePassword').modal('hide');
+							$scope.changepass.show = true;
+							$scope.errorMessageContainerChangePass = false;
+							$cookies.guardianPassword = $scope.changePassword.newPassword;
+							$scope.userlogin.guardianPassword = $cookies.guardianPassword;
 				
 				
 				}
@@ -868,6 +875,11 @@ $scope.guardianName = $scope.guardianCloudName;
 			delete $cookies['guardianPassword'];
 			$location.path('home');
 	
+	}
+	
+	$scope.closeModal = function(modalName)
+	{
+		$('#'+modalName).modal('hide');
 	}
 	
 	$scope.initiateList();
