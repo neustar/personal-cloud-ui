@@ -592,8 +592,8 @@ $scope.guardianName = $scope.guardianCloudName;
 			var dataObject= {
 				paymentId : paymentID,
 				personalCloudPassword :$scope.userlogin.guardianPassword,
-				rnpolicyConsent : true,
-				csppolicyConsent : true,
+				rnPolicyConsent : true,
+				cspPolicyConsent : true,
 				synonymCloudNames: additionalCloudArray
 			};
 			 
