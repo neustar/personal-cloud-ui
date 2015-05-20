@@ -2,10 +2,10 @@ Project Description
 -------------------
 
 Personal Cloud is attributing ownership of information to the person as opposed to taking ownership of information away from the person.In a Personal Cloud, the individual controls the information and the processes that operate on the information.Personal Cloud can be described as a virtual entity, which can do one or more of the following things
-1.	Enable a person to store and share information with other entities – real or virtual — with appropriate permissions
-2.	Create software agents which can process information on behalf of the person
-3.	Create multiple personas or identities with different access rights and visibility rules.
-4.	Interact with other entities in the web safely and effectively.
+- Enable a person to store and share information with other entities real or virtual with appropriate permissions
+- Create software agents which can process information on behalf of the person
+- Create multiple personas or identities with different access rights and visibility rules.
+- Interact with other entities in the web safely and effectively.
 Another important aspect of a Personal Cloud is to play the role of an agent or a proxy for a person. In today’s world where we are swimming in an ocean of information, it’s important to filter, organize and correlate bits and pieces of information and extract actionable intelligence. 
 
 Project Setup
