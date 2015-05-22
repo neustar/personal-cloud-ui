@@ -386,7 +386,7 @@ $scope.changepass.show = false;
 			//$scope.addDepedent.datepicker = null;	
 			$scope.addDepedent.depCloudDOB = null;
 			$scope.addDepedent.I_AgreeAddDep = "";
-			 
+			$("#dateActualId").val(''); 
 			if($location.path() == "/guardianProxy")
 			{
 				$scope.dependentDetail.addRecordForm.$setPristine();

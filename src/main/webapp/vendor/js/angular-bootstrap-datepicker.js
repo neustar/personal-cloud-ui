@@ -2098,19 +2098,20 @@ dp.directive('ngDatepicker', function() {
       ngOptions: '=',
       ngModel: '='
     },
-    template: "<div class=\"input-append date\">\n  <input type=\"text\" class=\"modalInput\"><span class=\"add-on\"><i class=\"icon-th\"></i></span>\n</div>",
+    template: "<div class=\"input-append date\">\n  <input type=\"text\" class=\"modalInput\" id=\"dateActualId\" placeholder=\"e.g:yyyy/mm/dd/\"><span class=\"add-on\"><i class=\"icon-th\"></i></span>\n</div>",
     link: function(scope, element) {
       scope.inputHasFocus = false;
-      element.datepicker(scope.ngOptions).on('changeDate', function(e) {
-        var defaultFormat, defaultLanguage, format, language;
-        defaultFormat = $.fn.datepicker.defaults.format;
-        format = scope.ngOptions.format || defaultFormat;
-        defaultLanguage = $.fn.datepicker.defaults.language;
-        language = scope.ngOptions.language || defaultLanguage;
-        return scope.$apply(function() {
-          return scope.ngModel = $.fn.datepicker.DPGlobal.formatDate(e.date, format, language);
-        });
-      });
+       element.datepicker(scope.ngOptions).on('changeDate', function(e) {
+        //var defaultFormat, defaultLanguage, format, language;
+       // defaultFormat = $.fn.datepicker.defaults.format;
+       // format = scope.ngOptions.format || defaultFormat;
+       // defaultLanguage = $.fn.datepicker.defaults.language;
+       // language = scope.ngOptions.language || defaultLanguage;
+       // return scope.$apply(function() {
+       //   return scope.ngModel = $.fn.datepicker.DPGlobal.formatDate(e.date, format, language);
+       // });
+	   return true;
+      }); 
       element.find('input').on('focus', function() {
         return scope.inputHasFocus = true;
       }).on('blur', function() {
