@@ -58,6 +58,8 @@ $scope.guardianName = $scope.guardianCloudName;
 $scope.changepass = {};
 $scope.changepass.show = false;
 
+
+	
 	//function is called to allow a request 
 	$scope.allowBlockUrl = function(type,urlHost,requestlist,requestType)
 	{
@@ -351,8 +353,18 @@ $scope.changepass.show = false;
 						 
 					});
 	};
+	
+	$scope.datepickerOptions = {
+			format: 'yyyy-mm-dd',
+			language: 'en',
+			autoclose: true,
+			weekStart: 0
+		}
+	$scope.addDepedent.depCloudDOB = null;
+	
 	$scope.addRecord = function(modalName)
 	{ 
+			
 			$('#'+modalName).modal();
 			$scope.addCloudFirstContainer = true;
 			$scope.addCloudPayContainer = false;
@@ -371,9 +383,10 @@ $scope.changepass.show = false;
 			$scope.addDepedent.depCloudName = "";	
 			$scope.addDepedent.depCloudpass = "";	
 			$scope.addDepedent.depCloudconfPass = "";	
-			$scope.addDepedent.datepicker = "";	
-			$scope.addDepedent.depCloudDOB = "";
+			//$scope.addDepedent.datepicker = null;	
+			$scope.addDepedent.depCloudDOB = null;
 			$scope.addDepedent.I_AgreeAddDep = "";
+			 
 			if($location.path() == "/guardianProxy")
 			{
 				$scope.dependentDetail.addRecordForm.$setPristine();
@@ -712,7 +725,16 @@ $scope.changepass.show = false;
 	}
 	$scope.getPaymentID = function(isValid,posturl,event,serviceName)
 	{ 
+		
 		if(isValid){
+				if($scope.addDepedent.depCloudpass!=undefined && !($scope.addDepedent.depCloudpass===$scope.addDepedent.depCloudconfPass)){
+				
+					$scope.errorMessageContainerAddDep = true;
+					$scope.successMessageContainerAddDep = false;				 
+					$scope.errorMessageAddDep = "Password don't match";
+					return false;
+				
+				}
 			$scope.errorMessageContainer = false;
 			$scope.successMessageContainer = false;	
 			$scope.addDepCloudFirstContainer = false;
@@ -721,6 +743,7 @@ $scope.changepass.show = false;
 		else
 		{
 			$scope.user.hasErrorCond = true;
+			
 		}
 	
 	}
@@ -874,13 +897,13 @@ $scope.changepass.show = false;
 			delete $cookies['guardianCloudName'];
 			delete $cookies['guardianPassword'];
 			$location.path('home');
-	
 	}
 	
 	$scope.closeModal = function(modalName)
 	{
 		$('#'+modalName).modal('hide');
 	}
+	
 	
 	$scope.initiateList();
 	$scope.additionalCldList();

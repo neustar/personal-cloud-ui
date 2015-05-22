@@ -10,7 +10,7 @@
 			<table   style="margin-top:100px;max-width: 100%;width: 100%;">
 				<tr>
 					<td><a href="#userhome" class="btn btn-primary " style="margin-bottom: 10px;">Back</a>&nbsp;&nbsp;					
-					<input style="margin-bottom: 10px;" ng-click="addRecord('addDependent')" class="btn btn-primary"   name="action" id="'action_'+$index" value="Add dependent"  >
+					<input style="margin-bottom: 10px;" ng-click="addRecord('addDependent')" class="btn btn-primary"   name="action" id="'action_'+$index" value="Add Dependent"  >
 					</td>
 					
 				</tr>
@@ -54,49 +54,48 @@
 				<div class="modal-body">
 					<div id="addDepCloudFirst" ng-show="addDepCloudFirstContainer">
 						<form id="addDependentForm" method="post" name="addDependentForm"  novalidate>	
-							<div ng-show="errorMessageContainerAddDep" class="alert alert-danger" role="alert">{{errorMessageAddDep}}</div>
-							<div ng-show="successMessageContainerAddDep" class="alert alert-danger" role="alert">{{successMessageAddDep}}</div>
-							<div class="form-group">
+							<div ng-show="errorMessageContainerAddDep" style="text-align: center;color:red" role="alert">{{errorMessageAddDep}}</div>
+							<div ng-show="successMessageContainerAddDep" style="text-align: center;color:green" role="alert">{{successMessageAddDep}}</div>
+							 
 								<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>
-								<label  >Dependent Cloud Name:</label>
+								<label  >Cloud Name:</label>
 								<input class="modalInput" id="depCloudName" name="depCloudName" ng-model="addDepedent.depCloudName" type="text" placeholder="=dependent" ng-change="appendSign()" ng-blur="cloudCheckDep(addDepedent.depCloudName)" required/>
-								<div  id="depCloudName" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudName.$error.required">Cloud Name is required.</div>
+								<div  id="depCloudName" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudName.$error.required">Cloud Name Is Required.</div>
 								</div>
-								<div style="text-align: center;color:red" ng-show="errorMessageContainerAddDep && addDependentForm.depCloudName.$valid" role="alert">{{errorMessageAddDepModal}}</div>
-								<div style="text-align: center;color:green" ng-show="successMessageContainerAddDep && addDependentForm.depCloudName.$valid" role="alert">{{successMessageAddDepModal}}</div>	
-								
-								
 								
 							<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>
 								<label  >Password:</label>
-								<input type="password" class="modalInput"  id="depCloudpass" name="depCloudpass" ng-model="addDepedent.depCloudpass"  placeholder="password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
-								<div  id="depCloudpass" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudpass.$error.required">Password is required.</div>
-								<div style="color:red;" ng-show="!addDependentForm.depCloudpass.$error.required && (addDependentForm.depCloudpass.$error.minlength || addDependentForm.depCloudpass.$error.maxlength) && addDependentForm.depCloudpass.$dirty">Passwords must be between 8 and 20 characters.</div>
-								<div style="color:red;" ng-show="!addDependentForm.depCloudpass.$error.required && !addDependentForm.depCloudpass.$error.minlength && !addDependentForm.depCloudpass.$error.maxlength && addDependentForm.depCloudpass.$error.pattern && addDependentForm.depCloudpass.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</div>
+								<input type="password" class="modalInput"  id="depCloudpass" name="depCloudpass" ng-model="addDepedent.depCloudpass"  placeholder="Password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
+								<div  id="depCloudpass" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudpass.$error.required">Password Is Required.</div>
+								<div style="color:red;" ng-show="!addDependentForm.depCloudpass.$error.required && (addDependentForm.depCloudpass.$error.minlength || addDependentForm.depCloudpass.$error.maxlength) && addDependentForm.depCloudpass.$dirty">Passwords Must Be Between 8 And 20 Characters.</div>
+								<div style="color:red;" ng-show="!addDependentForm.depCloudpass.$error.required && !addDependentForm.depCloudpass.$error.minlength && !addDependentForm.depCloudpass.$error.maxlength && addDependentForm.depCloudpass.$error.pattern && addDependentForm.depCloudpass.$dirty">Must Contain One Lower &amp; Uppercase Letter, And One Non-alpha Character (a number or a symbol.)</div>
 							</div>		
 								
 							<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>	
 								<input type="password" class="modalInput"  id="depCloudconfPass" name="depCloudconfPass" ng-model="addDepedent.depCloudconfPass"  placeholder="Confirm Password" ng-minlength="8" ng-maxlength="20" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required/>
-								<div  id="depCloudconfPass" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudconfPass.$error.required">Confirm Password is required.</div>
+								<div  id="depCloudconfPass" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudconfPass.$error.required">Confirm Password Is Required.</div>
+								<div style="color:red;" ng-show="addDependentForm.depCloudconfPass.$error.pattern && addDependentForm.depCloudconfPass.$dirty">Must Contain One Lower &amp; Uppercase Letter, And One Non-alpha Character (a number or a symbol.)</div>
 							</div>	
 								
 							<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>	
-								<label  >Dependent Date of Birth:</label>
-								<div data-ng-controller="AppCtrl">
-									<input   id="datepicker"  name="datepicker" data-ng-datepicker data-ng-options="datepickerOptions" data-ng-model="addDepedent.depCloudDOB" required>
-									<div  id="datepicker" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.datepicker.$error.required">DOB is required.</div>
+								<label  >Date Of Birth:</label>
+								<div >
+									<input   id="depCloudDOB"  name="depCloudDOB" data-ng-datepicker data-ng-options="datepickerOptions"  ng-model="addDepedent.depCloudDOB" placeholder="e.g:mm/dd/yyyy"	required>
+									
+									<div  id="datepickerError" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudDOB.$error.required">Date Of Birth Is Required.</div>
 								</div>
 							</div>	
-							</div>
+						 
 							
 							<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>	
 							<div class="checkbox-four">									
 									<input type="checkbox" id="I_AgreeAddDep" name="I_AgreeAddDep" value="CSP" ng-model="addDepedent.I_AgreeAddDep" required>
-									<!--div  id="I_AgreeAddDep" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.I_AgreeAddDep.$error.required">Please Agree with Terms and Condition.</div-->
+									
 							</div>
+							<div class="checkbox-one"><p class="paraAddDep">I Agree To CSP <a href="http://thecynja.com/">Terms Of Service<a></p></div>
+							<p  id="I_AgreeAddDep" style="text-align: center;color:red;width:100%" class="help-block" ng-show="addDependentForm.I_AgreeAddDep.$error.required">Please Agree With Terms And Condition.
+							</p>
 							</div>
-							<div class="checkbox-one"><p class="paraAddDep">I agree to CSP terms of service</p></div>
-							
 							<div class="form-group">
 									<input id="chkCldStatus" type="button" value="Submit" ng-click="getPaymentID(addDependentForm.$valid,'csp/'+cspName+'/clouds/personalClouds',$event,'stripe')" class="modalInput"   />
 							</div>

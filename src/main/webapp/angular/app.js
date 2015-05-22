@@ -9,15 +9,6 @@ app.value('globalInfo', {
 });
 
  
-app.controller('AppCtrl', function($scope) {
-            $scope.datepickerOptions = {
-                format: 'mm/dd/yyyy',
-				language: 'en',
-				autoclose: true,
-				weekStart: 0
-            }
-        });
- 
  // configure our routes
     app.config(function($routeProvider) {
         $routeProvider
