@@ -664,7 +664,7 @@ $scope.changepass.show = false;
 			
 			
 			blockUI.start();
-			commonServices.getInfo('csp/+cynja/clouds/personalClouds/=cynjapersonal1/dependents').then(function(result)
+			commonServices.getInfo('csp/'+globalInfo.cspName+'/clouds/personalClouds/'+$scope.userlogin.cloudName+'/dependents').then(function(result)
 			{	
 				if(result)
 				{  
