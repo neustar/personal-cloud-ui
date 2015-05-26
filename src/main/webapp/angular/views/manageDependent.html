@@ -80,7 +80,7 @@
 							<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>	
 								<label  >Date Of Birth:</label>
 								<div >
-									<input   id="depCloudDOB"  name="depCloudDOB" data-ng-datepicker data-ng-options="datepickerOptions"  ng-model="addDepedent.depCloudDOB" placeholder="e.g:mm/dd/yyyy"	required>
+									<input   id="depCloudDOB"  name="depCloudDOB" data-ng-datepicker data-ng-options="datepickerOptions"  data-ng-model="addDepedent.depCloudDOB" placeholder="e.g:yyyy-mm-dd"	required>
 									
 									<div  id="datepickerError" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudDOB.$error.required">Date Of Birth Is Required.</div>
 								</div>
