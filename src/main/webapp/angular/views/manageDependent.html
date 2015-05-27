@@ -19,11 +19,11 @@
 						 
 						<table class="table table-bordered"  >
 						<thead>
-							<tr class="table-heading" ng-show="successMessageContainerAddDep"  align="center"><th colspan="3" align="center" style="text-align:center;">
+							<tr class="table-heading" ng-show="successMessageContainerAddDep"  align="center"><th colspan="1" align="center" style="text-align:center;">
 							<span  style="color:white;font-weight:bold;" role="alert">{{successMessageAddDep}}</span></th></tr>
 							<tr class="table-heading">
 								<th>Cloud Name</th>
-								<th>DOB</th>
+								<!--th>DOB</th-->
 															 
 							</tr>
 						</thead>
@@ -32,9 +32,9 @@
 							<tr ng-repeat="deplist in dependentcloudlist" ng-class="'color'+($index % 2)"  class="w2ui-odd " >
 								
 								<td><span >{{ deplist.cloudName}}</span></td>
-								<td ><span >{{ deplist.dateOfBirth }}</span></td>					 
+								<!--td ><span >{{ deplist.dateOfBirth }}</span></td-->					 
 							</tr>
-							<tr  ng-if="dependentcloudlist.length === 0" class="color0" ><td colspan="3" align="center">No item found.</td></tr>
+							<tr  ng-if="dependentcloudlist.length === 0" class="color0" ><td colspan="1" align="center">No item found.</td></tr>
 						</tbody>
 							 
 					</table>
@@ -80,7 +80,7 @@
 							<div  class=" form-group required" ng-class="{'hasError': user.hasErrorCond}"  show-errors>	
 								<label  >Date Of Birth:</label>
 								<div >
-									<input   id="depCloudDOB"  name="depCloudDOB" data-ng-datepicker data-ng-options="datepickerOptions"  ng-model="addDepedent.depCloudDOB" placeholder="e.g:mm/dd/yyyy"	required>
+									<input   id="depCloudDOB"  name="depCloudDOB" data-ng-datepicker data-ng-options="datepickerOptions"  data-ng-model="addDepedent.depCloudDOB" placeholder="e.g:yyyy-mm-dd"	required>
 									
 									<div  id="datepickerError" style="text-align: center;color:red" class="help-block" ng-show="addDependentForm.depCloudDOB.$error.required">Date Of Birth Is Required.</div>
 								</div>

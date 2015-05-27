@@ -166,7 +166,7 @@ display: inline-block;
 }
 
 .row h1{
-	font-size: 28px;
+	font-size: 22px;
 	text-align: left; !important;
 	color: #333;
 	margin-top: 6%;
@@ -499,6 +499,7 @@ footer{
 .circle a{
     color: #222;
     text-decoration: none;
+	font-weight:bold;
 }
 
 .hot-line h2{
