@@ -20,40 +20,42 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package biz.neustar.pc.ui.manager.impl;
 
 import biz.neustar.pcloud.ResponseData;
 import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.DependentList;
 import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.PaymentResponse;
+import biz.neustar.pcloud.rest.dto.Synonym;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
 public interface PersonalCloudManager {
 
-    public abstract String isCloudNameAvailable(String cloudName);
+    public abstract PCloudResponse isCloudNameAvailable(String cloudName);
 
-    public abstract String validateDetailsAndGenerateSecurityCode(CloudValidation cloudValidation);
+    public abstract PCloudResponse validateDetailsAndGenerateSecurityCode(CloudValidation cloudValidation);
 
-    public abstract String validateSecurityCodes(CloudValidation cloudValidation);
+    public abstract PCloudResponse validateSecurityCodes(CloudValidation cloudValidation);
 
-    public abstract String registerPersonalCloud(String cspCloudName, CloudInfo cloudInfo);
+    public abstract PCloudResponse registerPersonalCloud(String cspCloudName, CloudInfo cloudInfo);
 
-    public abstract String registerSynonyms(String cspCloudName, String cloudName, SynonymInfo synonymInfo);
+    public abstract PCloudResponse registerSynonyms(String cspCloudName, String cloudName, SynonymInfo synonymInfo);
 
-    public abstract String getAllSynonyms(String cspCloudName, String cloudName);
+    public abstract Synonym getAllSynonyms(String cspCloudName, String cloudName);
 
-    public abstract String getAllDependents(String cspCloudName, String cloudName);
+    public abstract DependentList getAllDependents(String cspCloudName, String cloudName);
 
     public abstract ResponseData authenticatePersonalCloud(String cspCloudName, String cloudName, String password);
 
-    public abstract String forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
+    public abstract PCloudResponse forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 
-    public abstract String resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
+    public abstract PCloudResponse resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 
     public abstract PaymentResponse processPayment(ProductNames productName, PaymentInfo paymentInfo);
 
-    public abstract String changePassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
+    public abstract PCloudResponse changePassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 }

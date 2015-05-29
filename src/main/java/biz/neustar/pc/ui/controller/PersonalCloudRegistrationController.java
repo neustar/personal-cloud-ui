@@ -20,7 +20,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package biz.neustar.pc.ui.controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +38,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import biz.neustar.pc.ui.constants.UIRestPathConstants;
+import biz.neustar.pc.ui.manager.impl.PCloudResponse;
 import biz.neustar.pc.ui.manager.impl.PersonalCloudManager;
 import biz.neustar.pcloud.ResponseData;
 import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.DependentList;
 import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.PaymentResponse;
+import biz.neustar.pcloud.rest.dto.Synonym;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
 /**
@@ -60,35 +63,37 @@ public class PersonalCloudRegistrationController {
 
     @RequestMapping(value = UIRestPathConstants.BASE_URI_NAME_AVAILABILITY_API, method = RequestMethod.GET)
     public @ResponseBody
-    String isCloudNameAvalable(@PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName,
+    PCloudResponse isCloudNameAvalable(@PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName,
             HttpServletRequest request, HttpServletResponse response) {
         return personalCloudManagerImpl.isCloudNameAvailable(cloudName);
     }
 
     @RequestMapping(value = UIRestPathConstants.GENERATE_SECURITY_CODES, method = RequestMethod.POST)
     public @ResponseBody
-    String validateDetailsAndGenerateSecurityCode(@RequestBody final CloudValidation cloudValidation,
+    PCloudResponse validateDetailsAndGenerateSecurityCode(@RequestBody final CloudValidation cloudValidation,
             HttpServletRequest request, HttpServletResponse response) {
         return personalCloudManagerImpl.validateDetailsAndGenerateSecurityCode(cloudValidation);
     }
 
     @RequestMapping(value = UIRestPathConstants.VALIDATE_SECURITY_CODES, method = RequestMethod.POST)
     public @ResponseBody
-    String validateSecurityCodes(@RequestBody final CloudValidation cloudValidation, HttpServletRequest request,
-            HttpServletResponse response) {
+    PCloudResponse validateSecurityCodes(@RequestBody final CloudValidation cloudValidation,
+            HttpServletRequest request, HttpServletResponse response) {
         return personalCloudManagerImpl.validateSecurityCodes(cloudValidation);
     }
 
     @RequestMapping(value = UIRestPathConstants.REGISTER_PERSONAL_CLOUD_URI, method = RequestMethod.POST)
     public @ResponseBody
-    String registerPersonalCloud(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    PCloudResponse registerPersonalCloud(
+            @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @RequestBody final CloudInfo cloudInfo, HttpServletRequest request, HttpServletResponse response) {
         return personalCloudManagerImpl.registerPersonalCloud(cspCloudName, cloudInfo);
     }
 
     @RequestMapping(value = UIRestPathConstants.BASE_URI_SYNONYMS_API, method = RequestMethod.POST)
     public @ResponseBody
-    String registerSynonyms(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    PCloudResponse registerSynonyms(
+            @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName,
             @RequestBody final SynonymInfo synonymInfo) {
         return personalCloudManagerImpl.registerSynonyms(cspCloudName, cloudName, synonymInfo);
@@ -96,21 +101,22 @@ public class PersonalCloudRegistrationController {
 
     @RequestMapping(value = UIRestPathConstants.BASE_URI_SYNONYMS_API, method = RequestMethod.GET)
     public @ResponseBody
-    String getAllSynonyms(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    Synonym getAllSynonyms(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName) {
         return personalCloudManagerImpl.getAllSynonyms(cspCloudName, cloudName);
     }
 
     @RequestMapping(value = UIRestPathConstants.GET_DEPENDENTS_URI, method = RequestMethod.GET)
     public @ResponseBody
-    String getAllDependents(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    DependentList getAllDependents(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName) {
         return personalCloudManagerImpl.getAllDependents(cspCloudName, cloudName);
     }
 
     @RequestMapping(value = UIRestPathConstants.PERSONAL_CLOUD_AUTH_URI, method = RequestMethod.POST)
     public @ResponseBody
-    ResponseData loginPersonalCloud(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    ResponseData loginPersonalCloud(
+            @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName,
             @FormParam("password") String password, HttpServletRequest request) {
         return personalCloudManagerImpl.authenticatePersonalCloud(cspCloudName, cloudName, password);
@@ -119,7 +125,8 @@ public class PersonalCloudRegistrationController {
 
     @RequestMapping(value = UIRestPathConstants.PERSONAL_CLOUD_FORGOT_PASSWORD_URI, method = RequestMethod.POST)
     public @ResponseBody
-    String processForgotPassword(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    PCloudResponse processForgotPassword(
+            @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(value = UIRestPathConstants.CLOUD_NAME) final String cloudName,
             @RequestBody final CloudValidation cloudValidation) {
         return personalCloudManagerImpl.forgotPassword(cspCloudName, cloudName, cloudValidation);
@@ -128,7 +135,8 @@ public class PersonalCloudRegistrationController {
 
     @RequestMapping(value = UIRestPathConstants.PERSONAL_CLOUD_RESET_PASSWORD_URI, method = RequestMethod.POST)
     public @ResponseBody
-    String processResetPassword(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    PCloudResponse processResetPassword(
+            @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(value = UIRestPathConstants.CLOUD_NAME) final String cloudName,
             @RequestBody final CloudValidation cloudValidation) {
         return personalCloudManagerImpl.resetPassword(cspCloudName, cloudName, cloudValidation);
@@ -144,7 +152,8 @@ public class PersonalCloudRegistrationController {
 
     @RequestMapping(value = UIRestPathConstants.PERSONAL_CLOUD_CHANGE_PASSWORD_URI, method = RequestMethod.POST)
     public @ResponseBody
-    String processChangePassword(@PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
+    PCloudResponse processChangePassword(
+            @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(value = UIRestPathConstants.CLOUD_NAME) final String cloudName,
             @RequestBody final CloudValidation cloudValidation) {
         return personalCloudManagerImpl.changePassword(cspCloudName, cloudName, cloudValidation);

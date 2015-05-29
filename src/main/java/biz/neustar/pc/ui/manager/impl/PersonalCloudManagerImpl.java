@@ -20,23 +20,26 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 package biz.neustar.pc.ui.manager.impl;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import biz.neustar.pc.ui.constants.UIRestPathConstants;
+import biz.neustar.pc.ui.exception.PCloudUIException;
 import biz.neustar.pcloud.PCRestClient;
 import biz.neustar.pcloud.ResponseData;
 import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
+import biz.neustar.pcloud.rest.dto.DependentList;
 import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.PaymentResponse;
+import biz.neustar.pcloud.rest.dto.Synonym;
 import biz.neustar.pcloud.rest.dto.SynonymInfo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,11 +67,11 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * (java.lang.String)
      */
     @Override
-    public String isCloudNameAvailable(String cloudName) {
+    public PCloudResponse isCloudNameAvailable(String cloudName) {
         LOGGER.info("Check if cloud name {} is available.", cloudName);
-        ResponseData responseData = pcRestClient.get(MessageFormat.format(UIRestPathConstants.NAME_AVAILABILITY_API,
-                cloudName));
-        return responseData.getBody();
+        return handleException(
+                pcRestClient.get(MessageFormat.format(UIRestPathConstants.NAME_AVAILABILITY_API, cloudName)),
+                PCloudResponse.class);
 
     }
 
@@ -80,10 +83,10 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * (biz.neustar.pcloud.rest.dto.CloudValidation)
      */
     @Override
-    public String validateDetailsAndGenerateSecurityCode(CloudValidation cloudValidation) {
+    public PCloudResponse validateDetailsAndGenerateSecurityCode(CloudValidation cloudValidation) {
         LOGGER.info("Validate details and generate security codes for identifier {}", cloudValidation.getIdentifier());
-        ResponseData responseData = pcRestClient.post(UIRestPathConstants.GENERATE_SECURITY_CODES, cloudValidation);
-        return responseData.getBody();
+        return handleException(pcRestClient.post(UIRestPathConstants.GENERATE_SECURITY_CODES, cloudValidation),
+                PCloudResponse.class);
     }
 
     /*
@@ -94,10 +97,10 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * (biz.neustar.pcloud.rest.dto.CloudValidation)
      */
     @Override
-    public String validateSecurityCodes(CloudValidation cloudValidation) {
+    public PCloudResponse validateSecurityCodes(CloudValidation cloudValidation) {
         LOGGER.info("Validate security codes for identifier {}", cloudValidation.getIdentifier());
-        ResponseData responseData = pcRestClient.post(UIRestPathConstants.VALIDATE_SECURITY_CODES, cloudValidation);
-        return responseData.getBody();
+        return handleException(pcRestClient.post(UIRestPathConstants.VALIDATE_SECURITY_CODES, cloudValidation),
+                PCloudResponse.class);
     }
 
     /*
@@ -108,11 +111,11 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * (java.lang.String, biz.neustar.pcloud.rest.dto.CloudInfo)
      */
     @Override
-    public String registerPersonalCloud(String cspCloudName, CloudInfo cloudInfo) {
+    public PCloudResponse registerPersonalCloud(String cspCloudName, CloudInfo cloudInfo) {
         LOGGER.info("Register cloud name {} for {}", cloudInfo.getProperties().getCloudName(), cspCloudName);
-        ResponseData responseData = pcRestClient.post(
-                MessageFormat.format(UIRestPathConstants.REGISTER_PERSONAL_CLOUD_API, cspCloudName), cloudInfo);
-        return responseData.getBody();
+        return handleException(pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.REGISTER_PERSONAL_CLOUD_API, cspCloudName), cloudInfo),
+                PCloudResponse.class);
     }
 
     /*
@@ -124,12 +127,12 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * biz.neustar.pcloud.rest.dto.SynonymInfo)
      */
     @Override
-    public String registerSynonyms(String cspCloudName, String cloudName, SynonymInfo synonymInfo) {
+    public PCloudResponse registerSynonyms(String cspCloudName, String cloudName, SynonymInfo synonymInfo) {
         LOGGER.info("Register synonym cloud name {} for {}", synonymInfo.getSynonymCloudNames().toString(), cloudName);
-        ResponseData responseData = pcRestClient
-                .post(MessageFormat.format(UIRestPathConstants.SYNONYMS_CLOUD_NAME_API, cspCloudName, cloudName),
-                        synonymInfo);
-        return responseData.getBody();
+        return handleException(
+                pcRestClient.post(
+                        MessageFormat.format(UIRestPathConstants.SYNONYMS_CLOUD_NAME_API, cspCloudName, cloudName),
+                        synonymInfo), PCloudResponse.class);
     }
 
     /*
@@ -140,11 +143,10 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * .lang.String, java.lang.String)
      */
     @Override
-    public String getAllSynonyms(String cspCloudName, String cloudName) {
+    public Synonym getAllSynonyms(String cspCloudName, String cloudName) {
         LOGGER.info("Get all synonym cloud names for {}", cloudName);
-        ResponseData responseData = pcRestClient.get(MessageFormat.format(UIRestPathConstants.SYNONYMS_CLOUD_NAME_API,
-                cspCloudName, cloudName));
-        return responseData.getBody();
+        return handleException(pcRestClient.get(MessageFormat.format(UIRestPathConstants.SYNONYMS_CLOUD_NAME_API,
+                cspCloudName, cloudName)), Synonym.class);
     }
 
     /*
@@ -155,56 +157,69 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
      * java.lang.String, java.lang.String)
      */
     @Override
-    public String getAllDependents(String cspCloudName, String cloudName) {
+    public DependentList getAllDependents(String cspCloudName, String cloudName) {
         LOGGER.info("Get all dependent cloud names for {}", cloudName);
-        ResponseData responseData = pcRestClient.get(MessageFormat.format(UIRestPathConstants.GET_DEPENDENTS_API,
-                cspCloudName, cloudName));
-        return responseData.getBody();
+        return handleException(
+                pcRestClient.get(MessageFormat.format(UIRestPathConstants.GET_DEPENDENTS_API, cspCloudName, cloudName)),
+                DependentList.class);
     }
 
     public ResponseData authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
         LOGGER.info("In authenticate cloud name {} and csp {}", cloudName, cspCloudName);
         Form form = new Form();
         form.add("password", password);
-        return pcRestClient.post(
-                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cloudName), form);
+        return handleException(pcRestClient.post(
+                MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cloudName), form),
+                ResponseData.class);
     }
 
-    public String resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
+    public PCloudResponse resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
         LOGGER.info("In reset password for cloud name {} and csp {}", cloudName, cspCloudName);
-        ResponseData responseData = pcRestClient.post(
+        return handleException(pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_RESET_PASSWORD_API, cspCloudName, cloudName),
-                cloudValidation);
-        return responseData.getBody();
+                cloudValidation), PCloudResponse.class);
     }
 
-    public String forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
+    public PCloudResponse forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
         LOGGER.info("In forgot password for cloud name {} and csp {}", cloudName, cspCloudName);
-        ResponseData responseData = pcRestClient.post(
+        return handleException(pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_FORGOT_PASSWORD_API, cspCloudName, cloudName),
-                cloudValidation);
-        return responseData.getBody();
+                cloudValidation), PCloudResponse.class);
     }
 
     public PaymentResponse processPayment(ProductNames productName, PaymentInfo paymentInfo) {
-        ResponseData responseData = pcRestClient.post(
-                MessageFormat.format(UIRestPathConstants.PAYMENT_API, productName), paymentInfo);
-        PaymentResponse paymentResponse = null;
-        try {
-            paymentResponse = new ObjectMapper().readValue(responseData.getBody(), PaymentResponse.class);
-        } catch (IOException e) {
-            LOGGER.debug("Error while reading payment response.");
-            e.printStackTrace();
-        }
-        return paymentResponse;
+        return handleException(
+                pcRestClient.post(MessageFormat.format(UIRestPathConstants.PAYMENT_API, productName), paymentInfo),
+                PaymentResponse.class);
     }
 
     @Override
-    public String changePassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
+    public PCloudResponse changePassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
         LOGGER.info("In changePassword for cloud name {} and csp {}", cloudName, cspCloudName);
-        ResponseData responseData = pcRestClient.post(
+        return handleException(pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_CHANGE_PASSWORD_API, cspCloudName, cloudName),
-                cloudValidation);
-        return responseData.getBody();
+                cloudValidation), PCloudResponse.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <Entity> Entity handleException(ResponseData responsedata, Class<Entity> entityType) {
+        int status = responsedata.getStatus();
+        Entity entity = null;
+        if (!(status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED || status == HttpStatus.SC_NO_CONTENT)) {
+            throw new PCloudUIException(responsedata.getBody(), responsedata.getStatus());
+        } else {
+
+            try {
+
+                entity = entityType.cast(new ObjectMapper().readValue(responsedata.getBody(), entityType));
+
+            } catch (Exception e) {
+                LOGGER.info("inside exception");
+                e.printStackTrace();
+            }
+
+        }
+        return entity;
+
     }
 }
