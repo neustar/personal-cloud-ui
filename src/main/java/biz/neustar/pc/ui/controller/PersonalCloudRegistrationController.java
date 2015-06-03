@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import biz.neustar.pc.ui.constants.UIRestPathConstants;
 import biz.neustar.pc.ui.manager.impl.PCloudResponse;
 import biz.neustar.pc.ui.manager.impl.PersonalCloudManager;
-import biz.neustar.pcloud.ResponseData;
 import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
@@ -115,7 +114,7 @@ public class PersonalCloudRegistrationController {
 
     @RequestMapping(value = UIRestPathConstants.PERSONAL_CLOUD_AUTH_URI, method = RequestMethod.POST)
     public @ResponseBody
-    ResponseData loginPersonalCloud(
+    PCloudResponse loginPersonalCloud(
             @PathVariable(value = UIRestPathConstants.CSP_CLOUD_NAME) final String cspCloudName,
             @PathVariable(UIRestPathConstants.CLOUD_NAME) final String cloudName,
             @FormParam("password") String password, HttpServletRequest request) {

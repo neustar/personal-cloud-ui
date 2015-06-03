@@ -164,13 +164,13 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
                 DependentList.class);
     }
 
-    public ResponseData authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
+    public PCloudResponse authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
         LOGGER.info("In authenticate cloud name {} and csp {}", cloudName, cspCloudName);
         Form form = new Form();
         form.add("password", password);
         return handleException(pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cloudName), form),
-                ResponseData.class);
+                PCloudResponse.class);
     }
 
     public PCloudResponse resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
