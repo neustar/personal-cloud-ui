@@ -23,6 +23,7 @@ THE SOFTWARE.
  */
 package biz.neustar.pc.ui.manager.impl;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.apache.http.HttpStatus;
@@ -37,6 +38,7 @@ import biz.neustar.pcloud.rest.constants.ProductNames;
 import biz.neustar.pcloud.rest.dto.CloudInfo;
 import biz.neustar.pcloud.rest.dto.CloudValidation;
 import biz.neustar.pcloud.rest.dto.DependentList;
+import biz.neustar.pcloud.rest.dto.PCloudError;
 import biz.neustar.pcloud.rest.dto.PaymentInfo;
 import biz.neustar.pcloud.rest.dto.PaymentResponse;
 import biz.neustar.pcloud.rest.dto.Synonym;
@@ -164,13 +166,13 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
                 DependentList.class);
     }
 
-    public ResponseData authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
+    public PCloudResponse authenticatePersonalCloud(String cspCloudName, String cloudName, String password) {
         LOGGER.info("In authenticate cloud name {} and csp {}", cloudName, cspCloudName);
         Form form = new Form();
         form.add("password", password);
         return handleException(pcRestClient.post(
                 MessageFormat.format(UIRestPathConstants.PERSONAL_CLOUD_AUTH_API, cspCloudName, cloudName), form),
-                ResponseData.class);
+                PCloudResponse.class);
     }
 
     public PCloudResponse resetPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation) {
@@ -201,12 +203,19 @@ public class PersonalCloudManagerImpl implements PersonalCloudManager {
                 cloudValidation), PCloudResponse.class);
     }
 
-    @SuppressWarnings("unchecked")
     public <Entity> Entity handleException(ResponseData responsedata, Class<Entity> entityType) {
         int status = responsedata.getStatus();
         Entity entity = null;
         if (!(status == HttpStatus.SC_OK || status == HttpStatus.SC_CREATED || status == HttpStatus.SC_NO_CONTENT)) {
-            throw new PCloudUIException(responsedata.getBody(), responsedata.getStatus());
+            PCloudError error;
+            try {
+                error = new ObjectMapper().readValue(responsedata.getBody(), PCloudError.class);
+                throw new PCloudUIException(error.getErrorCode(), error.getErrorMessage(), responsedata.getStatus());
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
         } else {
 
             try {

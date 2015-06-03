@@ -49,7 +49,7 @@ public interface PersonalCloudManager {
 
     public abstract DependentList getAllDependents(String cspCloudName, String cloudName);
 
-    public abstract ResponseData authenticatePersonalCloud(String cspCloudName, String cloudName, String password);
+    public abstract PCloudResponse authenticatePersonalCloud(String cspCloudName, String cloudName, String password);
 
     public abstract PCloudResponse forgotPassword(String cspCloudName, String cloudName, CloudValidation cloudValidation);
 
