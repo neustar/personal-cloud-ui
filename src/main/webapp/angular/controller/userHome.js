@@ -378,7 +378,7 @@ $scope.changepass.show = false;
 	};
 	
 	$scope.datepickerOptions = {
-			format: 'yyyy-mm-dd',
+			format: 'mm/dd/yyyy',
 			language: 'en',
 			autoclose: true,
 			weekStart: 0
