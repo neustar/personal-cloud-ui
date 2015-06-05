@@ -2099,7 +2099,7 @@ dp.directive('ngDatepicker', function() {
       ngOptions: '=',
       ngModel: '='
     },
-    template: "<div class=\"input-append date\">\n  <input type=\"text\" class=\"modalInput\" id=\"dateActualId\" placeholder=\"e.g:yyyy-mm-dd/\" ><span class=\"add-on\"><i class=\"icon-th\"></i></span>\n</div>",
+    template: "<div class=\"input-append date\">\n  <input type=\"text\" class=\"modalInput\" id=\"dateActualId\" placeholder=\"e.g:mm/dd/yyyy\" ><span class=\"add-on\"><i class=\"icon-th\"></i></span>\n</div>",
     link: function(scope, element) {
       scope.inputHasFocus = false;
        element.datepicker(scope.ngOptions).on('changeDate', function(e) {
