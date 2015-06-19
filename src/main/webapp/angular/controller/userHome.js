@@ -927,9 +927,9 @@ $scope.changepass.show = false;
 		$('#'+modalName).modal('hide');
 	}
 	
-	
 	$scope.initiateList();
 	$scope.additionalCldList();
 	$scope.dependentCldList();
 
 	});
+   
